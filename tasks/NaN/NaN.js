@@ -4,6 +4,7 @@ function checkNaN(values) {
   for (const item of values) {
     console.group();
     console.log(`value: ${item}`);
+    console.log(`typeof: ${typeof item}`);
     if (+item !== +item) {
       console.log('isNaN');
     } else {
