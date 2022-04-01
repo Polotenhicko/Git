@@ -22,7 +22,7 @@ let clone = cloneDeep(obj);
 
 console.log(clone);
 
-// clone.obj.sine уже заменился на 'clone', почему? С дебагом такого нет
+// clone.obj.sine уже заменился на 'objclone', почему? С дебагом такого нет
 
 clone.name = 'clone';
 clone.obj.sine = 'objclone';
