@@ -1,14 +1,14 @@
 // Нахождение NaN без Number.isNaN
 
 function checkNaN(value) {
-	if (!(value < Infinity) && value != -Infinity) {
-		alert("Это NaN!");
-	} else {
-		alert("Это обычное число!");
-	}
+  if (!(value < Infinity) && value != -Infinity) {
+    alert('Это NaN!');
+  } else {
+    alert('Это обычное число!');
+  }
 }
 
-let value = +prompt("Введите число", 0);
+let value = +prompt('Введите число', 0);
 
 checkNaN(value);
 
