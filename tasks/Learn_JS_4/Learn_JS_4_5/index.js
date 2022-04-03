@@ -18,7 +18,7 @@ calculator.read();
 console.log('Sum=' + calculator.sum());
 console.log('Mul=' + calculator.mul());
 
-// Задача Learn JS 4.5 по созданию калькулятор через конструктор
+// Задача Learn JS 4.5 по созданию аккумулятора через конструктор
 
 function Accumulator(startingValue) {
   this.value = startingValue;
