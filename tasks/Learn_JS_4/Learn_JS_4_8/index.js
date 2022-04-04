@@ -8,11 +8,7 @@ function Customer(name, purse) {
     this.name = 'Customer';
   }
 
-  if (Number.isNaN(+purse)) {
-    this.purse = 0;
-  } else {
-    this.purse = purse;
-  }
+  Number.isNaN(+purse) ? (this.purse = 0) : (this.purse = purse);
 
   this[Symbol.toPrimitive] = function (hint) {
     switch (hint) {
