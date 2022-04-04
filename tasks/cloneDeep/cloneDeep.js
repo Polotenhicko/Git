@@ -41,13 +41,14 @@ obj = {
       x: 1,
       y: 0,
     },
+    test: null,
   },
 };
 
 function cloneDeep(object) {
   let clone = {};
   for (const key in object) {
-    if (typeof object[key] === 'object') {
+    if (typeof object[key] === 'object' && object[key]) {
       clone[key] = cloneDeep(object[key]);
     } else {
       clone[key] = object[key];

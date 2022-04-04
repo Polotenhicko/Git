@@ -4,9 +4,11 @@ function Calculator() {
     this.firstNumber = 1;
     this.secondNumber = 3;
   };
+
   this.sum = function () {
     return this.firstNumber + this.secondNumber;
   };
+
   this.mul = function () {
     return this.firstNumber * this.secondNumber;
   };
@@ -22,16 +24,15 @@ console.log('Mul=' + calculator.mul());
 
 function Accumulator(startingValue) {
   this.value = startingValue;
-  this.read = function () {
+  this.read = function (getValue) {
     //let getValue = +prompt('Введите число', 0);
-    let getValue = 1;
     this.value += getValue;
   };
 }
 
 let accumulator = new Accumulator(1); // начальное значение 1
 
-accumulator.read(); // прибавит ввод prompt к текущему значению
-accumulator.read(); // прибавит ввод prompt к текущему значению
+accumulator.read(1); // прибавит ввод prompt к текущему значению
+accumulator.read(1); // прибавит ввод prompt к текущему значению
 
 console.log(accumulator.value); // выведет сумму этих значений
