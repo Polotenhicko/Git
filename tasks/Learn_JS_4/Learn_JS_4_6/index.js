@@ -24,3 +24,20 @@ try {
   // ошибка, т.к. пытается удалить у undefined свойство name
   console.error(er);
 }
+
+user = {
+  name: 'test',
+  toDo() {
+    console.log(`${this.name} должен сделать: ${this.toDoList?.first}`);
+  },
+};
+
+user.toDo(); // test должен сделать: undefined
+
+delete user.toDo;
+
+user.toDo?.(); // Ничего не выведет
+
+let user12 = null;
+
+console.log(user12?.toDo()); // undefined
