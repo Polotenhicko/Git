@@ -16,7 +16,7 @@ value = Number(0);
 console.log(!!value); // false
 
 text = String('aboba');
-console.log(!!text); // false
+console.log(!!text); // true
 
 // Добавление к примитивам новых свойств
 
@@ -40,6 +40,7 @@ text.doTest = function doIt() {
 };
 
 console.log(text.test); // undefined, в строгом режиме будет ошибка
+
 try {
   text.doTest();
 } catch (er) {
