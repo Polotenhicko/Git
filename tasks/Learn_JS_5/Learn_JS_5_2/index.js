@@ -38,3 +38,5 @@ console.log(
 console.log(`parseInt 42px = ${parseInt('42px')}`); // 42
 console.log(`parseFloat 33.33% = ${parseFloat('33.33%')}`); // 33.33
 console.log(`parseInt/parseFloat _223 = ${parseInt('_223')}`); // NaN
+
+console.log(`Случайное число: ${Math.random()}`); // от 0 до 1
