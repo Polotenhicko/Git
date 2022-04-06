@@ -31,3 +31,10 @@ console.log(
   `До ближайшего целого: 2.4 = ${Math.round(2.4)} и 2.5 = ${Math.round(2.5)}`
 ); // 2 и 3 соответственно
 console.log(`Удаление дробной части: 0.01 = ${Math.trunc(0.01)}`); // 0
+console.log(
+  `Округление до 2-ух знаков после запятой: 5.678 == ${(5.678).toFixed(2)}` // .toFixed() возвращает строку, а не число
+);
+
+console.log(`parseInt 42px = ${parseInt('42px')}`); // 42
+console.log(`parseFloat 33.33% = ${parseFloat('33.33%')}`); // 33.33
+console.log(`parseInt/parseFloat _223 = ${parseInt('_223')}`); // NaN
