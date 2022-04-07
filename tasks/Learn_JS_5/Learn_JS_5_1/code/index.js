@@ -23,3 +23,37 @@ price.toBinary = function toBinary() {
 };
 
 console.log(user.price.toBinary()); // 1010
+
+let bool = new Boolean(123);
+console.log(!!bool); // true
+
+bool = new Boolean(0);
+console.log(!!bool); // true!!
+
+price = new Number(0);
+console.log(!!price); // true!!
+
+try {
+  null.test = 123;
+  console.log(null.test);
+} catch (er) {
+  // ошибка, т.к. у null и у undefined нет методов
+  console.error(er);
+}
+
+// Работа с примитивами
+
+userName = 'Nick';
+userName.test = 'тестовое свойство';
+userName.toDo = function toDo() {
+  return 'todo';
+};
+console.log(userName.test); // undefined, в строгом режиме будет ошибка
+console.log(userName.toDo); // undefined, в строгом режиме будет ошибка
+
+try {
+  console.log(userName.toDo());
+} catch (error) {
+  // Ошибка, так как данного метода нет
+  console.error(error);
+}
