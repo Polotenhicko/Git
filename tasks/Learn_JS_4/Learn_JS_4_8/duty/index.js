@@ -93,3 +93,29 @@ objTest = {
 console.log(String(objTest));
 console.log(Number(objTest));
 console.log(objTest + ' 3 ');
+
+console.log('---------');
+
+//Проверка, в обоих ли случаях сложения (с числом и со строкой) хинт будет дефолтом
+
+console.log(obj + ' сложение со строкой'); // default
+console.log(obj + 34); // default
+
+console.log('---------');
+
+objTest = {
+  name: 'Document',
+  number: 100,
+  default: 'это дефолт',
+  toString() {
+    console.log('to string');
+    return this.name;
+  },
+  valueOf() {
+    console.log('value of');
+    return this.number;
+  },
+};
+
+console.log(objTest + ' сложение со строкой'); // default valueOf
+console.log(objTest + 34); // default valueOf
