@@ -30,3 +30,32 @@ console.log(str.includes('cu', 1)); // false
 
 console.log(str.startsWith('cus')); // true
 console.log(str.endsWith('user')); // false
+
+// Получение подстроки
+
+str = '123456789';
+console.log(str.slice(0, 4)); // '1234'
+console.log(str.slice(5)); // '6789'
+console.log(str.slice(-2)); // '89'
+console.log(str.slice(-1)); // '9'
+console.log(str.slice(5, 1)); // ''
+
+console.log(str.substring(5, 1)); // '2345'
+console.log(str.substring(1, 5)); // '2345'
+console.log(str.substring(-2)); // '123456789', т.к. >0 == 0
+
+console.log(str.substr(0, 3)); // '123'
+console.log(str.substr(-4, 2)); // 67
+
+// Сравнение строк
+
+console.log('a' > 'A'); // true
+console.log('a' > 'z'); // false
+console.log('a' > 'Z'); // true
+
+console.log('a'.codePointAt(0)); // 97
+console.log('A'.codePointAt(0)); // 65
+
+console.log(String.fromCodePoint(97)); // 'a'
+
+console.log('\u005a'); // 'Z'
