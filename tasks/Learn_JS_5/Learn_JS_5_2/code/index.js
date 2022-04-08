@@ -39,7 +39,7 @@ const car = {
         const price = parseFloat(item.price);
         if (!Number.isNaN(price)) {
           sum += price;
-          sum = Math.round(sum * 100) / 100;
+          sum = +sum.toFixed(2);
         }
       }
       return sum;
