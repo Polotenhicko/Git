@@ -42,7 +42,7 @@ console.log(str.slice(5, 1)); // ''
 
 console.log(str.substring(5, 1)); // '2345'
 console.log(str.substring(1, 5)); // '2345'
-console.log(str.substring(-2)); // '123456789', т.к. >0 == 0
+console.log(str.substring(-2)); // '123456789', т.к. <0 == 0
 
 console.log(str.substr(0, 3)); // '123'
 console.log(str.substr(-4, 2)); // 67
@@ -59,3 +59,10 @@ console.log('A'.codePointAt(0)); // 65
 console.log(String.fromCodePoint(97)); // 'a'
 
 console.log('\u005a'); // 'Z'
+
+console.log('S\u0307\u0323');
+console.log('S\u0323\u0307');
+
+console.log('S\u0323\u0307' == 'S\u0307\u0323'); // false
+
+console.log('S\u0323\u0307'.normalize() == 'S\u0307\u0323'.normalize()); // true
