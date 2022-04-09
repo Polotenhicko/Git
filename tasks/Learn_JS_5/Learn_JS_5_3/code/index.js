@@ -44,3 +44,29 @@ function assembleString(array) {
 console.log(
   assembleString(['H*llo, W*rld!', 'Hel*o, *or*d!', '*ello* World*'])
 );
+
+// 2 задача
+//В этой Ката вам будет дана строка, и ваша задача будет заключаться в том, чтобы вернуть длину самого длинного префикса, который также является суффиксом. Префикс — это начало строки, а суффикс — конец строки. Например, префиксы "abcd"строки ["a","ab","abc"]. Суффиксы есть ["bcd", "cd", "d"]. Вы не должны перекрывать префикс и суффикс.
+//https://www.codewars.com/kata/5ce969ab07d4b7002dcaa7a1
+
+function solve(string) {
+  if (string.length > 1) {
+    const length = string.length;
+    let maxLength;
+    length % 2 == 0 ? (maxLength = length / 2) : (maxLength = (length - 1) / 2);
+
+    for (let i = maxLength; i >= 0; i--) {
+      const prefix = string.slice(0, i);
+      if (string.endsWith(prefix)) {
+        return prefix.length;
+      }
+    }
+    return 0;
+  } else {
+    return 0;
+  }
+}
+
+console.log(solve('aa'));
+console.log(solve('bbcb'));
+console.log(solve('abcccab'));
