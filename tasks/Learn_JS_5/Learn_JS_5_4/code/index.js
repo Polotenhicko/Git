@@ -8,11 +8,11 @@
 
 function arrayDiff(a, b) {
   const arr = [];
-  a.forEach((itemA, index) => {
+  for (const itemA of a) {
     if (!b.includes(itemA)) {
       arr.push(itemA);
     }
-  });
+  }
   return arr;
 }
 
