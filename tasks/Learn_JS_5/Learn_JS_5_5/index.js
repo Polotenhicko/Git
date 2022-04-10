@@ -37,3 +37,10 @@ const obj = {
 };
 
 console.log(arr.concat('asd', obj));
+
+console.log('-------------');
+console.log('foreach');
+
+arr.forEach((element, index, array) => {
+  console.log(`${element} по индексу ${index} в ${array}`);
+});
