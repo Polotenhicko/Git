@@ -19,4 +19,8 @@ function arrayDiff(a, b) {
 console.log(arrayDiff([-6, 2], [1])); // -6, 2
 console.log(arrayDiff([1, 2], [1])); // 2
 
-//
+// https://www.codewars.com/kata/5a91a7c5fd8c061367000002
+
+// Учитывая массив из N целых чисел, вам нужно найти , сколько раз вам нужно сложить наименьшие числа в массиве, пока их сумма не станет больше или равна K .
+
+function minimumSteps(numbers, value) {}
