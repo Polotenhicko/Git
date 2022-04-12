@@ -26,3 +26,5 @@ console.log(isNaN(0 / 0)); // true
 console.log(isNaN(NaN)); // true
 console.log(isNaN(Number('3a'))); // true
 console.log(isNaN(Number.NaN)); // true
+console.log(isNaN()); // true
+console.log(isNaN(undefined)); // true
