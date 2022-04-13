@@ -44,3 +44,37 @@ console.log('foreach');
 arr.forEach((element, index, array) => {
   console.log(`${element} по индексу ${index} в ${array}`);
 });
+
+arr.push(NaN);
+arr.push('NaN');
+
+console.log(arr);
+console.log(arr.indexOf('ноль')); // индекс == 1
+console.log(arr.indexOf('0')); // индекс == -1, т.к. не нашёл
+console.log(arr.indexOf(NaN)); // т.к. использует ===
+
+console.log(arr.lastIndexOf('два')); // индекс == 3
+
+console.log(arr.includes('три')); // true
+console.log(arr.includes('4')); // false
+console.log(arr.includes(NaN)); // true
+
+arr = [1, 2, 3, 4, 5, 6, NaN];
+
+let result = arr.find((item) => Number.isNaN(item));
+console.log(result); // NaN
+
+result = arr.find((item) => item < 1);
+console.log(result); // undefined
+
+result = arr.findIndex((item) => Number.isNaN(item));
+console.log(result); // 6
+
+result = arr.findIndex((item) => item < 1);
+console.log(result); // -1
+
+result = arr.filter((item) => item < 4);
+console.log(result); // [1,2,3]
+
+result = arr.filter((item) => item < 0);
+console.log(result); // []
