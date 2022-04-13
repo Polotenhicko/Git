@@ -78,3 +78,12 @@ console.log(result); // [1,2,3]
 
 result = arr.filter((item) => item < 0);
 console.log(result); // []
+
+// map
+console.log('map');
+
+result = arr.map(String);
+console.log(result); // все элементы стали строками
+
+result = arr.map((item) => (item > 3 ? -item : item));
+console.log(result); // [1, 2, 3, -4, -5, -6, NaN]
