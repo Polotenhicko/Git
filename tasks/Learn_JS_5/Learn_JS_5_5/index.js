@@ -105,3 +105,8 @@ console.log(str.split('')); // ['1', ',', '2', ',', '3', ',', '4', ',', '5']
 
 const arrStr = str.split(',');
 console.log(arrStr.join('_')); // '1_2_3_4_5'
+
+// reduce
+
+result = array.reduce((init, item) => init + +item, 0);
+console.log(result);
