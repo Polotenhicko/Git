@@ -87,3 +87,21 @@ console.log(result); // все элементы стали строками
 
 result = arr.map((item) => (item > 3 ? -item : item));
 console.log(result); // [1, 2, 3, -4, -5, -6, NaN]
+
+// sort
+const array = [0, -2, 3, 1, -3];
+console.log(result.sort()); // [-4, -5, -6, 1, 2, 3, NaN]
+console.log(array.sort((a, b) => b - a)); // От большего к меньшему
+
+// reverse
+console.log(array);
+console.log(array.reverse()); // [-3, -2, 0, 1, 3]
+
+// split
+const str = '1,2,3,4,5';
+console.log(str.split(',')); // ['1', '2', '3', '4', '5']
+console.log(str.split(',', 4)); // ['1', '2', '3', '4']
+console.log(str.split('')); // ['1', ',', '2', ',', '3', ',', '4', ',', '5']
+
+const arrStr = str.split(',');
+console.log(arrStr.join('_')); // '1_2_3_4_5'
