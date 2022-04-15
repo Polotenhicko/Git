@@ -110,3 +110,15 @@ console.log(arrStr.join('_')); // '1_2_3_4_5'
 
 result = array.reduce((init, item) => init + +item, 0);
 console.log(result);
+
+try {
+  console.log([].reduce((init, item) => init + item));
+} catch (error) {
+  // Ошибка, т.к. init не объявлен, а массив пуст
+  console.error(error);
+}
+
+console.log(typeof []); // object
+
+console.log(Array.isArray([])); // true
+console.log(Array.isArray({})); // false
