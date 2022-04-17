@@ -6,7 +6,7 @@ function moveToStart(arr, n) {
   if (arr.length > n) {
     return arr.slice(-n).concat(arr.slice(0, -n));
   }
-  return arr;
+  return arr.slice();
 }
 
 console.log(arr); // [1, 2, 3, 4, 5]
@@ -29,24 +29,9 @@ console.log(hasArrays([1, 2, [], {}, true])); // true
 console.log(hasArrays([1, 2, {}, true])); // false
 
 function getNumbersByParity(arr, str) {
-  return arr.filter((item) => {
-    if (str === 'even') return item % 2 === 0 ? true : false;
-
-    if (str === 'odd') return item % 2 !== 0 ? true : false;
-
-    return false;
-
-    // switch (str) {
-    //   case 'even':
-    //     return item % 2 === 0 ? true : false;
-    //   case 'odd':
-    //     return item % 2 !== 0 ? true : false;
-    //   default:
-    //     return false;
-    // }
-
-    // Какой вариант лучше?
-  });
+  return str === 'even'
+    ? arr.filter((item) => item % 2 === 0)
+    : arr.filter((item) => item % 2 !== 0);
 }
 
 console.log(getNumbersByParity([1, 2, 3, 4, 5], 'even')); // [2, 4]
