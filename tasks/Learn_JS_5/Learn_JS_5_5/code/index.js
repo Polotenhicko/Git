@@ -36,3 +36,17 @@ function getNumbersByParity(arr, str) {
 
 console.log(getNumbersByParity([1, 2, 3, 4, 5], 'even')); // [2, 4]
 console.log(getNumbersByParity([1, 2, 3, 4, 5], 'odd')); // [1, 3, 5]
+
+// https://www.codewars.com/kata/5a431c0de1ce0ec33a00000c
+
+// Учитывая arrayколичество цифровых чисел, вернуть новый массив длины number, содержащий последние четные числа из исходного массива (в том же порядке). Исходный массив не будет пустым и будет содержать не менее "числа" четных чисел.
+
+function evenNumbers(array, number) {
+  return array.filter((item) => item % 2 === 0).slice(-number);
+}
+
+console.log('------');
+
+console.log(evenNumbers([1, 2, 3, 4, 5, 6, 7, 8, 9], 3)); // [4, 6, 8])
+console.log(evenNumbers([-22, 5, 3, 11, 26, -6, -7, -8, -9, -8, 26], 2)); // [-8, 26])
+console.log(evenNumbers([6, -25, 3, 7, 5, 5, 7, -3, 23], 1)); // [6])
