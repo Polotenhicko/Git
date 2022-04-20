@@ -45,3 +45,27 @@ range = {
 for (let num of range) {
   console.log(num); // 1, 2, 3, 4, 5
 }
+
+let arrayLike = {
+  0: 1,
+  1: 2,
+  length: 2,
+};
+
+let arr = Array.from(arrayLike);
+console.log(arr.pop()); // World
+
+console.log(Array.from(arrayLike, (item) => item ** 2)); // 1, 4
+
+let str = 'Hello';
+
+// делает то же самое, что и
+// for (let char of str) alert(char);
+
+let iterator = str[Symbol.iterator]();
+
+while (true) {
+  let result = iterator.next();
+  if (result.done) break;
+  console.log(result.value); // выводит символы один за другим
+}
