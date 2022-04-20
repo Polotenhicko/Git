@@ -29,9 +29,8 @@ console.log(hasArrays([1, 2, [], {}, true])); // true
 console.log(hasArrays([1, 2, {}, true])); // false
 
 function getNumbersByParity(arr, str) {
-  return str === 'even'
-    ? arr.filter((item) => item % 2 === 0)
-    : arr.filter((item) => item % 2 !== 0);
+  const remainder = str == 'even' ? 0 : 1;
+  return arr.filter((item) => item % 2 === remainder);
 }
 
 console.log(getNumbersByParity([1, 2, 3, 4, 5], 'even')); // [2, 4]
