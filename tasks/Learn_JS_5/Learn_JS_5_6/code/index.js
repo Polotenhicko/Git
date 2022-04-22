@@ -10,8 +10,8 @@ function iterator(obj) {
     to: obj.to,
 
     next() {
-      console.log(`Ищем: ${this.searchNumber}`);
       if (this.current !== this.searchNumber) {
+        console.log(`Ищем: ${this.searchNumber}`);
         return {
           done: false,
           value: (this.current = random(this.from, this.to)),
@@ -45,8 +45,8 @@ const obj2 = {
   to: 200,
 };
 
-obj2[Symbol.iterator] = iterator(obj2);
+// obj2[Symbol.iterator] = iterator;
 
-for (const iterator of obj2) {
-  console.log(iterator);
-}
+// for (const iterator of obj2) {
+//   console.log(iterator);
+// }
