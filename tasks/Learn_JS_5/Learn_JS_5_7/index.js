@@ -53,3 +53,59 @@ console.log(Object.fromEntries(map1)); // Обратно в объект
 console.log('////////');
 //set
 console.log('set:');
+
+const set = new Set();
+
+set.add('1');
+set.add('2');
+set.add(1);
+set.add(2);
+set.add(1);
+set.add('1');
+
+console.log(set); // {'1', '2', 1, 2}
+
+for (const item of set) {
+  console.log(item);
+}
+console.log('----');
+set.forEach((item) => console.log(item));
+
+console.log(set.add('3')); // {'1', '2', 1, 2, '3'}
+console.log(set.add('3')); // {'1', '2', 1, 2, '3'}
+
+console.log('Задачи: //////////');
+
+function unique(arr) {
+  return Array.from(new Set(arr));
+}
+
+let values = [
+  'Hare',
+  'Krishna',
+  'Hare',
+  'Krishna',
+  'Krishna',
+  'Krishna',
+  'Hare',
+  'Hare',
+  ':-O',
+];
+
+console.log(unique(values)); // Hare,Krishna,:-O
+
+function aclean(arr) {
+  let map = new Map();
+
+  for (let word of arr) {
+    // разбиваем слово на буквы, сортируем и объединяем снова в строку
+    let sorted = word.toLowerCase().split('').sort().join(''); // (*)
+    map.set(sorted, word);
+  }
+
+  return Array.from(map.values());
+}
+
+let arr = ['nap', 'teachers', 'cheaters', 'PAN', 'ear', 'era', 'hectares'];
+
+console.log(aclean(arr)); // "nap,teachers,ear" или "PAN,cheaters,era"
