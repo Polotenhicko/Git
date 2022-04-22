@@ -23,4 +23,15 @@ function first(arr) {
   }
 }
 
-// 2
+// 2 - 5min
+
+function solution(arr) {
+  if (arr && arr.length > 0) {
+    return arr.sort((a, b) => a - b);
+  }
+  return [];
+}
+
+console.log(solution(null));
+console.log(solution([]));
+console.log(solution([4, 3, 5]));
