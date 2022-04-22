@@ -6,12 +6,12 @@ const obj = {
   from: 0,
   to: 500,
 
-  iterator(obj) {
+  iterator() {
     return {
-      current: random(obj.from, obj.to),
-      searchNumber: random(obj.from, obj.to),
-      from: obj.from,
-      to: obj.to,
+      current: random(this.from, this.to),
+      searchNumber: random(this.from, this.to),
+      from: this.from,
+      to: this.to,
 
       next() {
         if (this.current !== this.searchNumber) {
@@ -32,7 +32,7 @@ const obj = {
   },
 
   [Symbol.iterator]() {
-    return this.iterator(this);
+    return this.iterator();
   },
 };
 
@@ -63,16 +63,28 @@ const obj2 = {
   },
 
   [Symbol.iterator]() {
-    this.current = random(obj.from, obj.to);
-    this.searchNumber = random(obj.from, obj.to);
+    this.current = random(this.from, this.to);
+    this.searchNumber = random(this.from, this.to);
     return this;
   },
 };
 
 console.log('////////////////');
 
-setInterval(function () {
+setTimeout(function () {
   for (const iterator of obj2) {
     console.log(iterator);
   }
+  console.log('////////////////');
 }, 3e3);
+
+// 3 метод
+
+setTimeout(function () {
+  let iteratorSym = obj2[Symbol.iterator]();
+  while (true) {
+    let result = iteratorSym.next();
+    if (result.done) break;
+    console.log(result.value);
+  }
+}, 6e3);
