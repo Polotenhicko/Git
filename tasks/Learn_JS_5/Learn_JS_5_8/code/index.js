@@ -61,7 +61,7 @@ function Users() {
       const value = cache[i][1];
       const action = value.func == this.remove ? 'Удалён(а)' : 'Добавлен(а)';
       console.log(
-        `"${value.user.date} ${action} ${value.user.name} ${value.user.surname}"`
+        `"${value.user.date} ${action} ${value.user.name} ${value.user.surname} (id #${i})"`
       );
     }
   };
