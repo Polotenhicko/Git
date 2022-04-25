@@ -75,7 +75,6 @@ user.remove(0);
 console.log('-------');
 user.usersLog();
 
-console.log(user.cache);
 user.getLog();
 console.log('/////////'); // Если не добавлять юзеров
 const user1 = new Users();
