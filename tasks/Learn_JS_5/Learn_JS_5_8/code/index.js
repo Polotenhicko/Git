@@ -42,6 +42,8 @@ function Users() {
         user: this.userList.get(id),
       });
       this.userList.delete(id);
+    } else {
+      console.error(`Пользователя с id ${id} не существует!`);
     }
   };
 
@@ -54,15 +56,13 @@ function Users() {
   };
 
   this.getLog = function getLog() {
-    for (let i = this.cache.size; i > 0; i--) {
-      const map = this.cache.values();
-      const value = map[i];
-      console.log(map);
-      console.log(value);
-      // const action = value.func == this.remove ? 'Удалён(а)' : 'Добавлен(а)';
-      // console.log(
-      //   `"${value.user.date} ${action} ${value.user.name} ${value.user.surname}"`
-      // );
+    const cache = Array.from(this.cache.entries());
+    for (let i = this.cache.size - 1; i >= 0; i--) {
+      const value = cache[i][1];
+      const action = value.func == this.remove ? 'Удалён(а)' : 'Добавлен(а)';
+      console.log(
+        `"${value.user.date} ${action} ${value.user.name} ${value.user.surname}"`
+      );
     }
   };
 }
@@ -77,3 +77,8 @@ user.usersLog();
 
 console.log(user.cache);
 user.getLog();
+console.log('/////////'); // Если не добавлять юзеров
+const user1 = new Users();
+user1.usersLog();
+user1.getLog();
+user1.remove(1);
