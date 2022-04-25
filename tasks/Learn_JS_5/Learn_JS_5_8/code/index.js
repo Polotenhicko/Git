@@ -54,12 +54,16 @@ function Users() {
   };
 
   this.getLog = function getLog() {
-    this.cache.forEach((value, key) => {
-      const action = value.func == this.remove ? 'Удалён(а)' : 'Добавлен(а)';
-      console.log(
-        `"${value.user.date} ${action} ${value.user.name} ${value.user.surname}"`
-      );
-    });
+    for (let i = this.cache.size; i > 0; i--) {
+      const map = this.cache.values();
+      const value = map[i];
+      console.log(map);
+      console.log(value);
+      // const action = value.func == this.remove ? 'Удалён(а)' : 'Добавлен(а)';
+      // console.log(
+      //   `"${value.user.date} ${action} ${value.user.name} ${value.user.surname}"`
+      // );
+    }
   };
 }
 
