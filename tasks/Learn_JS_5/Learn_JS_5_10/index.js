@@ -109,3 +109,74 @@ let {
 console.log(w1); // 100
 console.log(h1); // 200
 console.log(item1); // Cake
+
+options = {
+  title: 'My menu',
+  items: ['Item1', 'Item2'],
+};
+
+function show({
+  title: t = 'Untitled',
+  width = 200,
+  height = 100,
+  items = [],
+}) {
+  // title, items – взято из options,
+  // width, height – используются значения по умолчанию
+  console.log(`${t} ${width} ${height}`); // My Menu 200 100
+  console.log(items); // Item1, Item2
+}
+
+show(options);
+
+try {
+  show(); // Ошибка
+} catch (error) {
+  console.error(error);
+}
+
+const show1 = function show1({
+  title: t = 'Untitled',
+  width = 200,
+  height = 100,
+  items = [],
+} = {}) {
+  // title, items – взято из options,
+  // width, height – используются значения по умолчанию
+  console.log(`${t} ${width} ${height}`); // My Menu 200 100
+  console.log(items); // Item1, Item2
+};
+
+show1(); // Нет ошибки
+
+user = {
+  name: 'John',
+  years: 30,
+};
+
+({ name, years: age, isAdmin = false } = user);
+
+console.log(name); // John
+console.log(age); // 30
+console.log(isAdmin); // false
+
+let salaries = {
+  John: 100,
+  Pete: 300,
+  Andre: 300,
+  Mary: 250,
+};
+
+function topSalary(salaries = null) {
+  if (Object.keys(salaries).length) {
+    const max = Math.max(...Object.values(salaries));
+    for (const [key, value] of Object.entries(salaries)) {
+      if (max === value) console.log(key);
+    }
+  } else {
+    console.log(null);
+  }
+}
+
+topSalary(salaries); // Pete, Andre
+topSalary({}); // null
