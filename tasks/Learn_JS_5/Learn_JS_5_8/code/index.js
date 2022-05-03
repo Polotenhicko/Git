@@ -3,40 +3,30 @@ function Users() {
 
   this.cache = new Map();
 
-  this.getMaxId = function getMaxId(map = this.userList) {
-    // Не нашёл куда вставить this, так что пускай там будет
-    let maxId = -1;
-    if (map.size) {
-      for (const [id] of map) {
-        if (id > maxId) maxId = id;
-      }
-    }
-    return maxId;
-  };
-
-  this.getNextId = function getNextId(map = this.userList) {
-    return this.getMaxId(map) + 1;
-  };
+  this.maxId = 0;
 
   this.setCache = function setCache(func, user) {
-    this.cache.set(this.getNextId(this.cache), {
+    const cacheId = this.maxId++;
+    this.cache.set(cacheId, {
       func,
       user,
     });
+    return cacheId;
   };
 
   this.add = function add(name, surname) {
     const dateNow = new Date();
 
+    const userId = this.maxId++;
+
     const user = {
+      userId,
       name,
       surname,
       date: `${dateNow.toLocaleDateString()} ${dateNow.toLocaleTimeString()}`,
     };
 
-    const userId = this.getNextId();
-
-    this.userList.set(userId, user);
+    this.userList.set(user.userId, user);
 
     this.setCache(this.add, user);
 
@@ -70,7 +60,7 @@ function Users() {
         if (this.functions.has(value.func)) {
           const action = this.functions.get(value.func);
           console.log(
-            `"${value.user.date} ${action} ${value.user.name} ${value.user.surname} (id #${i})"`
+            `"${value.user.date} ${action} ${value.user.name} ${value.user.surname} (id #${value.user.userId})"`
           );
         } else {
           console.error('Такого метода нет!');
@@ -88,11 +78,15 @@ function Users() {
 }
 
 const user = new Users();
-console.log(user.add('Антон1', 'Беринг1')); // 0
-console.log(user.add('Антон2', 'Беринг2')); // 1
+user.add('Test', 'Testing'); // 0
+user.add('Anton', 'Antonov'); // 1
+
 user.usersLog();
+user.getLog();
+
 user.remove(0);
-console.log('/////////');
+
+user.usersLog();
 user.getLog();
 
 console.log('/////////'); // Если не добавлять юзеров
