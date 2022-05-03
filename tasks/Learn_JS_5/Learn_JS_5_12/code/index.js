@@ -1,3 +1,7 @@
+// Найти седьмых сыновей седьмых сыновей
+
+// https://www.codewars.com/kata/5a15b54bffe75f31990000e0
+
 function findSeventhSonsOfSeventhSons(json) {
   const parent = JSON.parse(json);
   const seventhSons = new Set();
