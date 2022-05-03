@@ -1,30 +1,88 @@
 function findSeventhSonsOfSeventhSons(json) {
-  const family = JSON.parse(json);
-  const seventhSon = new Set();
-  const arr = [];
+  const parent = JSON.parse(json);
+  const seventhSons = new Set();
 
-  let breakChild = false;
+  function findName(parent) {
+    let isBreakChild = false;
 
-  family.children.forEach((itemDad, indexDad) => {
-    if (indexDad == 6 && itemDad.gender == 'male') {
-      arr.push(
-        itemDad.children.find((itemSon, indexSon) => {
-          if (indexSon == 6 && itemSon.gender == 'male' && !breakChild) {
-            return true;
-          } else if (itemSon.gender != 'male') {
-            breakChild = true;
-          }
-        })
-      );
-    } else if (itemDad.gender != 'male') {
-      breakChild = true;
+    let test = parent.find((item, index) => {
+      if (index <= 6 && item.gender != 'male') isBreakChild = true;
+      if (index == 6 && !isBreakChild) return true;
+    });
+
+    if (test) {
+      test = test.children.find((item, index) => {
+        if (index <= 6 && item.gender != 'male') isBreakChild = true;
+        if (index == 6 && !isBreakChild) return true;
+      });
     }
-  });
-  arr.map((item) => {
-    if (item) seventhSon.add(item.name);
-  });
-  return seventhSon;
+
+    if (test) seventhSons.add(test.name);
+
+    parent.forEach((item) => {
+      if (item.children.length) {
+        findName(item.children);
+      }
+    });
+  }
+
+  findName(parent.children, false);
+
+  return seventhSons;
 }
+
+const test4 = {
+  name: 'A',
+  gender: 'male',
+  children: [
+    {
+      name: 'B',
+      gender: 'male',
+      children: [
+        // This is a seventh son
+        { name: 'I', gender: 'male', children: [] },
+        { name: 'J', gender: 'male', children: [] },
+        { name: 'K', gender: 'male', children: [] },
+        { name: 'L', gender: 'male', children: [] },
+        { name: 'M', gender: 'male', children: [] },
+        { name: 'N', gender: 'male', children: [] },
+        {
+          name: 'S',
+          gender: 'male',
+          children: [
+            // This is a seventh son
+            { name: 'I', gender: 'male', children: [] },
+            { name: 'J', gender: 'male', children: [] },
+            { name: 'K', gender: 'male', children: [] },
+            { name: 'L', gender: 'male', children: [] },
+            { name: 'M', gender: 'male', children: [] },
+            { name: 'N', gender: 'male', children: [] },
+            { name: 'SS', gender: 'male', children: [] },
+          ],
+        },
+      ],
+    },
+    { name: 'Cc', gender: 'male', children: [] },
+    { name: 'Dd', gender: 'male', children: [] },
+    { name: 'Ee', gender: 'male', children: [] },
+    { name: 'Ff', gender: 'male', children: [] },
+    { name: 'Gg', gender: 'male', children: [] },
+    {
+      name: 'Hh',
+      gender: 'male',
+      children: [
+        // This is a seventh son
+        { name: 'Ii', gender: 'male', children: [] },
+        { name: 'Jj', gender: 'male', children: [] },
+        { name: 'Kk', gender: 'male', children: [] },
+        { name: 'Ll', gender: 'male', children: [] },
+        { name: 'Mm', gender: 'male', children: [] },
+        { name: 'Nn', gender: 'male', children: [] },
+        { name: 'Oo', gender: 'male', children: [] }, // The seventh son of a seventh son is in fact a daughter!
+      ],
+    },
+  ],
+};
 
 const test1 = {
   name: 'A',
@@ -80,61 +138,34 @@ const test2 = {
   ],
 };
 
-const test3 = [
-  {
-    name: 'A',
-    gender: 'male',
-    children: [
-      { name: 'B', gender: 'male', children: [] },
-      { name: 'C', gender: 'male', children: [] },
-      { name: 'D', gender: 'male', children: [] },
-      { name: 'E', gender: 'male', children: [] },
-      { name: 'F', gender: 'male', children: [] },
-      { name: 'G', gender: 'male', children: [] },
-      {
-        name: 'H',
-        gender: 'male',
-        children: [
-          // This is a seventh son
-          { name: 'I', gender: 'male', children: [] },
-          { name: 'J', gender: 'male', children: [] },
-          { name: 'K', gender: 'male', children: [] },
-          { name: 'L', gender: 'male', children: [] },
-          { name: 'M', gender: 'male', children: [] },
-          { name: 'N', gender: 'male', children: [] },
-          { name: 'O', gender: 'female', children: [] }, // The seventh son of a seventh son is in fact a daughter!
-        ],
-      },
-    ],
-  },
-  {
-    name: 'A',
-    gender: 'male',
-    children: [
-      { name: 'B', gender: 'male', children: [] },
-      { name: 'C', gender: 'male', children: [] },
-      { name: 'D', gender: 'male', children: [] },
-      { name: 'E', gender: 'male', children: [] },
-      { name: 'F', gender: 'male', children: [] },
-      { name: 'G', gender: 'male', children: [] },
-      {
-        name: 'H',
-        gender: 'male',
-        children: [
-          // This is a seventh son
-          { name: 'I', gender: 'male', children: [] },
-          { name: 'J', gender: 'male', children: [] },
-          { name: 'K', gender: 'male', children: [] },
-          { name: 'L', gender: 'male', children: [] },
-          { name: 'M', gender: 'male', children: [] },
-          { name: 'N', gender: 'male', children: [] },
-          { name: 'O', gender: 'female', children: [] }, // The seventh son of a seventh son is in fact a daughter!
-        ],
-      },
-    ],
-  },
-];
+const test3 = {
+  name: 'A',
+  gender: 'male',
+  children: [
+    { name: 'B', gender: 'male', children: [] },
+    { name: 'C', gender: 'male', children: [] },
+    { name: 'D', gender: 'male', children: [] },
+    { name: 'E', gender: 'male', children: [] },
+    { name: 'F', gender: 'male', children: [] },
+    { name: 'G', gender: 'male', children: [] },
+    {
+      name: 'H',
+      gender: 'male',
+      children: [
+        // This is a seventh son
+        { name: 'I', gender: 'male', children: [] },
+        { name: 'J', gender: 'male', children: [] },
+        { name: 'K', gender: 'male', children: [] },
+        { name: 'L', gender: 'male', children: [] },
+        { name: 'M', gender: 'male', children: [] },
+        { name: 'N', gender: 'male', children: [] },
+        { name: 'O', gender: 'female', children: [] }, // The seventh son of a seventh son is in fact a daughter!
+      ],
+    },
+  ],
+};
 
-console.log(findSeventhSonsOfSeventhSons(JSON.stringify(test1)));
-console.log(findSeventhSonsOfSeventhSons(JSON.stringify(test2)));
-// console.log(findSeventhSonsOfSeventhSons(JSON.stringify(test3)));
+console.log(findSeventhSonsOfSeventhSons(JSON.stringify(test1))); // {'O'}
+console.log(findSeventhSonsOfSeventhSons(JSON.stringify(test2))); // {}
+console.log(findSeventhSonsOfSeventhSons(JSON.stringify(test3))); // {}
+console.log(findSeventhSonsOfSeventhSons(JSON.stringify(test4))); // {'Oo', 'SS'}
