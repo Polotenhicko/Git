@@ -100,3 +100,162 @@ list.next.next = { value: '3', prev: list.next };
 list.next.next.next = { value: '4', prev: list.next.next, next: null };
 
 console.log(list);
+
+// Через рекурсию
+function sumTo(n) {
+  return n == 1 ? n : n + sumTo(n - 1);
+}
+
+console.log(sumTo(1));
+console.log(sumTo(2));
+console.log(sumTo(3));
+console.log(sumTo(4));
+console.log(sumTo(100));
+
+// Через цикл
+console.log('//////');
+
+function sumTo2(n) {
+  let number = 1;
+  while (n != 1) {
+    number += n--;
+  }
+  return number;
+}
+
+console.log(sumTo2(1));
+console.log(sumTo2(2));
+console.log(sumTo2(3));
+console.log(sumTo2(4));
+console.log(sumTo2(100));
+
+// Формула:
+console.log('//////');
+function sumTo3(n) {
+  return (n * (n + 1)) / 2;
+}
+
+console.log(sumTo2(1));
+console.log(sumTo2(2));
+console.log(sumTo2(3));
+console.log(sumTo2(4));
+console.log(sumTo2(100));
+
+function factorial(n) {
+  return n == 1 ? n : n * factorial(n - 1);
+}
+
+console.log(factorial(1));
+console.log(factorial(2));
+console.log(factorial(3));
+console.log(factorial(4));
+console.log(factorial(5));
+
+console.log('///////');
+
+function fib(n) {
+  let a = 1;
+  let b = 1;
+  for (let i = 3; i <= n; i++) {
+    let c = a + b;
+    a = b;
+    b = c;
+  }
+  return b;
+}
+
+console.log(fib(3)); // 2
+console.log(fib(4)); // 3
+console.log(fib(5)); // 5
+console.log(fib(7)); // 13
+console.log(fib(77)); // 5527939700884757
+
+console.log('////////');
+
+list = {
+  value: '1',
+  next: {
+    value: '2',
+    next: {
+      value: '3',
+      next: {
+        value: '4',
+        next: null,
+      },
+    },
+  },
+};
+// Рекурсия
+function printList(list) {
+  console.log(list.value);
+  if (list.next) printList(list.next);
+}
+
+printList(list);
+
+// Цикл
+
+function printList2(list) {
+  // console.log(list.value);
+  // let next = list.next;
+  // while (next) {
+  //   console.log(next.value);
+  //   next = next.next;
+  // }
+
+  while (list) {
+    console.log(list.value);
+    list = list.next;
+  }
+}
+
+console.log('-----');
+
+printList2(list);
+
+// Вывод списка в обратном порядке
+console.log('////////');
+
+// Цикл
+function printListFromEnd(list) {
+  // const arr = [];
+  // while (list) {
+  //   arr.unshift(list.value);
+  //   list = list.next;
+  // }
+  // arr.forEach((item) => console.log(item));
+  let arr = [];
+
+  while (list) {
+    arr.push(list.value);
+    list = list.next;
+  }
+
+  for (let i = arr.length - 1; i >= 0; i--) {
+    console.log(arr[i]);
+  }
+}
+
+printListFromEnd(list);
+
+console.log('---------');
+// Рекурсия
+function printListFromEnd2(list) {
+  // if (!list.next) {
+  //   console.log(list.value);
+  //   return true;
+  // } else {
+  //   if (printListFromEnd2(list.next)) {
+  //     console.log(list.value);
+  //     return true;
+  //   }
+  // }
+
+  if (list.next) {
+    printListFromEnd2(list.next);
+  }
+
+  console.log(list.value);
+}
+
+printListFromEnd2(list);
