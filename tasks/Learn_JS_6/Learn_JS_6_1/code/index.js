@@ -1,7 +1,7 @@
 function sequenceSum(begin, end) {
   if (end < begin) return NaN;
 
-  return end == begin ? begin : begin + sequenceSum(++begin, end);
+  return end == begin ? begin : begin + sequenceSum(begin + 1, end);
 }
 
 console.log(sequenceSum(3, 2)); // NaN
@@ -14,7 +14,7 @@ console.log('/////////');
 
 function getStringCount(objOrArr) {
   let stringCount = 0;
-  if (objOrArr)
+  if (objOrArr) {
     for (const item of Object.values(objOrArr)) {
       if (typeof item == 'object') {
         stringCount += getStringCount(item);
@@ -22,6 +22,7 @@ function getStringCount(objOrArr) {
         stringCount++;
       }
     }
+  }
   return stringCount;
 }
 

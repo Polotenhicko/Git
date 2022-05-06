@@ -5,6 +5,16 @@
 function shuffleIt(arr, ...swapArr) {
   for (const [i, j] of swapArr) {
     [arr[i], arr[j]] = [arr[j], arr[i]];
+    /*
+    2 способ
+    const temp = arr[i];
+    arr[i] = arr[j];
+    arr[j] = temp;      
+    3 способ
+    arr[i] = arr[i] + arr[j];
+    arr[j] = arr[i] - arr[j];
+    arr[i] = arr[i] - arr[j];
+    */
   }
 
   return arr;
