@@ -259,3 +259,21 @@ function printListFromEnd2(list) {
 }
 
 printListFromEnd2(list);
+
+// Сколько раз вызывалась рекурсия
+
+function loop(n = 0) {
+  try {
+    if (n >= 0) {
+      loop(n + 1);
+    }
+  } catch (error) {
+    console.error(n);
+  }
+}
+
+console.log('///////');
+loop();
+// 8987 вызова в хроме
+// 22334 в firefox
+// 8989 в edge
