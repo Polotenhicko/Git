@@ -2,20 +2,33 @@ function createCounter(type = undefined) {
   let value = 0;
 
   const CounterBaseValue = function CounterBaseValue() {
-    this.value = 0;
+    let value = 0;
+    this.types = new Map([
+      [
+        'increment',
+        function () {
+          return value;
+        },
+      ],
+      [
+        'decrement',
+        function () {
+          return value ? -value : 0;
+        },
+      ],
+    ]);
 
     this.changeType = function changeType(newType) {
       type = newType;
-      this.value = 0;
+      value = 0;
     };
 
     this.doValue = function doValue() {
-      this.value++;
+      if (this.types.has(type)) value++;
     };
 
     this.getValue = function getValue() {
-      if (type == 'increment') return this.value;
-      if (type == 'decrement') return this.value ? -this.value : 0;
+      if (this.types.has(type)) return this.types.get(type)();
       return undefined;
     };
   };
@@ -66,3 +79,9 @@ count.decrement(); // 1
 console.log(count.getValue()); // 1
 
 console.log(count.CounterBaseValue.getValue()); // -3
+
+// Вопросы:
+
+// Значение по умолчанию было установлено на 'undefined'. Можно было выбрать любое другое значение, потому что логика разделена и основное сравнение идёт через поиск в Map
+
+// Возможно само замыкание не даёт прямо изменять значение value. Других способов я не вижу, да и модификаторов доступа в коде нет.
