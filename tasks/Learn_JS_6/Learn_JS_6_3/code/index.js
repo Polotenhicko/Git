@@ -2,6 +2,7 @@ function createCounter(type = undefined) {
   let value = 0;
 
   const CounterBaseValue = function CounterBaseValue() {
+    // Весь конструктор 2 задача
     let value = 0;
     this.types = new Map([
       [
@@ -34,16 +35,16 @@ function createCounter(type = undefined) {
   };
 
   const Counter = function Counter() {
-    this.CounterBaseValue = new CounterBaseValue();
+    this.CounterBaseValue = new CounterBaseValue(); // 2 задача
 
     this.increment = function increment() {
       value++;
-      this.CounterBaseValue.doValue();
+      this.CounterBaseValue.doValue(); // 2 задача
     };
 
     this.decrement = function decrement() {
       value--;
-      this.CounterBaseValue.doValue();
+      this.CounterBaseValue.doValue(); // 2 задача
     };
 
     this.getValue = function getValue() {
