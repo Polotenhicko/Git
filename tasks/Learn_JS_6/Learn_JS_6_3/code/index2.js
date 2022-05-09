@@ -26,3 +26,33 @@ obj = {
 };
 
 console.log(obj > obj);
+
+console.log('Опционально:');
+
+obj = {
+  returned: 1,
+  isRotation: true,
+  toString() {
+    if (this.isRotation) {
+      if (this.returned) {
+        return this.returned--; // 1
+      } else {
+        this.isRotation = false;
+        return this.returned++; // 0
+      }
+    } else {
+      if (!this.returned) {
+        this.isRotation = true;
+        return ++this.returned; // 1
+      } else {
+        return --this.returned; // 0
+      }
+    }
+  },
+};
+
+console.log(obj > obj);
+console.log(obj > obj);
+console.log(obj > obj);
+console.log(obj > obj);
+console.log(obj > obj);
