@@ -1,15 +1,15 @@
 console.log('//////////////');
 
 let obj = {
-  test: (function () {
-    let test = 1;
+  returning: (function () {
+    let returned = 1;
     return function () {
-      return test--;
+      return returned--;
     };
   })(),
   toString() {
-    let test = this.test();
-    return test ? test-- : test;
+    let returned = this.returning();
+    return returned ? returned-- : returned;
   },
 };
 
@@ -19,9 +19,9 @@ console.log(obj > obj); // true
 console.log('=============');
 
 obj = {
-  test: 1,
+  returned: 1,
   toString() {
-    return this.test ? this.test-- : this.test;
+    return this.returned ? this.returned-- : this.returned;
   },
 };
 
