@@ -13,7 +13,7 @@ let obj = {
   },
 };
 
-console.log(obj > obj);
+console.log(obj > obj); // true
 
 // Без замыкания:
 console.log('=============');
@@ -25,7 +25,7 @@ obj = {
   },
 };
 
-console.log(obj > obj);
+console.log(obj > obj); // true
 
 console.log('Опционально:');
 
@@ -51,8 +51,8 @@ obj = {
   },
 };
 
-console.log(obj > obj);
-console.log(obj > obj);
-console.log(obj > obj);
-console.log(obj > obj);
-console.log(obj > obj);
+console.log(obj > obj); // true
+console.log(obj > obj); // false
+console.log(obj > obj); // true
+console.log(obj > obj); // false
+console.log(obj > obj); // true
