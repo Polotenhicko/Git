@@ -36,17 +36,21 @@ window.Cart = function Cart() {
   };
 
   this.getCheck = function getCheck() {
+    let sum = 0;
     console.log('==========');
     console.group();
     console.log('Чек:');
     for (const [keyObj, count] of this.check) {
       if (count > 0 && items.includes(keyObj)) {
+        const sumItem = keyObj.price * count;
         console.group();
-        console.log(`${keyObj.title} x${count} - ${keyObj.price * count}руб`);
+        console.log(`${keyObj.title} x${count} - ${sumItem}руб`);
         console.groupEnd();
+        sum += sumItem;
       }
     }
     console.groupEnd();
+    console.log(`Итого: ${sum}руб`);
     console.log('==========');
   };
 
