@@ -28,7 +28,25 @@ if (!window.Promise) {
 }
 
 window.Test = function Test() {
-  this.name = '123';
+  console.log('от глобального');
 };
 
-const testing = new Test();
+Test(); // 'от глобального'
+
+function Test() {
+  console.log('не глобальный');
+}
+
+Test(); // 'от глобального'
+
+function Test2() {
+  console.log(123);
+}
+
+window.Test2(); // Инициализация функции записывается в глобальный объект: 123
+
+Test = function Test() {
+  console.log('TEST');
+};
+
+Test(); // 'TEST'
