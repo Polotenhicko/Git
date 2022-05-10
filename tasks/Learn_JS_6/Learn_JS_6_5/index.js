@@ -26,3 +26,9 @@ if (!window.Promise) {
   console.log('Ваш браузер очень старый!');
   window.Promise = 'Реализация промиса';
 }
+
+window.Test = function Test() {
+  this.name = '123';
+};
+
+const testing = new Test();
