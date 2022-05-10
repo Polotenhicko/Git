@@ -60,3 +60,37 @@ try {
 } catch (e) {
   console.error(e);
 }
+
+// С use strict не работает
+function aa() {
+  a = 20;
+}
+
+aa();
+
+console.log(a);
+
+var double = 22;
+
+function double(num) {
+  return num * 2;
+}
+
+console.log(typeof double);
+
+try {
+  var Frodo = new Hobbit();
+  Frodo.height = 100;
+  Frodo.weight = 300;
+  console.log(Frodo);
+
+  class Hobbit {
+    constructor(height, weight) {
+      this.height = height;
+      this.weight = weight;
+    }
+  }
+} catch (e) {
+  // Нельзя получить доступ к классу до инициализации
+  console.error(e);
+}
