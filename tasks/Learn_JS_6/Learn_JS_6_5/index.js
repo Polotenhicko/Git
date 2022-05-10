@@ -50,3 +50,13 @@ Test = function Test() {
 };
 
 Test(); // 'TEST'
+
+if (false) {
+  window.test_test = 'test test';
+}
+
+try {
+  console.log(test_test); // ошибка
+} catch (e) {
+  console.error(e);
+}
