@@ -50,7 +50,7 @@ window.Cart = function Cart() {
       }
     }
     console.groupEnd();
-    console.log(`Итого: ${sum}руб`);
+    console.log(`Итого: ${sum} руб`);
     console.log('==========');
   };
 
