@@ -113,6 +113,7 @@ let counter = makeCounter();
 
 counter.set(10);
 
+// Моё решение с подсказками от learnjs
 function sum(n) {
   sum.sum === undefined ? (sum.sum = n) : (sum.sum += n);
 
@@ -123,6 +124,23 @@ function sum(n) {
   };
 
   return sum;
+}
+
+// Решение от learnjs
+
+function sum2(a) {
+  let currentSum = a;
+
+  function f(b) {
+    currentSum += b;
+    return f;
+  }
+
+  f.toString = function () {
+    return currentSum;
+  };
+
+  return f;
 }
 
 console.log(sum(1) + ''); // 1
