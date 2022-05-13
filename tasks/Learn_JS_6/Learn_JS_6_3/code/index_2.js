@@ -3,14 +3,16 @@ console.log('=====================');
 
 // Можно определить тип, за которым будет мониторинг, заранее
 function createCounter2(type = undefined) {
+  // Не вынес за функцию чтобы не ломать предыдущий код
   let value = 0;
+
+  let difference = 0;
 
   // По задаче новая сущность
   const CounterBaseValue = function CounterBaseValue() {
     // Весь конструктор 2 варианта
 
     // Значение, на сколько изменяется при increment/decrement
-    let difference = 0;
 
     // Возможные типы и действия при выводе
     this.types = new Map([
@@ -46,28 +48,26 @@ function createCounter2(type = undefined) {
     };
   };
 
-  const Counter = function Counter() {
+  return {
     // Добавление новой сущности
-    this.CounterBaseValue = new CounterBaseValue(); // 2 задача
+    CounterBaseValue: new CounterBaseValue(), // 2 задача
 
-    this.increment = function increment() {
+    increment: function increment() {
       value++;
       // При действии мы вызываем метод сущности
       this.CounterBaseValue.doValue(increment); // 2 задача
-    };
+    },
 
-    this.decrement = function decrement() {
+    decrement: function decrement() {
       value--;
-      // При действии мы вызываем сущность
+      // При действии мы вызываем метод сущности
       this.CounterBaseValue.doValue(decrement); // 2 задача
-    };
+    },
 
-    this.getValue = function getValue() {
+    getValue: function getValue() {
       return value;
-    };
+    },
   };
-
-  return new Counter();
 }
 
 const count2 = createCounter2();
@@ -101,7 +101,7 @@ count2.decrement(); // 3
 count2.decrement(); // 2
 
 console.log(count2.getValue()); // 2
-console.log(count2.CounterBaseValue.getValue()); // 2
+console.log(count2.CounterBaseValue.getValue()); // -2
 
 count2.CounterBaseValue.changeType('aboba');
 console.log(count2.CounterBaseValue.getValue()); // undefined
