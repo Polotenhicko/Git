@@ -1,7 +1,7 @@
 console.log('Задача Вариант №1');
-let value = 0;
 
 function createCounter() {
+  let value = 0;
   return {
     increment: function increment() {
       value++;
