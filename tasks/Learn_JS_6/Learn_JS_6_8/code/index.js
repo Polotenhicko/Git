@@ -10,56 +10,67 @@
 // Обновляться должен достаточно часто, но не обязательно раз в миллисекунду(60 fps будет достаточно).
 
 function Stopwatch() {
-  const H1 = document.getElementById('stopwatch');
+  const $timer = document.getElementById('stopwatch');
+  const $timerMS = document.querySelector('#stopwatch+.ms');
   let isPause = false;
   let ms = 0;
   let timeout;
+  let startDate;
 
-  function showTime(msec = ms) {
-    const date = new Date(msec);
+  function showTime() {
+    const date = new Date(ms);
 
-    const dateObj = {
-      hour: date.getUTCHours(),
-      min: date.getUTCMinutes(),
-      sec: date.getUTCSeconds(),
-      ms: date.getUTCMilliseconds(),
-    };
+    function addNulls(time, maxLength) {
+      let str = String(time);
+      while (str.length < maxLength) {
+        str = '0' + str;
+      }
+      return str;
+    }
 
-    const str = `${dateObj.hour}:${dateObj.min}:${dateObj.sec}. ${dateObj.ms}`;
-    H1.innerHTML = str;
+    const strHour = addNulls(date.getUTCHours(), 2);
+    const strMin = addNulls(date.getUTCMinutes(), 2);
+    const strSec = addNulls(date.getUTCSeconds(), 2);
+    const strMs = addNulls(date.getUTCMilliseconds(), 3);
+
+    $timer.textContent = `${strHour}:${strMin}:${strSec}.`;
+    $timerMS.textContent = strMs;
   }
 
   this.start = function start() {
-    isPause = false;
-    const startDate = Date.now();
-    clearTimeout(timeout);
+    if (!ms || isPause) {
+      startDate = startDate ? Date.now() - ms : Date.now();
 
-    timeout = setTimeout(function timeoutFunc() {
-      showTime();
-      ms = Date.now() - startDate;
-      timeout = setTimeout(timeoutFunc, 17);
-    }, 17);
+      isPause = false;
+
+      timeout = setTimeout(function timeoutFunc() {
+        ms = Date.now() - startDate;
+        showTime();
+        timeout = setTimeout(timeoutFunc, 1 / 60);
+      }, 1 / 60);
+    }
   };
 
   this.pause = function pause() {
     if (ms) {
-      isPause = true;
       clearTimeout(timeout);
+      isPause = true;
     } else {
-      console.error('Секундомер не включён');
+      console.error('Секундомер не включён!');
     }
   };
 
   this.clear = function clear() {
     if (ms && isPause) {
       ms = 0;
+      startDate = undefined;
       showTime();
     } else {
       console.error(
-        'Для очистки секундомер должен после запуска быть приостановлен'
+        'Для очистки. секундомер должен быть приостановлен после запуска!'
       );
     }
   };
 }
 
-const test = new Stopwatch();
+const timer = new Stopwatch();
