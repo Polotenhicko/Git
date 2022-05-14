@@ -20,11 +20,17 @@
         justify-content: center;
         align-items: center;
         min-height: 100vh;
+        flex-direction: column;
       }
     </style>
   </head>
   <body>
     <h1 id="stopwatch"></h1>
+    <div class="stopwatch_wrapper">
+      <button onclick="test.start()" class="stopwatch_start btn">Старт</button>
+      <button onclick="test.pause()" class="stopwatch_pause btn">Пауза</button>
+      <button onclick="test.clear()" class="stopwatch_clear btn">Очистить</button>
+    </div>
     <script src="./index.js"></script>
   </body>
 </html>

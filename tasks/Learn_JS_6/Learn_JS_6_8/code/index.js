@@ -10,27 +10,32 @@
 // Обновляться должен достаточно часто, но не обязательно раз в миллисекунду(60 fps будет достаточно).
 
 function Stopwatch() {
+  const H1 = document.getElementById('stopwatch');
   let isPause = false;
   let ms = 0;
-  let startDate;
   let timeout;
 
-  function showTime(ms) {
-    const date = new Date(ms);
-    return {
+  function showTime(msec = ms) {
+    const date = new Date(msec);
+
+    const dateObj = {
       hour: date.getUTCHours(),
       min: date.getUTCMinutes(),
       sec: date.getUTCSeconds(),
       ms: date.getUTCMilliseconds(),
     };
+
+    const str = `${dateObj.hour}:${dateObj.min}:${dateObj.sec}. ${dateObj.ms}`;
+    H1.innerHTML = str;
   }
 
   this.start = function start() {
     isPause = false;
+    const startDate = Date.now();
     clearTimeout(timeout);
-    startDate = Date.now();
 
     timeout = setTimeout(function timeoutFunc() {
+      showTime();
       ms = Date.now() - startDate;
       timeout = setTimeout(timeoutFunc, 17);
     }, 17);
@@ -40,7 +45,6 @@ function Stopwatch() {
     if (ms) {
       isPause = true;
       clearTimeout(timeout);
-      console.log(showTime(ms));
     } else {
       console.error('Секундомер не включён');
     }
@@ -49,6 +53,7 @@ function Stopwatch() {
   this.clear = function clear() {
     if (ms && isPause) {
       ms = 0;
+      showTime();
     } else {
       console.error(
         'Для очистки секундомер должен после запуска быть приостановлен'
