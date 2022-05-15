@@ -71,3 +71,27 @@ try {
 } catch (e) {
   console.error(e);
 }
+
+function work(a, b) {
+  return a + b; // произвольная функция или метод
+}
+
+function spy(func) {
+  spy.calls = [];
+  function spy() {
+    spy.calls.push([...arguments]);
+    return func.apply(this, arguments);
+  }
+  return spy;
+}
+
+work = spy(work);
+
+work(1, 2);
+work(4, 5); // 9
+
+console.log(work.calls);
+
+for (let args of work.calls) {
+  console.log('call:' + args.join()); // "call:1,2", "call:4,5"
+}
