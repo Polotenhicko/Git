@@ -12,7 +12,7 @@
 function Stopwatch() {
   let isPause = false;
   let ms = 0;
-  let startDate;
+  let startDate = 0;
   let timeout;
 
   function showTime(ms) {
@@ -26,20 +26,22 @@ function Stopwatch() {
   }
 
   this.start = function start() {
-    isPause = false;
-    clearTimeout(timeout);
-    startDate = Date.now();
+    if (!ms || isPause) {
+      startDate = startDate ? Date.now() - ms : Date.now();
 
-    timeout = setTimeout(function timeoutFunc() {
-      ms = Date.now() - startDate;
-      timeout = setTimeout(timeoutFunc, 17);
-    }, 17);
+      isPause = false;
+
+      timeout = setTimeout(function timeoutFunc() {
+        ms = Date.now() - startDate;
+        timeout = setTimeout(timeoutFunc, 1 / 60);
+      }, 1 / 60);
+    }
   };
 
   this.pause = function pause() {
     if (ms) {
-      isPause = true;
       clearTimeout(timeout);
+      isPause = true;
       console.log(showTime(ms));
     } else {
       console.error('Секундомер не включён');
@@ -49,6 +51,7 @@ function Stopwatch() {
   this.clear = function clear() {
     if (ms && isPause) {
       ms = 0;
+      startDate = 0;
     } else {
       console.error(
         'Для очистки секундомер должен после запуска быть приостановлен'
