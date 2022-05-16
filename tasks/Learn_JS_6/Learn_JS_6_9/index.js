@@ -114,8 +114,8 @@ function f(x) {
 let f1000 = delay(f, 1000);
 let f1500 = delay(f, 1500);
 
-f1000('test'); // показывает "test" после 1000 мс
-f1500('test'); // показывает "test" после 1500 мс
+// f1000('test'); // показывает "test" после 1000 мс
+// f1500('test'); // показывает "test" после 1500 мс
 
 ///////////
 
@@ -131,3 +131,39 @@ function debounce(func, ms) {
     }
   };
 }
+
+function throttle(func, ms) {
+  let isEnd = true;
+  let lastArgs;
+  return function timeout() {
+    if (isEnd) {
+      isEnd = false;
+      func.apply(this, arguments);
+      setTimeout(() => {
+        isEnd = true;
+        if (lastArgs) {
+          timeout.apply(this, lastArgs);
+          lastArgs = undefined;
+        }
+      }, ms);
+    } else {
+      lastArgs = arguments;
+    }
+  };
+}
+
+function f(a) {
+  console.log(a);
+}
+
+let f10001 = throttle(f, 1000);
+
+f10001(1); // показывает 1
+setTimeout(function () {
+  f10001(2);
+}, 1e3);
+setTimeout(function () {
+  f10001(3);
+}, 1e3);
+// setTimeout(f10001(2), 2e3); // (ограничение, 1000 мс ещё нет)
+// setTimeout(f10001(3), 4e3); // (ограничение, 1000 мс ещё нет)
