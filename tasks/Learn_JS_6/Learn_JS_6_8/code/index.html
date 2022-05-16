@@ -7,6 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="shortcut icon" href="./img/icon.png" type="image/x-icon" />
     <title>Секундомер</title>
     <style>
       * {
@@ -15,16 +16,69 @@
         box-sizing: border-box;
         font-family: 'Roboto', sans-serif;
       }
+
       body {
         display: flex;
         justify-content: center;
         align-items: center;
         min-height: 100vh;
+        flex-direction: column;
+      }
+
+      #stopwatch {
+        font-size: 2em;
+      }
+
+      .stopwatch_wrapper {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .stopwatch_wrapper .btn {
+        position: relative;
+        font-size: 18px;
+        padding: 10px 20px;
+        border: 1px solid #3498db;
+        -webkit-transition: 0.5s;
+        transition: 0.4s;
+        cursor: pointer;
+        margin: 10px;
+        margin-top: 30px;
+        background-color: transparent;
+        color: #2b84c0;
+        overflow: hidden;
+      }
+
+      .stopwatch_wrapper .btn.active {
+        color: #fff;
+      }
+
+      .stopwatch_wrapper .btn.active::before {
+        height: 200%;
+      }
+
+      .stopwatch_wrapper .btn::before {
+        content: '';
+        z-index: -1;
+        position: absolute;
+        width: 100%;
+        height: 0;
+        background-color: #3498db;
+        bottom: 0;
+        left: 0;
+        border-radius: 50% 50% 0 0;
+        transition: 0.7s;
       }
     </style>
   </head>
   <body>
-    <h1 id="stopwatch"></h1>
+    <div class="stopwatch_title"><span class="stopwatch"></span><span class="ms">.000</span></div>
+    <div class="stopwatch_wrapper">
+      <button class="stopwatch_start btn">Старт</button>
+      <button class="stopwatch_pause btn">Пауза</button>
+      <button class="stopwatch_clear btn">Очистить</button>
+    </div>
     <script src="./index.js"></script>
   </body>
 </html>
