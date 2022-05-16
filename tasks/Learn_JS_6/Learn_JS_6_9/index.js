@@ -95,3 +95,39 @@ console.log(work.calls);
 for (let args of work.calls) {
   console.log('call:' + args.join()); // "call:1,2", "call:4,5"
 }
+
+////////////
+
+function delay(func, ms) {
+  return function (...args) {
+    setTimeout(() => {
+      func.apply(this, args);
+    }, ms);
+  };
+}
+
+function f(x) {
+  console.log(x);
+}
+
+// создаём обёртки
+let f1000 = delay(f, 1000);
+let f1500 = delay(f, 1500);
+
+f1000('test'); // показывает "test" после 1000 мс
+f1500('test'); // показывает "test" после 1500 мс
+
+///////////
+
+function debounce(func, ms) {
+  let isEnd = true;
+  return function () {
+    if (isEnd) {
+      isEnd = false;
+      func.apply(this, arguments);
+      setTimeout(() => {
+        isEnd = true;
+      }, ms);
+    }
+  };
+}
