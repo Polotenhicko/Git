@@ -60,80 +60,83 @@ function StopwatchLogic(timerUpdate = 1 / 60) {
 
 function Stopwatch() {
   const timerUpdate = 1 / 60;
-  const StopwatchLogicWrap = new StopwatchLogic(timerUpdate);
-  const $timer = document.querySelectorAll('.stopwatch');
-  const $timerMS = document.querySelectorAll('.stopwatch+.ms');
-  const $btnStart = document.querySelectorAll('.stopwatch_start');
-  const $btnPause = document.querySelectorAll('.stopwatch_pause');
-  const $btnClear = document.querySelectorAll('.stopwatch_clear');
-  let timeoutDOM;
+  const $wrapperList = document.querySelectorAll('.stopwatch_wrapper');
+  for (const $wrapper of $wrapperList) {
+    const StopwatchLogicWrap = new StopwatchLogic(timerUpdate);
+    const $timer = $wrapper.querySelector('.stopwatch');
+    const $timerMS = $wrapper.querySelector(`.stopwatch+.ms`);
+    const $btnStart = $wrapper.querySelector(`.stopwatch_start`);
+    const $btnPause = $wrapper.querySelector(`.stopwatch_pause`);
+    const $btnClear = $wrapper.querySelector(`.stopwatch_clear`);
+    let timeoutDOM;
 
-  $btnStart.forEach((item) => item.classList.add('active'));
+    $btnStart.classList.add('active');
 
-  $timer.forEach((item) => (item.textContent = '00:00:00'));
-  $timerMS.forEach((item) => (item.textContent = '.000'));
+    $timer.textContent = '00:00:00';
+    $timerMS.textContent = '.000';
 
-  const btnChangeList = new Map([
-    [
-      $btnStart,
-      function () {
-        if (StopwatchLogicWrap.start()) {
-          timeoutDOM = setTimeout(function timeoutFunc() {
-            showTime(StopwatchLogicWrap.ms);
-            timeoutDOM = setTimeout(timeoutFunc, timerUpdate);
-          }, timerUpdate);
-          $btnPause.classList.add('active');
-          $btnStart.classList.remove('active');
-          $btnClear.classList.remove('active');
+    const btnChangeList = new Map([
+      [
+        $btnStart,
+        function () {
+          if (StopwatchLogicWrap.start()) {
+            timeoutDOM = setTimeout(function timeoutFunc() {
+              showTime(StopwatchLogicWrap.ms);
+              timeoutDOM = setTimeout(timeoutFunc, timerUpdate);
+            }, timerUpdate);
+            $btnPause.classList.add('active');
+            $btnStart.classList.remove('active');
+            $btnClear.classList.remove('active');
+          }
+        },
+      ],
+      [
+        $btnPause,
+        function () {
+          if (StopwatchLogicWrap.pause()) {
+            clearTimeout(timeoutDOM);
+            $btnPause.classList.remove('active');
+            $btnStart.classList.add('active');
+            $btnClear.classList.add('active');
+          }
+        },
+      ],
+      [
+        $btnClear,
+        function () {
+          if (StopwatchLogicWrap.clear()) {
+            showTime(0);
+            $btnPause.classList.remove('active');
+            $btnStart.classList.add('active');
+            $btnClear.classList.remove('active');
+          }
+        },
+      ],
+    ]);
+
+    function showTime(ms) {
+      const date = new Date(ms);
+
+      function addNulls(time, maxLength) {
+        let str = String(time);
+        while (str.length < maxLength) {
+          str = '0' + str;
         }
-      },
-    ],
-    [
-      $btnPause,
-      function () {
-        if (StopwatchLogicWrap.pause()) {
-          clearTimeout(timeoutDOM);
-          $btnPause.classList.remove('active');
-          $btnStart.classList.add('active');
-          $btnClear.classList.add('active');
-        }
-      },
-    ],
-    [
-      $btnClear,
-      function () {
-        if (StopwatchLogicWrap.clear()) {
-          showTime(0);
-          $btnPause.classList.remove('active');
-          $btnStart.classList.add('active');
-          $btnClear.classList.remove('active');
-        }
-      },
-    ],
-  ]);
-
-  function showTime(ms) {
-    const date = new Date(ms);
-
-    function addNulls(time, maxLength) {
-      let str = String(time);
-      while (str.length < maxLength) {
-        str = '0' + str;
+        return str;
       }
-      return str;
+
+      const strHour = addNulls(date.getUTCHours(), 2);
+      const strMin = addNulls(date.getUTCMinutes(), 2);
+      const strSec = addNulls(date.getUTCSeconds(), 2);
+      const strMs = addNulls(date.getUTCMilliseconds(), 3);
+
+      $timer.textContent = `${strHour}:${strMin}:${strSec}`;
+      $timerMS.textContent = `.${strMs}`;
     }
 
-    const strHour = addNulls(date.getUTCHours(), 2);
-    const strMin = addNulls(date.getUTCMinutes(), 2);
-    const strSec = addNulls(date.getUTCSeconds(), 2);
-    const strMs = addNulls(date.getUTCMilliseconds(), 3);
-
-    $timer.textContent = `${strHour}:${strMin}:${strSec}`;
-    $timerMS.textContent = `.${strMs}`;
-  }
-
-  for (const [btnList, value] of btnChangeList) {
-    btnList.forEach((item) => item.addEventListener('click', value));
+    for (const [btnList, value] of btnChangeList) {
+      btnList.addEventListener('click', value);
+    }
   }
 }
 
