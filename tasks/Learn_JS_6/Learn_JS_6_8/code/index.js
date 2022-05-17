@@ -9,47 +9,110 @@
 // Таймер должен быть "точным" - отсчитывать время с запуска через Date.now() или performance.now().
 // Обновляться должен достаточно часто, но не обязательно раз в миллисекунду(60 fps будет достаточно).
 
+function StopwatchLogic(timerUpdate = 1 / 60) {
+  let isPause = false;
+  let startDate = 0;
+  let timeout;
+
+  this.ms = 0;
+
+  this.start = function start() {
+    if (!this.ms || isPause) {
+      startDate = startDate ? Date.now() - this.ms : Date.now();
+
+      isPause = false;
+
+      const timeoutFunc = () => {
+        this.ms = Date.now() - startDate;
+        timeout = setTimeout(timeoutFunc, timerUpdate);
+      };
+
+      timeout = setTimeout(timeoutFunc(), timerUpdate);
+      return true;
+    }
+    return false;
+  };
+
+  this.pause = function pause() {
+    if (this.ms) {
+      clearTimeout(timeout);
+      isPause = true;
+      return true;
+    } else {
+      console.error('Секундомер не включён');
+      return false;
+    }
+  };
+
+  this.clear = function clear() {
+    if (this.ms && isPause) {
+      this.ms = 0;
+      startDate = 0;
+      return true;
+    } else {
+      console.error(
+        'Для очистки секундомер должен после запуска быть приостановлен'
+      );
+      return false;
+    }
+  };
+}
+
 function Stopwatch() {
-  const $timer = document.querySelector('.stopwatch');
-  const $timerMS = document.querySelector('.stopwatch+.ms');
-  const $btnStart = document.querySelector('.stopwatch_start');
-  const $btnPause = document.querySelector('.stopwatch_pause');
-  const $btnClear = document.querySelector('.stopwatch_clear');
   const timerUpdate = 1 / 60;
+  const StopwatchLogicWrap = new StopwatchLogic(timerUpdate);
+  const $timer = document.querySelectorAll('.stopwatch');
+  const $timerMS = document.querySelectorAll('.stopwatch+.ms');
+  const $btnStart = document.querySelectorAll('.stopwatch_start');
+  const $btnPause = document.querySelectorAll('.stopwatch_pause');
+  const $btnClear = document.querySelectorAll('.stopwatch_clear');
+  let timeoutDOM;
 
-  $btnStart.classList.add('active');
+  $btnStart.forEach((item) => item.classList.add('active'));
 
-  $timer.textContent = '00:00:00';
-  $timerMS.textContent = '.000';
+  $timer.forEach((item) => (item.textContent = '00:00:00'));
+  $timerMS.forEach((item) => (item.textContent = '.000'));
 
   const btnChangeList = new Map([
     [
       $btnStart,
       function () {
-        $btnPause.classList.add('active');
-        $btnStart.classList.remove('active');
-        $btnClear.classList.remove('active');
+        if (StopwatchLogicWrap.start()) {
+          timeoutDOM = setTimeout(function timeoutFunc() {
+            showTime(StopwatchLogicWrap.ms);
+            timeoutDOM = setTimeout(timeoutFunc, timerUpdate);
+          }, timerUpdate);
+          $btnPause.classList.add('active');
+          $btnStart.classList.remove('active');
+          $btnClear.classList.remove('active');
+        }
       },
     ],
     [
       $btnPause,
       function () {
-        $btnPause.classList.remove('active');
-        $btnStart.classList.add('active');
-        $btnClear.classList.add('active');
+        if (StopwatchLogicWrap.pause()) {
+          clearTimeout(timeoutDOM);
+          $btnPause.classList.remove('active');
+          $btnStart.classList.add('active');
+          $btnClear.classList.add('active');
+        }
       },
     ],
     [
       $btnClear,
       function () {
-        $btnPause.classList.remove('active');
-        $btnStart.classList.add('active');
-        $btnClear.classList.remove('active');
+        if (StopwatchLogicWrap.clear()) {
+          showTime(0);
+          $btnPause.classList.remove('active');
+          $btnStart.classList.add('active');
+          $btnClear.classList.remove('active');
+        }
       },
     ],
   ]);
 
-  function showTime() {
+  function showTime(ms) {
     const date = new Date(ms);
 
     function addNulls(time, maxLength) {
@@ -69,49 +132,8 @@ function Stopwatch() {
     $timerMS.textContent = `.${strMs}`;
   }
 
-  const timer = new (function StopwatchLogic() {
-    let isPause = false;
-    let ms = 0;
-    let startDate = 0;
-    let timeout;
-
-    this.start = function start() {
-      if (!ms || isPause) {
-        startDate = startDate ? Date.now() - ms : Date.now();
-
-        isPause = false;
-
-        timeout = setTimeout(function timeoutFunc() {
-          ms = Date.now() - startDate;
-          timeout = setTimeout(timeoutFunc, timerUpdate);
-        }, timerUpdate);
-      }
-    };
-
-    this.pause = function pause() {
-      if (ms) {
-        clearTimeout(timeout);
-        isPause = true;
-        console.log(showTime(ms));
-      } else {
-        console.error('Секундомер не включён');
-      }
-    };
-
-    this.clear = function clear() {
-      if (ms && isPause) {
-        ms = 0;
-        startDate = 0;
-      } else {
-        console.error(
-          'Для очистки секундомер должен после запуска быть приостановлен'
-        );
-      }
-    };
-  })();
-
-  for (const [btn, value] of btnChangeList) {
-    btn.addEventListener('click', value);
+  for (const [btnList, value] of btnChangeList) {
+    btnList.forEach((item) => item.addEventListener('click', value));
   }
 }
 

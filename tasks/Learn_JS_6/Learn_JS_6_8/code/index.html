@@ -25,17 +25,22 @@
         flex-direction: column;
       }
 
+      .stopwatch_wrapper {
+        text-align: center;
+        margin-bottom: 50px;
+      }
+
       #stopwatch {
         font-size: 2em;
       }
 
-      .stopwatch_wrapper {
+      .stopwatch_buttons {
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
       }
 
-      .stopwatch_wrapper .btn {
+      .stopwatch_buttons .btn {
         position: relative;
         font-size: 18px;
         padding: 10px 20px;
@@ -50,15 +55,15 @@
         overflow: hidden;
       }
 
-      .stopwatch_wrapper .btn.active {
+      .stopwatch_buttons .btn.active {
         color: #fff;
       }
 
-      .stopwatch_wrapper .btn.active::before {
+      .stopwatch_buttons .btn.active::before {
         height: 200%;
       }
 
-      .stopwatch_wrapper .btn::before {
+      .stopwatch_buttons .btn::before {
         content: '';
         z-index: -1;
         position: absolute;
@@ -73,11 +78,21 @@
     </style>
   </head>
   <body>
-    <div class="stopwatch_title"><span class="stopwatch"></span><span class="ms">.000</span></div>
     <div class="stopwatch_wrapper">
-      <button class="stopwatch_start btn">Старт</button>
-      <button class="stopwatch_pause btn">Пауза</button>
-      <button class="stopwatch_clear btn">Очистить</button>
+      <div class="stopwatch_title"><span class="stopwatch"></span><span class="ms">.000</span></div>
+      <div class="stopwatch_buttons">
+        <button class="stopwatch_start btn">Старт</button>
+        <button class="stopwatch_pause btn">Пауза</button>
+        <button class="stopwatch_clear btn">Очистить</button>
+      </div>
+    </div>
+    <div class="stopwatch_wrapper">
+      <div class="stopwatch_title"><span class="stopwatch"></span><span class="ms">.000</span></div>
+      <div class="stopwatch_buttons">
+        <button class="stopwatch_start btn">Старт</button>
+        <button class="stopwatch_pause btn">Пауза</button>
+        <button class="stopwatch_clear btn">Очистить</button>
+      </div>
     </div>
     <script src="./index.js"></script>
   </body>
