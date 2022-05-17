@@ -148,3 +148,48 @@ console.log('Для function expression:');
 
   test2();
 }
+console.log('arrow:');
+// Те же правила для стрелочной функции
+{
+  const test = () => {
+    let a = 20;
+    const aFunc = function aFunc() {
+      console.log(a++);
+    };
+    return aFunc;
+  };
+
+  const test2 = () => {
+    const result = test();
+    // После выполнения, лексическое окружение test() очищяется сборщиком мусора
+    // т.к. нет ссылок на окружение
+    test()(); // 20
+    test()(); // 20
+    // Здесь ссылка result остаётся, поэтому лексическое окружение не очищяется
+    result(); // 20
+    result(); // 21
+  };
+
+  test2();
+  console.log('|||||');
+
+  let a = 10;
+
+  const showA = () => {
+    console.log(a);
+  };
+
+  const func = () => {
+    let a = 20;
+    // При копировании сохраняется лексическое окружение
+    let test = showA;
+    let test2 = () => {
+      console.log(a);
+    };
+    showA(); // 10
+    test(); // 10
+    test2(); // 20
+  };
+
+  func();
+}
