@@ -43,91 +43,96 @@ function StopwatchLogic() {
       startDate = 0;
       return true;
     } else {
-      console.error(
-        'Для очистки секундомер должен после запуска быть приостановлен'
-      );
+      console.error('Для очистки секундомер должен после запуска быть приостановлен');
       return false;
     }
   };
 }
 
-function Stopwatch() {
+function Stopwatch(selector) {
   const timerUpdate = 1 / 60;
-  const wrapperList = document.querySelectorAll('.stopwatch_wrapper');
-  for (const wrapper of wrapperList) {
-    const stopwatchLogicWrap = new StopwatchLogic();
-    const timer = wrapper.querySelector('.stopwatch');
-    const timerMS = wrapper.querySelector(`.stopwatch+.ms`);
-    const btnStart = wrapper.querySelector(`.stopwatch_start`);
-    const btnPause = wrapper.querySelector(`.stopwatch_pause`);
-    const btnClear = wrapper.querySelector(`.stopwatch_clear`);
-    let timeoutDOM;
+  const stopwatchLogicWrap = new StopwatchLogic();
 
-    const funcBtnStart = function funcBtnStart() {
-      if (stopwatchLogicWrap.start()) {
-        timeoutDOM = setTimeout(function timeoutFunc() {
-          showTime(stopwatchLogicWrap.ms());
-          timeoutDOM = setTimeout(timeoutFunc, timerUpdate);
-        }, timerUpdate);
-        btnPause.classList.add('active');
-        btnStart.classList.remove('active');
-        btnClear.classList.remove('active');
+  function findElement(innerSelector) {
+    const element = document.querySelector(`${selector} ${innerSelector}`);
+    if (!element) throw new Error(`Не найден элемент "${selector} ${innerSelector}"`);
+    return element;
+  }
+
+  const timer = findElement(`.stopwatch`);
+  const timerMS = findElement(`.stopwatch+.ms`);
+  const btnStart = findElement(`.stopwatch_buttons >.stopwatch_start`);
+  const btnPause = findElement(`.stopwatch_buttons >.stopwatch_pause`);
+  const btnClear = findElement(`.stopwatch_buttons >.stopwatch_clear`);
+
+  let timeoutDOM;
+
+  btnStart.classList.add('active');
+
+  timer.textContent = '00:00:00';
+  timerMS.textContent = '.000';
+
+  const funcBtnStart = function funcBtnStart() {
+    if (stopwatchLogicWrap.start()) {
+      timeoutDOM = setTimeout(function timeoutFunc() {
+        showTime(stopwatchLogicWrap.ms());
+        timeoutDOM = setTimeout(timeoutFunc, timerUpdate);
+      }, timerUpdate);
+      btnPause.classList.add('active');
+      btnStart.classList.remove('active');
+      btnClear.classList.remove('active');
+    }
+  };
+
+  const funcBtnPause = function funcBtnPause() {
+    if (stopwatchLogicWrap.pause()) {
+      clearTimeout(timeoutDOM);
+      btnPause.classList.remove('active');
+      btnStart.classList.add('active');
+      btnClear.classList.add('active');
+    }
+  };
+
+  const funcBtnClear = function funcBtnClear() {
+    if (stopwatchLogicWrap.clear()) {
+      showTime(0);
+      btnPause.classList.remove('active');
+      btnStart.classList.add('active');
+      btnClear.classList.remove('active');
+    }
+  };
+
+  const btnChangeList = new Map([
+    [btnStart, funcBtnStart],
+    [btnPause, funcBtnPause],
+    [btnClear, funcBtnClear],
+  ]);
+
+  function showTime(ms) {
+    const date = new Date(ms);
+
+    function addNulls(time, maxLength) {
+      let str = String(time);
+      while (str.length < maxLength) {
+        str = '0' + str;
       }
-    };
-
-    const funcBtnPause = function funcBtnPause() {
-      if (stopwatchLogicWrap.pause()) {
-        clearTimeout(timeoutDOM);
-        btnPause.classList.remove('active');
-        btnStart.classList.add('active');
-        btnClear.classList.add('active');
-      }
-    };
-
-    const funcBtnClear = function funcBtnClear() {
-      if (stopwatchLogicWrap.clear()) {
-        showTime(0);
-        btnPause.classList.remove('active');
-        btnStart.classList.add('active');
-        btnClear.classList.remove('active');
-      }
-    };
-
-    btnStart.classList.add('active');
-
-    timer.textContent = '00:00:00';
-    timerMS.textContent = '.000';
-
-    const btnChangeList = new Map([
-      [btnStart, funcBtnStart],
-      [btnPause, funcBtnPause],
-      [btnClear, funcBtnClear],
-    ]);
-
-    function showTime(ms) {
-      const date = new Date(ms);
-
-      function addNulls(time, maxLength) {
-        let str = String(time);
-        while (str.length < maxLength) {
-          str = '0' + str;
-        }
-        return str;
-      }
-
-      const strHour = addNulls(date.getUTCHours(), 2);
-      const strMin = addNulls(date.getUTCMinutes(), 2);
-      const strSec = addNulls(date.getUTCSeconds(), 2);
-      const strMs = addNulls(date.getUTCMilliseconds(), 3);
-
-      timer.textContent = `${strHour}:${strMin}:${strSec}`;
-      timerMS.textContent = `.${strMs}`;
+      return str;
     }
 
-    for (const [btnList, value] of btnChangeList) {
-      btnList.addEventListener('click', value);
-    }
+    const strHour = addNulls(date.getUTCHours(), 2);
+    const strMin = addNulls(date.getUTCMinutes(), 2);
+    const strSec = addNulls(date.getUTCSeconds(), 2);
+    const strMs = addNulls(date.getUTCMilliseconds(), 3);
+
+    timer.textContent = `${strHour}:${strMin}:${strSec}`;
+    timerMS.textContent = `.${strMs}`;
+  }
+
+  for (const [btnList, value] of btnChangeList) {
+    btnList.addEventListener('click', value);
   }
 }
 
-const timer = new Stopwatch();
+const timer = new Stopwatch('.stopwatch_test_1');
+
+const timer2 = new Stopwatch('.stopwatch_test_2');
