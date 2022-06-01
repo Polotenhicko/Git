@@ -54,13 +54,13 @@ function Stopwatch(selector) {
   const stopwatchLogicWrap = new StopwatchLogic();
 
   function findElement(innerSelector) {
-    const element = document.querySelector(`${selector} ${innerSelector}`);
-    if (!element) throw new Error(`Не найден элемент "${selector} ${innerSelector}"`);
+    const element = document.querySelector(`${selector} > ${innerSelector}`);
+    if (!element) throw new Error(`Не найден элемент "${selector} > ${innerSelector}"`);
     return element;
   }
 
-  const timer = findElement(`.stopwatch`);
-  const timerMS = findElement(`.stopwatch+.ms`);
+  const timer = findElement(`.stopwatch_title > .stopwatch`);
+  const timerMS = findElement(`.stopwatch_title > .stopwatch+.ms`);
   const btnStart = findElement(`.stopwatch_buttons >.stopwatch_start`);
   const btnPause = findElement(`.stopwatch_buttons >.stopwatch_pause`);
   const btnClear = findElement(`.stopwatch_buttons >.stopwatch_clear`);
