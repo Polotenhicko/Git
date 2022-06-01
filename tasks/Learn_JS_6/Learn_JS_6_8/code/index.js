@@ -9,28 +9,19 @@
 // Таймер должен быть "точным" - отсчитывать время с запуска через Date.now() или performance.now().
 // Обновляться должен достаточно часто, но не обязательно раз в миллисекунду(60 fps будет достаточно).
 
-function StopwatchLogic(timerUpdate = 1 / 60) {
+function StopwatchLogic() {
   let isPause = false;
   let startDate = 0;
-  let timeout;
   let ms = 0;
 
   this.ms = function getMs() {
-    return ms;
+    return isPause ? ms : startDate ? (ms = Date.now() - startDate) : 0;
   };
 
   this.start = function start() {
     if (!this.ms() || isPause) {
       startDate = startDate ? Date.now() - this.ms() : Date.now();
-
       isPause = false;
-
-      const timeoutFunc = () => {
-        ms = Date.now() - startDate;
-        timeout = setTimeout(timeoutFunc, timerUpdate);
-      };
-
-      timeout = setTimeout(timeoutFunc(), timerUpdate);
       return true;
     }
     return false;
@@ -38,7 +29,6 @@ function StopwatchLogic(timerUpdate = 1 / 60) {
 
   this.pause = function pause() {
     if (this.ms()) {
-      clearTimeout(timeout);
       isPause = true;
       return true;
     } else {
@@ -65,7 +55,7 @@ function Stopwatch() {
   const timerUpdate = 1 / 60;
   const wrapperList = document.querySelectorAll('.stopwatch_wrapper');
   for (const wrapper of wrapperList) {
-    const stopwatchLogicWrap = new StopwatchLogic(timerUpdate);
+    const stopwatchLogicWrap = new StopwatchLogic();
     const timer = wrapper.querySelector('.stopwatch');
     const timerMS = wrapper.querySelector(`.stopwatch+.ms`);
     const btnStart = wrapper.querySelector(`.stopwatch_start`);
