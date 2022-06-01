@@ -13,17 +13,20 @@ function StopwatchLogic(timerUpdate = 1 / 60) {
   let isPause = false;
   let startDate = 0;
   let timeout;
+  let ms = 0;
 
-  this.ms = 0;
+  this.getMs = function getMs() {
+    return ms;
+  };
 
   this.start = function start() {
-    if (!this.ms || isPause) {
-      startDate = startDate ? Date.now() - this.ms : Date.now();
+    if (!this.getMs() || isPause) {
+      startDate = startDate ? Date.now() - this.getMs() : Date.now();
 
       isPause = false;
 
       const timeoutFunc = () => {
-        this.ms = Date.now() - startDate;
+        ms = Date.now() - startDate;
         timeout = setTimeout(timeoutFunc, timerUpdate);
       };
 
@@ -34,7 +37,7 @@ function StopwatchLogic(timerUpdate = 1 / 60) {
   };
 
   this.pause = function pause() {
-    if (this.ms) {
+    if (this.getMs()) {
       clearTimeout(timeout);
       isPause = true;
       return true;
@@ -45,8 +48,8 @@ function StopwatchLogic(timerUpdate = 1 / 60) {
   };
 
   this.clear = function clear() {
-    if (this.ms && isPause) {
-      this.ms = 0;
+    if (this.getMs() && isPause) {
+      ms = 0;
       startDate = 0;
       return true;
     } else {
@@ -81,7 +84,7 @@ function Stopwatch() {
         function () {
           if (stopwatchLogicWrap.start()) {
             timeoutDOM = setTimeout(function timeoutFunc() {
-              showTime(stopwatchLogicWrap.ms);
+              showTime(stopwatchLogicWrap.getMs());
               timeoutDOM = setTimeout(timeoutFunc, timerUpdate);
             }, timerUpdate);
             btnPause.classList.add('active');
