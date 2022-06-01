@@ -60,55 +60,55 @@ function StopwatchLogic(timerUpdate = 1 / 60) {
 
 function Stopwatch() {
   const timerUpdate = 1 / 60;
-  const $wrapperList = document.querySelectorAll('.stopwatch_wrapper');
-  for (const $wrapper of $wrapperList) {
-    const StopwatchLogicWrap = new StopwatchLogic(timerUpdate);
-    const $timer = $wrapper.querySelector('.stopwatch');
-    const $timerMS = $wrapper.querySelector(`.stopwatch+.ms`);
-    const $btnStart = $wrapper.querySelector(`.stopwatch_start`);
-    const $btnPause = $wrapper.querySelector(`.stopwatch_pause`);
-    const $btnClear = $wrapper.querySelector(`.stopwatch_clear`);
+  const wrapperList = document.querySelectorAll('.stopwatch_wrapper');
+  for (const wrapper of wrapperList) {
+    const stopwatchLogicWrap = new StopwatchLogic(timerUpdate);
+    const timer = wrapper.querySelector('.stopwatch');
+    const timerMS = wrapper.querySelector(`.stopwatch+.ms`);
+    const btnStart = wrapper.querySelector(`.stopwatch_start`);
+    const btnPause = wrapper.querySelector(`.stopwatch_pause`);
+    const btnClear = wrapper.querySelector(`.stopwatch_clear`);
     let timeoutDOM;
 
-    $btnStart.classList.add('active');
+    btnStart.classList.add('active');
 
-    $timer.textContent = '00:00:00';
-    $timerMS.textContent = '.000';
+    timer.textContent = '00:00:00';
+    timerMS.textContent = '.000';
 
     const btnChangeList = new Map([
       [
-        $btnStart,
+        btnStart,
         function () {
-          if (StopwatchLogicWrap.start()) {
+          if (stopwatchLogicWrap.start()) {
             timeoutDOM = setTimeout(function timeoutFunc() {
-              showTime(StopwatchLogicWrap.ms);
+              showTime(stopwatchLogicWrap.ms);
               timeoutDOM = setTimeout(timeoutFunc, timerUpdate);
             }, timerUpdate);
-            $btnPause.classList.add('active');
-            $btnStart.classList.remove('active');
-            $btnClear.classList.remove('active');
+            btnPause.classList.add('active');
+            btnStart.classList.remove('active');
+            btnClear.classList.remove('active');
           }
         },
       ],
       [
-        $btnPause,
+        btnPause,
         function () {
-          if (StopwatchLogicWrap.pause()) {
+          if (stopwatchLogicWrap.pause()) {
             clearTimeout(timeoutDOM);
-            $btnPause.classList.remove('active');
-            $btnStart.classList.add('active');
-            $btnClear.classList.add('active');
+            btnPause.classList.remove('active');
+            btnStart.classList.add('active');
+            btnClear.classList.add('active');
           }
         },
       ],
       [
-        $btnClear,
+        btnClear,
         function () {
-          if (StopwatchLogicWrap.clear()) {
+          if (stopwatchLogicWrap.clear()) {
             showTime(0);
-            $btnPause.classList.remove('active');
-            $btnStart.classList.add('active');
-            $btnClear.classList.remove('active');
+            btnPause.classList.remove('active');
+            btnStart.classList.add('active');
+            btnClear.classList.remove('active');
           }
         },
       ],
@@ -130,8 +130,8 @@ function Stopwatch() {
       const strSec = addNulls(date.getUTCSeconds(), 2);
       const strMs = addNulls(date.getUTCMilliseconds(), 3);
 
-      $timer.textContent = `${strHour}:${strMin}:${strSec}`;
-      $timerMS.textContent = `.${strMs}`;
+      timer.textContent = `${strHour}:${strMin}:${strSec}`;
+      timerMS.textContent = `.${strMs}`;
     }
 
     for (const [btnList, value] of btnChangeList) {

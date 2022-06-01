@@ -75,7 +75,6 @@ testing_2(); // Акр
 
 function sayHi() {
   console.log(phrase);
-
   var phrase = 'Привет';
 }
 
