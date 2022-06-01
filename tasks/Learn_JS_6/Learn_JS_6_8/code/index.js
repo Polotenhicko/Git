@@ -63,48 +63,45 @@ function Stopwatch() {
     const btnClear = wrapper.querySelector(`.stopwatch_clear`);
     let timeoutDOM;
 
+    const funcBtnStart = function funcBtnStart() {
+      if (stopwatchLogicWrap.start()) {
+        timeoutDOM = setTimeout(function timeoutFunc() {
+          showTime(stopwatchLogicWrap.ms());
+          timeoutDOM = setTimeout(timeoutFunc, timerUpdate);
+        }, timerUpdate);
+        btnPause.classList.add('active');
+        btnStart.classList.remove('active');
+        btnClear.classList.remove('active');
+      }
+    };
+
+    const funcBtnPause = function funcBtnPause() {
+      if (stopwatchLogicWrap.pause()) {
+        clearTimeout(timeoutDOM);
+        btnPause.classList.remove('active');
+        btnStart.classList.add('active');
+        btnClear.classList.add('active');
+      }
+    };
+
+    const funcBtnClear = function funcBtnClear() {
+      if (stopwatchLogicWrap.clear()) {
+        showTime(0);
+        btnPause.classList.remove('active');
+        btnStart.classList.add('active');
+        btnClear.classList.remove('active');
+      }
+    };
+
     btnStart.classList.add('active');
 
     timer.textContent = '00:00:00';
     timerMS.textContent = '.000';
 
     const btnChangeList = new Map([
-      [
-        btnStart,
-        function () {
-          if (stopwatchLogicWrap.start()) {
-            timeoutDOM = setTimeout(function timeoutFunc() {
-              showTime(stopwatchLogicWrap.ms());
-              timeoutDOM = setTimeout(timeoutFunc, timerUpdate);
-            }, timerUpdate);
-            btnPause.classList.add('active');
-            btnStart.classList.remove('active');
-            btnClear.classList.remove('active');
-          }
-        },
-      ],
-      [
-        btnPause,
-        function () {
-          if (stopwatchLogicWrap.pause()) {
-            clearTimeout(timeoutDOM);
-            btnPause.classList.remove('active');
-            btnStart.classList.add('active');
-            btnClear.classList.add('active');
-          }
-        },
-      ],
-      [
-        btnClear,
-        function () {
-          if (stopwatchLogicWrap.clear()) {
-            showTime(0);
-            btnPause.classList.remove('active');
-            btnStart.classList.add('active');
-            btnClear.classList.remove('active');
-          }
-        },
-      ],
+      [btnStart, funcBtnStart],
+      [btnPause, funcBtnPause],
+      [btnClear, funcBtnClear],
     ]);
 
     function showTime(ms) {
