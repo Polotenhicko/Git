@@ -81,8 +81,7 @@ function Stopwatch(selector) {
   };
 
   this.destroy = function destroy() {
-    funcBtnPause();
-    funcBtnClear();
+    clearTimeout(timeoutDOM);
     timer.textContent = null;
     timerMS.textContent = null;
     for (const [btnList, btnFunc] of btnChangeList) {
