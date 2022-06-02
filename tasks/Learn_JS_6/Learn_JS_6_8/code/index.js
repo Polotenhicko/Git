@@ -72,6 +72,25 @@ function Stopwatch(selector) {
   timer.textContent = '00:00:00';
   timerMS.textContent = '.000';
 
+  this.listenUi = function listenUi(type, handler, listener) {
+    listener.addEventListener(type, handler);
+  };
+
+  this.unlistenUi = function unlistenUi(type, handler, listener) {
+    listener.removeEventListener(type, handler);
+  };
+
+  this.destroy = function destroy() {
+    funcBtnPause();
+    funcBtnClear();
+    timer.textContent = null;
+    timerMS.textContent = null;
+    for (const [btnList, btnFunc] of btnChangeList) {
+      btnList.classList.remove('active');
+      this.unlistenUi('click', btnFunc, btnList);
+    }
+  };
+
   const funcBtnStart = function funcBtnStart() {
     if (stopwatchLogicWrap.start()) {
       timeoutDOM = setTimeout(function timeoutFunc() {
@@ -128,8 +147,8 @@ function Stopwatch(selector) {
     timerMS.textContent = `.${strMs}`;
   }
 
-  for (const [btnList, value] of btnChangeList) {
-    btnList.addEventListener('click', value);
+  for (const [btnList, btnFunc] of btnChangeList) {
+    this.listenUi('click', btnFunc, btnList);
   }
 }
 
