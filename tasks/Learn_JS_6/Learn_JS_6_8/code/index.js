@@ -65,7 +65,7 @@ function Stopwatch(selector) {
   const btnPause = findElement(`.stopwatch_buttons >.stopwatch_pause`);
   const btnClear = findElement(`.stopwatch_buttons >.stopwatch_clear`);
 
-  let timeoutDOM;
+  let intervalDOM;
 
   btnStart.classList.add('active');
 
@@ -81,7 +81,7 @@ function Stopwatch(selector) {
   };
 
   this.destroy = function destroy() {
-    clearTimeout(timeoutDOM);
+    clearInterval(intervalDOM);
     timer.textContent = null;
     timerMS.textContent = null;
     for (const [btnList, btnFunc] of btnChangeList) {
@@ -92,9 +92,8 @@ function Stopwatch(selector) {
 
   const funcBtnStart = function funcBtnStart() {
     if (stopwatchLogicWrap.start()) {
-      timeoutDOM = setTimeout(function timeoutFunc() {
+      intervalDOM = setInterval(function timeoutFunc() {
         showTime(stopwatchLogicWrap.ms());
-        timeoutDOM = setTimeout(timeoutFunc, timerUpdate);
       }, timerUpdate);
       btnPause.classList.add('active');
       btnStart.classList.remove('active');
@@ -104,7 +103,7 @@ function Stopwatch(selector) {
 
   const funcBtnPause = function funcBtnPause() {
     if (stopwatchLogicWrap.pause()) {
-      clearTimeout(timeoutDOM);
+      clearInterval(intervalDOM);
       btnPause.classList.remove('active');
       btnStart.classList.add('active');
       btnClear.classList.add('active');
