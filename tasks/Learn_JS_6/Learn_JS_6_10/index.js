@@ -51,3 +51,14 @@ user.test = () => console.log(this);
 
 let aboba = user.test.bind(user);
 aboba();
+
+// Частичное применение
+
+function mul(a, b) {
+  return a * b;
+}
+
+let double = mul.bind(undefined, 2);
+
+console.log(double(2)); // 4
+console.log(double(3)); // 6
