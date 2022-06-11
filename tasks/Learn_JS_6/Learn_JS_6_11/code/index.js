@@ -15,3 +15,51 @@ console.log(
     { age: 74, name: 'brendan' },
   ])
 );
+
+// Перемещение чисел в двумерном массиве по направлению
+
+function infiniteLoop(arrCopy, d, n) {
+  const arr = arrCopy.slice(0);
+  const dirRight = d == 'right' ? true : false;
+  while (n--) {
+    arr.forEach((itemArr, indexArr) => {
+      if (dirRight) {
+        if (indexArr == arr.length - 1) {
+          arr[0].unshift(itemArr.pop());
+        } else {
+          arr[indexArr + 1].unshift(itemArr.pop());
+        }
+      } else {
+        if (!indexArr) {
+          arr[arr.length - 1].push(itemArr.shift());
+        } else {
+          arr[indexArr - 1].push(itemArr.shift());
+        }
+      }
+    });
+  }
+  return arr;
+}
+
+console.log(
+  infiniteLoop(
+    [
+      [1, 2, 3],
+      [4, 5, 6],
+      [7, 8, 9],
+    ],
+    'right',
+    2
+  )
+);
+console.log(
+  infiniteLoop(
+    [
+      [1, 2, 3],
+      [4, 5, 6],
+      [7, 8, 9],
+    ],
+    'left',
+    4
+  )
+);
