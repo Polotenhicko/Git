@@ -18,6 +18,8 @@ console.log(
 
 // Перемещение чисел в двумерном массиве по направлению
 
+// https://www.codewars.com/kata/572af273a3af3836660014a1
+
 function infiniteLoop(arrCopy, d, n) {
   const arr = arrCopy.slice(0);
   const dirRight = d == 'right' ? true : false;
