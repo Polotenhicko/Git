@@ -31,9 +31,9 @@ const test4 = {
 function fabricDescriptors(
   obj,
   options = {
-    sumStr: false,
-    sumDeepObj: true,
-    sumArr: false,
+    isSumStr: false,
+    isSumDeepObj: true,
+    isSumArr: false,
   },
   nameDesc = 'getAllSum'
 ) {
@@ -43,9 +43,9 @@ function fabricDescriptors(
         let sum = 0;
         for (const key in object) {
           const item = object[key];
-          if (!options.sumStr && typeof item == 'string') continue;
-          if (!options.sumDeepObj && !Array.isArray(item) && typeof item == 'object') continue;
-          if (!options.sumArr && Array.isArray(item)) continue;
+          if (!options.isSumStr && typeof item == 'string') continue;
+          if (!options.isSumDeepObj && !Array.isArray(item) && typeof item == 'object') continue;
+          if (!options.isSumArr && Array.isArray(item)) continue;
 
           if (item && Object.getOwnPropertyDescriptor(item, nameDesc)) {
             sum += item[nameDesc];
