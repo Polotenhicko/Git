@@ -44,12 +44,15 @@ function fabricDescriptors(
         for (const key in object) {
           const item = object[key];
           if (!options.sumStr && typeof item == 'string') continue;
-          if (!options.sumDeepObj && item && !Array.isArray(item) && typeof item == 'object') continue;
+          if (!options.sumDeepObj && !Array.isArray(item) && typeof item == 'object') continue;
           if (!options.sumArr && Array.isArray(item)) continue;
 
           if (item && Object.getOwnPropertyDescriptor(item, nameDesc)) {
             sum += item[nameDesc];
           }
+
+          if (Array.isArray(item)) sum += item.reduce((a, b) => (isNaN(b) ? 0 : a + +b), 0);
+
           // числа и строки
           if (!isNaN(item)) sum += +item;
         }
