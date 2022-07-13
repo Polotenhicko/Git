@@ -115,3 +115,37 @@ for (const key in rabbit) {
 }
 
 // hasOwnProperty был найден у прототипа animal - Object
+
+console.log('--------');
+
+console.log(delete rabbit.eats); // true
+
+console.log(animal.eats); // true
+
+console.log(rabbit.eats); // true
+
+console.log('==========');
+
+let head = {
+  glasses: 1,
+};
+
+let table = {
+  pen: 3,
+};
+
+let bed = {
+  sheet: 1,
+  pillow: 2,
+};
+
+let pockets = {
+  money: 2000,
+};
+
+pockets.__proto__ = bed;
+bed.__proto__ = table;
+table.__proto__ = head;
+
+console.log(pockets.pen); // 3
+console.log(bed.glasses); // 1
