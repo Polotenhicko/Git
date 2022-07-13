@@ -9,7 +9,6 @@
 
 // https://discord.com/channels/912379978677637211/964809721838174248/972429081213820948
 
-// prototype ещё не изучил, просто по памяти для решения задачи
 Array.prototype.copy = function copy(n) {
   const arr = [];
   while (n > 0 || n === undefined) {
