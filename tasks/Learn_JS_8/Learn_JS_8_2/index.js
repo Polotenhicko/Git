@@ -56,3 +56,20 @@ obj.join = Array.prototype.join;
 console.log(obj.join('_'));
 
 // Можно поставить в obj.__proto__ = Array.prototype
+
+// Вызов функций через ms времени
+Function.prototype.defer = function defer(ms) {
+  setTimeout(this, ms);
+};
+
+Function.prototype.defer2 = function defer2(ms) {
+  return (...args) => {
+    setTimeout(this, ms, ...args);
+  };
+};
+
+function f(a, b) {
+  console.log(a + b);
+}
+
+f.defer2(1000)(1, 2);
