@@ -9,11 +9,10 @@
 
 // https://discord.com/channels/912379978677637211/964809721838174248/972429081213820948
 
-Array.prototype.copy = function copy(n) {
+Array.prototype.copy = function copy(n = 1) {
   const arr = [];
-  while (n > 0 || n === undefined) {
+  while (n-- > 0) {
     arr.push(...this);
-    n--;
   }
   return arr;
 };
