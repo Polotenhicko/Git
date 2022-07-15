@@ -16,6 +16,7 @@ const test2 = {
   obj: {
     name: '123',
     value: 5,
+    arr: [1, 2, 3],
   },
   arr: [1, 2, 3],
 };
@@ -47,10 +48,12 @@ function fabricDescriptors(
           if (!options.isSumDeepObj && !Array.isArray(item) && typeof item == 'object') continue;
           if (!options.isSumArr && Array.isArray(item)) continue;
 
-          if (item && Object.getOwnPropertyDescriptor(item, nameDesc)) {
-            sum += item[nameDesc];
+          // Object, не null не array
+          if (typeof item == 'object' && !Array.isArray(item) && item) {
+            sum += Object.getOwnPropertyDescriptor(item, nameDesc) ? item[nameDesc] : getAllSum(item);
           }
 
+          // array
           if (Array.isArray(item)) sum += item.reduce((a, b) => (isNaN(b) ? 0 : a + +b), 0);
 
           // числа и строки
@@ -63,14 +66,14 @@ function fabricDescriptors(
   });
 }
 
+// дефолт значения
+
 fabricDescriptors(test);
-console.log(test.getAllSum); // 6
-fabricDescriptors(test.obj);
 fabricDescriptors(test2);
 fabricDescriptors(test3);
 fabricDescriptors(test4);
 
-console.log(test.getAllSum); // 6 + /"128 ('123' + 5)"
-console.log(test2.getAllSum); // 6
+console.log(test.getAllSum); // 11
+console.log(test2.getAllSum); // 11
 console.log(test3.getAllSum); // 0
 console.log(test4.getAllSum); // -20
