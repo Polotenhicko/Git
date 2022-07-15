@@ -1,0 +1,22 @@
+{
+  "name": "study_polo_jest",
+  "version": "1.0.0",
+  "description": "**Test repository**",
+  "main": "./tasks/Learn_JS_7_2/code/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Polotenhicko/Git.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Polotenhicko/Git/issues"
+  },
+  "homepage": "https://github.com/Polotenhicko/Git#readme",
+  "devDependencies": {
+    "jest": "^28.1.3"
+  }
+}
