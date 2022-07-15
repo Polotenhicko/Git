@@ -1,4 +1,4 @@
-const fabric = require('./oldFabric.js');
+const oldFabric = require('./oldFabric.js');
 
 const emptyObj = {};
 
@@ -21,9 +21,9 @@ const negativeObj = {
   array: ['a', 'b', '0', '20'],
 };
 
-fabric(emptyObj);
-fabric(fullObj);
-fabric(negativeObj);
+oldFabric(emptyObj);
+oldFabric(fullObj);
+oldFabric(negativeObj);
 
 test('empty object', () => {
   expect(emptyObj.getAllSum).toBe(0);
