@@ -103,3 +103,29 @@ rabbit.__proto__ = {
 console.log(rabbit.eats); // true
 console.log(rabbit); // обычное свойство __proto__
 console.log(Object.getPrototypeOf(rabbit)); // animal
+
+console.log('||||||||||||||||||||||');
+
+// Имеется объект dictionary, созданный с помощью Object.create(null) для хранения любых пар ключ/значение.
+
+// Добавьте ему метод dictionary.toString(), который должен возвращать список ключей, разделённых запятой.
+// Ваш toString не должен выводиться при итерации объекта с помощью цикла for..in.
+
+const dictionary = Object.create(null);
+
+Object.defineProperty(dictionary, 'toString', {
+  value: function toString() {
+    return String(Object.keys(this));
+  },
+});
+
+dictionary.apple = 'Apple';
+dictionary.__proto__ = 'test'; // здесь __proto__ -- это обычный ключ
+
+// только apple и __proto__ выведены в цикле
+for (const key in dictionary) {
+  console.log(key); // "apple", затем "__proto__"
+}
+
+// ваш метод toString в действии
+console.log(String(dictionary)); // "apple,__proto__"
