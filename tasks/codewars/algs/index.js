@@ -12,3 +12,13 @@ function firstNonRepeatingLetter(s) {
   }
   return '';
 }
+
+// Написать функцию лайков и дизлайков как в ютубе
+
+function likeOrDislike(buttons) {
+  let count = 0;
+  buttons.forEach((item) => {
+    count = item == 'Like' ? (count <= 0 ? 1 : 0) : count >= 0 ? -1 : 0;
+  });
+  return count == 0 ? 'Nothing' : count > 0 ? 'Like' : 'Dislike';
+}
