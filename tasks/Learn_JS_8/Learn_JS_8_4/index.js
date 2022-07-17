@@ -38,7 +38,7 @@ console.log(Object.getPrototypeOf(test) == rabbit); // true, хотя при с�
 
 console.log('////////');
 
-// мошный код для копирования объекта с дескрипторами
+// мощный код для копирования объекта с дескрипторами
 
 let clone = Object.create(Object.getPrototypeOf(animal), Object.getOwnPropertyDescriptors(animal));
 
