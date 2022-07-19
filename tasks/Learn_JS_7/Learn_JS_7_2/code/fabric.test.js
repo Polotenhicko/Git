@@ -1,4 +1,5 @@
 const oldFabric = require('./oldFabric.js');
+const tailFabric = require('./tailFabric.js');
 
 const emptyObj = {};
 
@@ -21,9 +22,55 @@ const negativeObj = {
   array: ['a', 'b', '0', '20'],
 };
 
-oldFabric(emptyObj);
-oldFabric(fullObj);
-oldFabric(negativeObj);
+const deepObj = {
+  value1: 1,
+  obj: {
+    name: '1',
+    value: 2,
+    obj: {
+      name: '1',
+      value: 2,
+      obj: {
+        name: '1',
+        value: 2,
+        obj: {
+          name: '1',
+          value: 2,
+          obj: {
+            name: '1',
+            value: 2,
+            obj: {
+              name: '1',
+              value: 2,
+              obj: {
+                name: '1',
+                value: 2,
+                obj: {
+                  name: '1',
+                  value: 2,
+                  obj: {
+                    name: '1',
+                    value: 2,
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+// oldFabric(emptyObj);
+// oldFabric(fullObj);
+// oldFabric(negativeObj);
+// oldFabric(deepObj);
+
+tailFabric(emptyObj);
+tailFabric(fullObj);
+tailFabric(negativeObj);
+tailFabric(deepObj);
 
 test('empty object', () => {
   expect(emptyObj.getAllSum).toBe(0);
@@ -35,4 +82,8 @@ test('full object', () => {
 
 test('negative object', () => {
   expect(negativeObj.getAllSum).toBe(0);
+});
+
+test('deep object', () => {
+  expect(deepObj.getAllSum).toBe(28);
 });
