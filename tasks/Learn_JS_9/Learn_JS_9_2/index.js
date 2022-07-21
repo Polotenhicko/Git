@@ -18,12 +18,12 @@ class Animal {
 }
 
 // Rabbit использует конструктор от Animal ?
-class Rabbit extends Animal {
+let Rabbit = class extends Animal {
   // extends - значит Rabbit.prototype.[[Prototype]] = Animal.prototype
   hide() {
     console.log(`${this.name} прячется!`);
   }
-}
+};
 
 let rabbit = new Rabbit('Кролик');
 
@@ -47,3 +47,47 @@ function Test(test) {
 class Test2 extends Test('hi') {}
 
 new Test2().hi(); // hi
+
+// Переопределение методов
+
+Rabbit = class extends Animal {
+  hide() {
+    console.log(this.name + ' прячется!');
+  }
+  stop() {
+    // есть ключевое слово super, которое вызывает родительский метод
+    // сам super(...) вызывает родительский конструктор
+
+    // ...будет использоваться для rabbi2.stop()
+    super.stop(); // вызывает stop у родительского класса
+    this.hide();
+  }
+
+  // у стрелочных нет super
+  // при обращении, стрелочныя берёт super из внешней функции
+  run(n) {
+    setTimeout(() => super.run(n), 1);
+  }
+};
+
+rabbit = new Rabbit('Krolik');
+
+rabbit.run(5); // Krolik бежит со скоростью 5
+// Krolik стоит
+// Krolik прячется!
+rabbit.stop();
+
+// Переопределение конструктора
+
+Rabbit = class extends Animal {
+  // по спецификации, если класс расширяет другой класс и не имеет конструктора
+  // то автоматически создаётся такой конструктор
+  constructor(...args) {
+    super(...args);
+  }
+};
+
+// в классах-потомках конструкторы обязаны вызывать super(...)
+// и делать это перед использованием this
+
+// Rabbit = class extends
