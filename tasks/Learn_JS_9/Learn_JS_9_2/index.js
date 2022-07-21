@@ -66,7 +66,7 @@ Rabbit = class extends Animal {
   // у стрелочных нет super
   // при обращении, стрелочныя берёт super из внешней функции
   run(n) {
-    setTimeout(() => super.run(n), 1);
+    (() => super.run(n))();
   }
 };
 
@@ -90,4 +90,20 @@ Rabbit = class extends Animal {
 // в классах-потомках конструкторы обязаны вызывать super(...)
 // и делать это перед использованием this
 
-// Rabbit = class extends
+// такой код будет выдавать ошибку, т.к. нет super()
+// Uncaught ReferenceError: Must call super constructor in derived class before accessing 'this' or returning from derived constructor
+// Rabbit = class extends Animal {
+//   constructor() {}
+// };
+
+Rabbit = class extends Animal {
+  constructor(name, earLength) {
+    super(name);
+    this.earLength = earLength;
+  }
+};
+
+rabbit = new Rabbit('Ras', 13);
+
+console.log(rabbit.name); // 'Ras'
+console.log(rabbit.earLength); // 13
