@@ -25,6 +25,7 @@ class Hacker {}
 console.log(Hacker.__proto__ === Function.prototype); // true, class - функция
 
 // console.log(itIncubator.__proto__ === ????);
+console.log(itIncubator.__proto__ === Function.prototype); // true, т.к. itIncubator - функция
 
 let count = 12;
-// console.log(count.__proto__ === ???);
+console.log(count.__proto__ === Number.prototype); // true, т.к. count.__proto__ обернёт в обёртку и вернёт ссылку на прототип числа
