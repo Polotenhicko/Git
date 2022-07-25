@@ -107,3 +107,96 @@ rabbit = new Rabbit('Ras', 13);
 
 console.log(rabbit.name); // 'Ras'
 console.log(rabbit.earLength); // 13
+
+// функция, объявленная как метод внутри объекта, получает внутреннее свойство [[HomeObject]], равное этому объекту
+
+let animal = {
+  name: 'Животное',
+  eat() {
+    // animal.eat.[[HomeObject]] == animal
+    console.log(`${this.name} ест`);
+  },
+};
+
+rabbit = {
+  __proto__: animal,
+  name: 'Кролик',
+  eat() {
+    // rabbit.eat.[[HomeObject]] == rabbit
+    super.eat();
+  },
+};
+
+let longEar = {
+  __proto__: rabbit,
+  name: 'Длинноух',
+  eat() {
+    // longEar.eat.[[HomeObject]] == longEar
+    super.eat();
+  },
+};
+
+// Метод знает свой [[HomeObject]] и получает метод родителя из прототипа
+longEar.eat(); // Длинноух ест
+
+// функции обычно свободны, не привязаны к контексту, и их можно вызывать с любым this
+// но само существование [[HomeObject]] нарушает этот принцип, [[HomeObject]] нельзя изменить, эта связь - навсегда
+
+// единственное где используется [[HomeObject]] - это super
+// если метод не использует super, то можно считать его свободным, а если super есть, то могут быть побочные эффекты
+
+animal = {
+  name: 'Животное',
+  sayHi() {
+    console.log(`${this.name} Я животное`);
+  },
+};
+
+// rabbit наследует от animal
+rabbit = {
+  __proto__: animal,
+  name: 'Кролик',
+  sayHi() {
+    // вызывает метод прототипа
+    super.sayHi();
+  },
+};
+
+let plant = {
+  name: 'Растение',
+  sayHi() {
+    console.log(`${this} Я растение`);
+  },
+};
+
+let tree = {
+  __proto__: plant,
+  name: 'Дерево',
+  sayHi: rabbit.sayHi,
+};
+
+tree.sayHi(); // 'Дерево Я животное'
+
+// свойство [[HomeObject]] определено для классов и для обычных объектов
+// но для объектов методы должны быть объявлены как method(), а не method: function() {}
+
+animal = {
+  eat: function () {
+    console.log('ем');
+  },
+};
+
+rabbit = {
+  __proto__: animal,
+  // так будет ошибка
+  // eat: function() {
+  //   super.eat();
+  // },
+
+  // так норм
+  eat() {
+    super.eat();
+  },
+};
+
+rabbit.eat();
