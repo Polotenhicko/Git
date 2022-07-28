@@ -28,7 +28,7 @@ console.log(B.prototype.__proto__ === A.prototype); // true
 // Ключевое слово extends работает, используя прототипы.
 // Оно устанавливает B.prototype.[[Prototype]] в A.prototype.
 // Так что если метод не найден в B.prototype, JavaScript берёт его из A.prototype.
-// ничего про то, что
+// ничего про то, что B.prototype.__proto__ - это класс A
 
 B.prototype = {
   method2: 'aaa',
