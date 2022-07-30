@@ -32,13 +32,12 @@ const test4 = {
 function fabricDescriptors(
   obj,
   options = {
-    isSumStr: false,
+    isSumStr: true,
     isSumDeepObj: true,
-    isSumArr: false,
-  },
-  nameDesc = 'getAllSum'
+    isSumArr: true,
+  }
 ) {
-  Object.defineProperty(obj, nameDesc, {
+  Object.defineProperty(obj, 'getAllSum', {
     get() {
       function getAllSum(object) {
         let sum = 0;
@@ -50,30 +49,39 @@ function fabricDescriptors(
 
           // Object, не null не array
           if (typeof item == 'object' && !Array.isArray(item) && item) {
-            sum += Object.getOwnPropertyDescriptor(item, nameDesc) ? item[nameDesc] : getAllSum(item);
+            sum += item.getAllSum ? item.getAllSum : getAllSum(item);
           }
 
           // array
-          if (Array.isArray(item)) sum += item.reduce((a, b) => (isNaN(b) ? 0 : a + +b), 0);
+          if (Array.isArray(item)) {
+            sum += item.reduce((acc, item) => {
+              return acc + (typeof item == 'object' ? getAllSum(item) : !isNaN(item) ? +item : 0);
+            }, 0);
+          }
 
           // числа и строки
-          if (!isNaN(item)) sum += +item;
+          if (!isNaN(item) && typeof item != 'object') sum += +item;
         }
         return sum;
       }
       return getAllSum(obj);
     },
+    configurable: true,
   });
 }
 
+module.exports = fabricDescriptors;
+
 // дефолт значения
 
-fabricDescriptors(test);
-fabricDescriptors(test2);
-fabricDescriptors(test3);
-fabricDescriptors(test4);
+// module.exports = fabricDescriptors;
 
-console.log(test.getAllSum); // 11
-console.log(test2.getAllSum); // 11
-console.log(test3.getAllSum); // 0
-console.log(test4.getAllSum); // -20
+// fabricDescriptors(test);
+// fabricDescriptors(test2);
+// fabricDescriptors(test3);
+// fabricDescriptors(test4);
+
+// console.log(test.getAllSum); // 11
+// console.log(test2.getAllSum); // 11
+// console.log(test3.getAllSum); // 0
+// console.log(test4.getAllSum); // -20

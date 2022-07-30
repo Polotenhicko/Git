@@ -7,13 +7,16 @@ module.exports = function tailFabricDescriptors(obj) {
         for (const object of objects) {
           for (const key in object) {
             const item = object[key];
-            if (typeof item == 'object') arr.push(item);
-            if (!isNaN(item)) sum += +item;
+            // такой кодстайл норм???
+            if (typeof item == 'object') {
+              arr.push(item);
+            } else if (!isNaN(item)) sum += +item;
           }
         }
         return arr.length ? getAllSum(arr) : sum;
       }
       return getAllSum([obj]);
     },
+    configurable: true,
   });
 };

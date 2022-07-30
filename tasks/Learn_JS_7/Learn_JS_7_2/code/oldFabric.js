@@ -5,13 +5,13 @@ function fabricDescriptors(obj) {
         let sum = 0;
         for (const key in object) {
           const item = object[key];
-          if (typeof item == 'object') sum += getAllSum(item);
-          if (!isNaN(item)) sum += +item;
+          sum += typeof item == 'object' ? getAllSum(item) : !isNaN(item) ? +item : 0;
         }
         return sum;
       }
       return getAllSum(obj);
     },
+    configurable: true,
   });
 }
 
