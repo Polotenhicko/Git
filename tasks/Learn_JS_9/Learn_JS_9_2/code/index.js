@@ -25,9 +25,11 @@ class Environment {
 }
 
 class Kettle extends Environment {
+  _startTemp;
   isWork = false;
   tempPerSec = 0;
-  _startTemp;
+  _maxTemp = 100;
+  #mostMaxTemp = 200;
 
   stop() {
     this.isWork = false;
@@ -42,7 +44,7 @@ class Kettle extends Environment {
     this._startTemp = this.t;
 
     this.timerSensor = setInterval(() => {
-      if (this.t > 100) {
+      if (this.t > this._maxTemp) {
         this.stop();
       } else {
         this.tempPerSec = this.t - this._startTemp;
@@ -63,11 +65,29 @@ class Kettle extends Environment {
   }
 
   getApproxRemainTime() {
-    if (this.isWork && this.t < 100) {
-      return Math.round((100 - this.t) / this.tempPerSec);
+    if (this.isWork && this.t < this._maxTemp) {
+      return Math.round((this._maxTemp - this.t) / this.tempPerSec);
     }
     return 0;
   }
+
+  incMaxTemp() {
+    if (this._maxTemp < this.#mostMaxTemp) {
+      this._maxTemp++;
+      console.log('Чайник выключится при ' + this._maxTemp);
+    } else {
+      console.error('Максимальная температура выключения чайника: ' + this.#mostMaxTemp + '°');
+    }
+  }
+
+  decMaxTemp() {
+    if (this._maxTemp > 2) {
+      this._maxTemp--;
+      console.log('Чайник выключится при ' + this._maxTemp);
+    } else {
+      console.error('Минимальная температура выключения чайника: 2°');
+    }
+  }
 }
 
-let test = new Kettle(80);
+let test = new Kettle(196);
