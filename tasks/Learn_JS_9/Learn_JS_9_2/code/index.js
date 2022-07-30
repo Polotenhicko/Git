@@ -26,13 +26,13 @@ class Environment {
 
 class Kettle extends Environment {
   _startTemp;
-  isWork = false;
-  tempPerSec = 0;
+  _isWork = false;
+  _tempPerSec = 0;
   _maxTemp = 100;
-  #mostMaxTemp = 200;
+  #criticalMaxTemp = 200;
 
   stop() {
-    this.isWork = false;
+    this._isWork = false;
     console.log('Чайник выключился');
     clearInterval(this.timerSensor);
     super.stopHeat();
@@ -40,14 +40,14 @@ class Kettle extends Environment {
 
   start() {
     super.startHeat();
-    this.isWork = true;
+    this._isWork = true;
     this._startTemp = this.t;
 
     this.timerSensor = setInterval(() => {
       if (this.t > this._maxTemp) {
         this.stop();
       } else {
-        this.tempPerSec = this.t - this._startTemp;
+        this._tempPerSec = this.t - this._startTemp;
         this._startTemp = this.t;
         console.log(`${this.t}° Осталось ${this.getApproxRemainTime()}сек | ${this.getTime()}`);
       }
@@ -65,18 +65,18 @@ class Kettle extends Environment {
   }
 
   getApproxRemainTime() {
-    if (this.isWork && this.t < this._maxTemp) {
-      return Math.round((this._maxTemp - this.t) / this.tempPerSec);
+    if (this._isWork && this.t < this._maxTemp) {
+      return Math.round((this._maxTemp - this.t) / this._tempPerSec);
     }
     return 0;
   }
 
   incMaxTemp() {
-    if (this._maxTemp < this.#mostMaxTemp) {
+    if (this._maxTemp < this.#criticalMaxTemp) {
       this._maxTemp++;
       console.log('Чайник выключится при ' + this._maxTemp);
     } else {
-      console.error('Максимальная температура выключения чайника: ' + this.#mostMaxTemp + '°');
+      console.error('Максимальная температура выключения чайника: ' + this.#criticalMaxTemp + '°');
     }
   }
 
@@ -90,4 +90,4 @@ class Kettle extends Environment {
   }
 }
 
-let test = new Kettle(196);
+let test = new Kettle(80);
