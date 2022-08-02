@@ -11,8 +11,8 @@
 // Нужно делать эмуляцию окружающей среды в отдельном объекте и при запуске чайника делать что - то типо env.startHeat().
 
 class Environment {
-  constructor(startTemperature = 0) {
-    this.t = !isNaN(startTemperature) ? startTemperature : 0;
+  constructor(temp) {
+    this.t = !isNaN(temp) ? temp : 0;
   }
 
   startHeat() {
@@ -24,7 +24,11 @@ class Environment {
   }
 }
 
-class Kettle extends Environment {
+class Kettle {
+  constructor(startTemperature = 0) {
+    this.env = new Environment(startTemperature);
+  }
+
   _startTemp;
   _isWork = false;
   _tempPerSec = 0;
@@ -32,30 +36,39 @@ class Kettle extends Environment {
   #criticalMaxTemp = 200;
 
   stop() {
-    this._isWork = false;
-    console.log('Чайник выключился');
-    clearInterval(this.timerSensor);
-    super.stopHeat();
+    if (this._isWork) {
+      this._isWork = false;
+      console.log('Чайник выключился');
+      clearInterval(this.timerSensor);
+      this._tempPerSec = 0;
+      this.env.stopHeat();
+    } else {
+      console.error('Чайник не включён');
+    }
   }
 
   start() {
-    super.startHeat();
-    this._isWork = true;
-    this._startTemp = this.t;
+    if (!this._isWork) {
+      this.env.startHeat();
+      this._isWork = true;
+      this._startTemp = this.env.t;
 
-    this.timerSensor = setInterval(() => {
-      if (this.t > this._maxTemp) {
-        this.stop();
-      } else {
-        this._tempPerSec = this.t - this._startTemp;
-        this._startTemp = this.t;
-        console.log(`${this.t}° Осталось ${this.getApproxRemainTime()}сек | ${this.getTime()}`);
-      }
-    }, 1e3);
+      this.timerSensor = setInterval(() => {
+        if (this.env.t > this._maxTemp) {
+          this.stop();
+        } else {
+          this._tempPerSec = this.env.t - this._startTemp;
+          this._startTemp = this.env.t;
+          console.log(`${this.env.t}° Осталось ${this.getApproxRemainTime()}сек | ${this.getTime()}`);
+        }
+      }, 1e3);
+    } else {
+      console.error('Чайник уже включён');
+    }
   }
 
   getCurrentTemp() {
-    return this.t;
+    return this.env.t;
   }
 
   getTime() {
@@ -65,8 +78,8 @@ class Kettle extends Environment {
   }
 
   getApproxRemainTime() {
-    if (this._isWork && this.t < this._maxTemp) {
-      return Math.round((this._maxTemp - this.t) / this._tempPerSec);
+    if (this._isWork && this.env.t < this._maxTemp) {
+      return Math.round((this._maxTemp - this.env.t) / this._tempPerSec);
     }
     return 0;
   }
