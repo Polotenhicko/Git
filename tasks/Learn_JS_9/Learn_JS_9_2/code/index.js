@@ -103,4 +103,4 @@ class Kettle {
   }
 }
 
-let test = new Kettle(80);
+let test = new Kettle(40);
