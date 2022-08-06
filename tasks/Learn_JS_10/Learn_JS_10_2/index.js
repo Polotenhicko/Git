@@ -164,3 +164,19 @@ try {
     throw e;
   }
 }
+
+class FormatError extends SyntaxError {
+  constructor(message) {
+    super(message);
+    this.name = this.constructor.name;
+  }
+}
+
+const err = new FormatError('ошибка');
+
+console.log(err.message); // 'ошибка'
+console.log(err.name); // 'FormatError'
+console.log(err.stack); // stack
+
+console.log(err instanceof FormatError); // true
+console.log(err instanceof SyntaxError); // true
