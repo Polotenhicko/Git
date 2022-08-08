@@ -41,26 +41,31 @@ function fabricDescriptors(
     get() {
       function getAllSum(object) {
         let sum = 0;
+        const getValue = (item) => {
+          // Object, не null не array
+          if (typeof item == 'object' && item) {
+            return !isNaN(item.getAllSum) ? +item.getAllSum : getAllSum(item);
+          }
+          // вся остальная нечисть, Array, null, и т.п., кроме Map и Set
+          return typeof item == 'object' ? getAllSum(item) : !isNaN(item) ? +item : 0;
+        };
+
         for (const key in object) {
           const item = object[key];
           if (!options.isSumStr && typeof item == 'string') continue;
           if (!options.isSumDeepObj && !Array.isArray(item) && typeof item == 'object') continue;
           if (!options.isSumArr && Array.isArray(item)) continue;
 
-          // Object, не null не array
-          if (typeof item == 'object' && !Array.isArray(item) && item) {
-            sum += item.getAllSum ? item.getAllSum : getAllSum(item);
-          }
-
           // array
           if (Array.isArray(item)) {
-            sum += item.reduce((acc, item) => {
-              return acc + (typeof item == 'object' ? getAllSum(item) : !isNaN(item) ? +item : 0);
-            }, 0);
+            // return acc + (typeof item == 'object' ? getAllSum(item) : !isNaN(item) ? +item : 0);
+            sum += item.reduce((acc, item) => acc + getValue(item), 0);
+            // чтобы он не проитерировал массив 2 раза
+            continue;
           }
 
-          // числа и строки
-          if (!isNaN(item) && typeof item != 'object') sum += +item;
+          // здесь может закинуться что угодно
+          sum += getValue(item);
         }
         return sum;
       }

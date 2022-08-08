@@ -74,11 +74,29 @@ const arrObj = {
   ],
 };
 
+const lastTestObj = {
+  nullObj: {},
+  nullArr: [],
+  obj: {
+    a: 0,
+  },
+  arr: [0],
+  objWithFunc: {
+    getAllSum: 0,
+  },
+  objArr: [
+    {
+      getAllSum: 1,
+    },
+  ],
+};
+
 oldFabric(emptyObj);
 oldFabric(fullObj);
 oldFabric(negativeObj);
 oldFabric(deepObj);
 oldFabric(arrObj);
+oldFabric(lastTestObj);
 
 test('empty object old', () => {
   expect(emptyObj.getAllSum).toBe(0);
@@ -100,17 +118,23 @@ test('arr object old', () => {
   expect(arrObj.getAllSum).toBe(5);
 });
 
+test('some object old', () => {
+  expect(lastTestObj.getAllSum).toBe(1);
+});
+
 let tailEmptyObj = Object.assign({}, emptyObj);
 let tailFullObj = Object.assign({}, fullObj);
 let tailNegativeObj = Object.assign({}, negativeObj);
 let tailDeepObj = Object.assign({}, deepObj);
 let tailArrObj = Object.assign({}, arrObj);
+let tailLastTestObj = Object.assign({}, lastTestObj);
 
 tailFabric(tailEmptyObj);
 tailFabric(tailFullObj);
 tailFabric(tailNegativeObj);
 tailFabric(tailDeepObj);
 tailFabric(tailArrObj);
+tailFabric(tailLastTestObj);
 
 test('empty object tail', () => {
   expect(tailEmptyObj.getAllSum).toBe(0);
@@ -132,17 +156,23 @@ test('arr object tail', () => {
   expect(tailArrObj.getAllSum).toBe(5);
 });
 
+test('some object tail', () => {
+  expect(tailLastTestObj.getAllSum).toBe(1);
+});
+
 let workerEmptyObj = Object.assign({}, emptyObj);
 let workerFullObj = Object.assign({}, fullObj);
 let workerNegativeObj = Object.assign({}, negativeObj);
 let workerDeepObj = Object.assign({}, deepObj);
 let workerArrObj = Object.assign({}, arrObj);
+let workerLastTestObj = Object.assign({}, lastTestObj);
 
 workerFabric(workerEmptyObj);
 workerFabric(workerFullObj);
 workerFabric(workerNegativeObj);
 workerFabric(workerDeepObj);
 workerFabric(workerArrObj);
+workerFabric(workerLastTestObj);
 
 test('empty object worker', () => {
   expect(workerEmptyObj.getAllSum).toBe(0);
@@ -162,4 +192,8 @@ test('deep object worker', () => {
 
 test('arr object worker', () => {
   expect(workerArrObj.getAllSum).toBe(5);
+});
+
+test('some object worker', () => {
+  expect(workerLastTestObj.getAllSum).toBe(1);
 });
