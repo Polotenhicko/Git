@@ -39,3 +39,31 @@ class Item {
 // console.log({ ...new Item() });
 // тоже самое с for
 // console.log({ ...Item });
+
+// [ООП, главы 8,9] Задача с собеса
+// Сложность 8/10 на собесе, обычная 4/10
+// With given example, need to write prototype analog
+class BasicItem {
+  constructor(_testProp) {
+    this._parentProp = _testProp + 100;
+  }
+
+  getParentProp() {
+    return this._parentProp;
+  }
+}
+//
+class Item extends BasicItem {
+  static data = 5;
+
+  constructor(_testProp) {
+    super(_testProp);
+    this._testProp = _testProp;
+  }
+
+  getProp() {
+    return this._testProp + this.getParentProp() + Item.data;
+  }
+}
+//
+log(new Item(1000).getProp()); // expect 2105
