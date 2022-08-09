@@ -12,9 +12,9 @@ class UserDataError extends Error {
 class UserData {
   constructor({ username, password, email } = {}) {
     try {
-      this.username = UserData.validUsername(username);
-      this.password = UserData.validPassword(password);
-      this.email = UserData.validEmail(email);
+      this.username = UserData._validUsername(username);
+      this.password = UserData._validPassword(password);
+      this.email = UserData._validEmail(email);
     } catch (e) {
       if (e instanceof UserDataError) {
         console.error(`Неверное поле: ${e.field}`);
@@ -37,7 +37,7 @@ class UserData {
   static #passwordMaxLength = 16;
   static #passwordMinLength = 5;
 
-  static validUsername(username) {
+  static _validUsername(username) {
     if (typeof username == 'string') {
       if (username.length >= this.#usernameMinLength && username.length <= this.#usernameMaxLength) {
         return username;
@@ -52,7 +52,7 @@ class UserData {
     }
   }
 
-  static validPassword(password) {
+  static _validPassword(password) {
     if (typeof password == 'string') {
       if (password.length >= this.#passwordMinLength && password.length <= this.#passwordMaxLength) {
         return password;
@@ -67,7 +67,7 @@ class UserData {
     }
   }
 
-  static validEmail(email) {
+  static _validEmail(email) {
     if (typeof email == 'string') {
       if (email.split('').includes('@')) {
         return email;
