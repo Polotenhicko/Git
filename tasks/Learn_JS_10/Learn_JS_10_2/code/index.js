@@ -12,9 +12,9 @@ class UserDataError extends Error {
 class UserData {
   constructor({ username, password, email } = {}) {
     try {
-      this.username = UserData._validUsername(username);
-      this.password = UserData._validPassword(password);
-      this.email = UserData._validEmail(email);
+      this.username = this._validUsername(username);
+      this.password = this._validPassword(password);
+      this.email = this._validEmail(email);
     } catch (e) {
       if (e instanceof UserDataError) {
         console.error(`Неверное поле: ${e.field}`);
@@ -31,14 +31,14 @@ class UserData {
     }
   }
 
-  static #usernameMaxLength = 10;
-  static #usernameMinLength = 3;
+  #usernameMaxLength = 10;
+  #usernameMinLength = 3;
 
-  static #passwordMaxLength = 16;
-  static #passwordMinLength = 5;
+  #passwordMaxLength = 16;
+  #passwordMinLength = 5;
 
-  static _validUsername(username) {
-    if (typeof username == 'string') {
+  _validUsername(username) {
+    if (typeof username === 'string') {
       if (username.length >= this.#usernameMinLength && username.length <= this.#usernameMaxLength) {
         return username;
       } else {
@@ -52,8 +52,8 @@ class UserData {
     }
   }
 
-  static _validPassword(password) {
-    if (typeof password == 'string') {
+  _validPassword(password) {
+    if (typeof password === 'string') {
       if (password.length >= this.#passwordMinLength && password.length <= this.#passwordMaxLength) {
         return password;
       } else {
@@ -67,8 +67,8 @@ class UserData {
     }
   }
 
-  static _validEmail(email) {
-    if (typeof email == 'string') {
+  _validEmail(email) {
+    if (typeof email === 'string') {
       if (email.split('').includes('@')) {
         return email;
       } else {
