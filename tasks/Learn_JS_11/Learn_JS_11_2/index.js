@@ -150,3 +150,12 @@ promise.then(
   (script) => console.log(`${script} загружен`),
   (error) => console.error(`Ошибка: ${error.msg}`)
 );
+
+function delay(ms) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+}
+
+let date = Date.now();
+delay(3000).then(() => console.log('выполнилось через 3 секунды', Date.now() - date));
