@@ -159,3 +159,10 @@ function delay(ms) {
 
 let date = Date.now();
 delay(3000).then(() => console.log('выполнилось через 3 секунды', Date.now() - date));
+
+function showCircle() {}
+
+showCircle(150, 150, 100).then((div) => {
+  div.classList.add('message-ball');
+  div.append('Hello, world!');
+});
