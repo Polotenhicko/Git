@@ -153,3 +153,21 @@ fetch('./polo.json')
   .then((gitUser) => {
     console.log(`Закончили показ ${gitUser.name}`);
   });
+
+new Promise(function (resolve, reject) {
+  setTimeout(() => {
+    console.log('||||||||||||');
+    reject(1);
+  }, 0);
+})
+  // ошибка пойдёт в then
+  .then(
+    (result) => {
+      console.log(result);
+    },
+    (result) => {
+      console.log(result);
+    }
+  )
+  // до сюда не дойдёт
+  .catch((error) => console.error(error));
