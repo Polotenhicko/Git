@@ -16,7 +16,7 @@
 // Экземпляр класса - полученный объект от вызова класса, наследуемый от прототипа класса
 // 4. Статические свойства записываются в сам класс, свойства в конструкторе или свойства вне конструктора - в экземпляр класса
 
-class Item {
+class Item2 {
   data = 10;
   get() {}
   static data = 20;
@@ -25,45 +25,74 @@ class Item {
 
 // выпишет все статические свойства класса, кроме методов
 // не выводит методы, т.к. у них стоит enumirable: false
-// for (const key in Item) {
+// for (const key in Item2) {
 //   console.log(key);
 // }
 
 // выпишет все свойства экземпляра класса (и методы), кроме методов прототипа класса
 // т.к. у методов прототипа enumerable: false
-// for (const key in new Item()) {
+// for (const key in new Item2()) {
 //   console.log(key);
 // }
 
 // выведет тоже самое что и у for
-// console.log({ ...new Item() });
+// console.log({ ...new Item2() });
 // тоже самое с for
-// console.log({ ...Item });
+// console.log({ ...Item2 });
 
 // [ООП, главы 8,9] Задача с собеса
 // Сложность 8/10 на собесе, обычная 4/10
-// With given example, need to write prototype analog
-class BasicItem {
-  constructor(_testProp) {
-    this._parentProp = _testProp + 100;
-  }
+// переписать на функции конструкторы с прототипами
+// class BasicItem {
+//   constructor(_testProp) {
+//     this._parentProp = _testProp + 100;
+//   }
 
-  getParentProp() {
+//   getParentProp() {
+//     return this._parentProp;
+//   }
+// }
+// //
+// class Item extends BasicItem {
+//   static data = 5;
+
+//   constructor(_testProp) {
+//     super(_testProp);
+//     this._testProp = _testProp;
+//   }
+
+//   getProp() {
+//     return this._testProp + this.getParentProp() + Item.data;
+//   }
+// }
+
+// аналог
+
+function BasicItem(_testProp) {
+  // конструктор
+  this._parentProp = _testProp + 100;
+
+  // в прототип
+  BasicItem.prototype.getParentProp = function getParentProp() {
     return this._parentProp;
-  }
+  };
 }
-//
-class Item extends BasicItem {
-  static data = 5;
 
-  constructor(_testProp) {
-    super(_testProp);
-    this._testProp = _testProp;
-  }
+function Item(_testProp) {
+  // наследование
+  Object.setPrototypeOf(Item.prototype, BasicItem.prototype);
 
-  getProp() {
+  // статическое свойство
+  Item.data = 5;
+
+  // типо конструктор с super()
+  BasicItem.call(this, _testProp);
+  this._testProp = _testProp;
+
+  // в прототип
+  Item.prototype.getProp = function getProp() {
     return this._testProp + this.getParentProp() + Item.data;
-  }
+  };
 }
-//
-log(new Item(1000).getProp()); // expect 2105
+
+console.log(new Item(1000).getProp()); // expect 2105
