@@ -63,7 +63,7 @@ function fabricDescriptors(
             continue;
           }
 
-          // здесь может закинуться что угодно
+          // здесь может закинуться что угодно, кроме Array
           sum += getValue(item);
         }
         return sum;
