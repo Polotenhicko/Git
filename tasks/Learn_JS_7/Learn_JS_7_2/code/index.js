@@ -42,12 +42,12 @@ function fabricDescriptors(
       function getAllSum(object) {
         let sum = 0;
         const getValue = (item) => {
-          // Object, не null не array
+          // Object, Array, не null
           if (typeof item == 'object' && item) {
             return !isNaN(item.getAllSum) ? +item.getAllSum : getAllSum(item);
           }
-          // вся остальная нечисть, Array, null, и т.п., кроме Map и Set
-          return typeof item == 'object' ? getAllSum(item) : !isNaN(item) ? +item : 0;
+          // вся остальная нечисть, null, string, number
+          return !isNaN(item) ? +item : 0;
         };
 
         for (const key in object) {
@@ -58,7 +58,6 @@ function fabricDescriptors(
 
           // array
           if (Array.isArray(item)) {
-            // return acc + (typeof item == 'object' ? getAllSum(item) : !isNaN(item) ? +item : 0);
             sum += item.reduce((acc, item) => acc + getValue(item), 0);
             // чтобы он не проитерировал массив 2 раза
             continue;
