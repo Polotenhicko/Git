@@ -75,17 +75,3 @@ function fabricDescriptors(
 }
 
 module.exports = fabricDescriptors;
-
-// дефолт значения
-
-// module.exports = fabricDescriptors;
-
-// fabricDescriptors(test);
-// fabricDescriptors(test2);
-// fabricDescriptors(test3);
-// fabricDescriptors(test4);
-
-// console.log(test.getAllSum); // 11
-// console.log(test2.getAllSum); // 11
-// console.log(test3.getAllSum); // 0
-// console.log(test4.getAllSum); // -20
