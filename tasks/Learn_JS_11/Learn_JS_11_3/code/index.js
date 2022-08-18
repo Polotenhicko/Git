@@ -5,40 +5,69 @@ let status = undefined;
 
 class MyPromise extends Promise {
   constructor(func) {
-    status = 'pending';
-    function wrapper(resultFunc, errorFunc) {
-      func(
-        (...args) => {
-          status = 'fulfilled';
-          resultFunc(...args);
-        },
-        (...args) => {
-          status = 'rejected';
-          errorFunc(...args);
-        }
-      );
+    MyPromise.#status = 'pending';
+    super(func);
+  }
+
+  static #status = undefined;
+  static get status() {
+    return this.#status;
+  }
+
+  then(funcResult, funcError) {
+    function myResult(...args) {
+      MyPromise.#status = 'fulfilled';
+      funcResult(...args);
     }
-    super(wrapper);
+
+    function myError(...args) {
+      MyPromise.#status = 'rejected';
+      funcError(...args);
+    }
+
+    super.then(myResult, myError);
+  }
+
+  catch(funcError) {
+    super.catch((...args) => {
+      MyPromise.#status = 'rejected';
+      funcError(...args);
+    });
   }
 }
 
-// new MyPromise((resolve, reject) => {
-//   console.log(status);
-//   resolve(123);
-// }).then((result) => {
-//   console.log(status);
-//   console.log(result);
-// });
+new MyPromise((resolve, reject) => {
+  console.log(MyPromise.status);
+  resolve(123);
+}).then((result) => {
+  console.log('//////////');
+  console.log(MyPromise.status);
+  console.log(result);
+});
 
 new MyPromise((resolve, reject) => {
+  console.log('-----------');
+  console.log(MyPromise.status);
   reject(new Error(123));
 }).then(
   (result) => {
-    console.log(status);
+    console.log('/////////');
+    console.log(MyPromise.status);
     console.log(result);
   },
   (error) => {
-    console.log(status);
+    console.log('/////////');
+    console.log(MyPromise.status);
     console.log(error);
   }
 );
+
+new MyPromise((resolve, reject) => {
+  console.log('-----------');
+  console.log(MyPromise.status);
+  reject(new Error(123));
+}).catch((error) => {
+  console.log('/////////');
+  console.log(MyPromise.status);
+  console.log(error);
+});
