@@ -10,6 +10,7 @@ class MyPromise extends Promise {
   }
 
   static #status = undefined;
+
   static get status() {
     return this.#status;
   }
