@@ -35,28 +35,52 @@ new MyPromise((resolve, reject) => {
     console.log('//////////');
     console.log(MyPromise.status);
     console.log(result);
+    console.log('//////////');
     return 111;
   })
   .then((result) => {
     console.log('//////////');
     console.log(MyPromise.status);
     console.log(result);
+    console.log('//////////');
     throw new Error('errorThen');
   })
   .then(null, (error) => {
     console.log('//////////');
     console.log(MyPromise.status);
     console.log(error);
+    console.log('//////////');
     throw new Error('errorCatch');
   })
   .catch((error) => {
     console.log('//////////');
     console.log(MyPromise.status);
     console.log(error);
+    console.log('//////////');
     return 'fromCatch';
   })
   .then((result) => {
     console.log('//////////');
     console.log(MyPromise.status);
     console.log(result);
+    console.log('//////////');
+    new MyPromise((resolve, reject) => {
+      console.log(MyPromise.status);
+      resolve(555);
+    })
+      .then((result) => {
+        console.log('//////////');
+        console.log(MyPromise.status);
+        console.log(result);
+        console.log('//////////');
+        throw new Error('внутренний еррор');
+      })
+      .catch((error) => {
+        console.log('//////////');
+        console.log(MyPromise.status);
+        console.log(error);
+        console.log('//////////');
+      });
   });
+
+// всё ахуенно
