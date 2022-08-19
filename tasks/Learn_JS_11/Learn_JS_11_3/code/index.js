@@ -1,12 +1,23 @@
 // Короче, у промиса нельзя просто так узнать статус (pending, fullfilled, rejected)
 // Сделай так, чтобы было можно узнать
 
-let status = undefined;
-
 class MyPromise extends Promise {
   constructor(func) {
     MyPromise.#status = 'pending';
     super(func);
+  }
+
+  then(funcResult, funcError) {
+    return super.then(
+      (...args) => {
+        MyPromise.#status = 'fullfilled';
+        return funcResult(...args);
+      },
+      (...args) => {
+        MyPromise.#status = 'rejected';
+        return funcError(...args);
+      }
+    );
   }
 
   static #status = undefined;
@@ -14,61 +25,38 @@ class MyPromise extends Promise {
   static get status() {
     return this.#status;
   }
-
-  then(funcResult, funcError) {
-    function myResult(...args) {
-      MyPromise.#status = 'fulfilled';
-      funcResult(...args);
-    }
-
-    function myError(...args) {
-      MyPromise.#status = 'rejected';
-      funcError(...args);
-    }
-
-    super.then(myResult, myError);
-  }
-
-  catch(funcError) {
-    super.catch((...args) => {
-      MyPromise.#status = 'rejected';
-      funcError(...args);
-    });
-  }
 }
 
 new MyPromise((resolve, reject) => {
   console.log(MyPromise.status);
-  resolve(123);
-}).then((result) => {
-  console.log('//////////');
-  console.log(MyPromise.status);
-  console.log(result);
-});
-
-new MyPromise((resolve, reject) => {
-  console.log('-----------');
-  console.log(MyPromise.status);
-  reject(new Error(123));
-}).then(
-  (result) => {
-    console.log('/////////');
+  resolve(1);
+})
+  .then((result) => {
+    console.log('//////////');
     console.log(MyPromise.status);
     console.log(result);
-  },
-  (error) => {
-    console.log('/////////');
+    return 111;
+  })
+  .then((result) => {
+    console.log('//////////');
+    console.log(MyPromise.status);
+    console.log(result);
+    throw new Error('errorThen');
+  })
+  .then(null, (error) => {
+    console.log('//////////');
     console.log(MyPromise.status);
     console.log(error);
-  }
-);
-
-new MyPromise((resolve, reject) => {
-  console.log('-----------');
-  console.log(MyPromise.status);
-  reject(new Error(123));
-}).catch((error) => {
-  console.log('/////////');
-  console.log(MyPromise.status);
-  console.log(error);
-});
+    throw new Error('errorCatch');
+  })
+  .catch((error) => {
+    console.log('//////////');
+    console.log(MyPromise.status);
+    console.log(error);
+    return 'fromCatch';
+  })
+  .then((result) => {
+    console.log('//////////');
+    console.log(MyPromise.status);
+    console.log(result);
+  });
