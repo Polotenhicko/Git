@@ -17,16 +17,13 @@ Promise.myRace = function myRace(iterator) {
 
   try {
     if (iterator[Symbol.iterator]) {
-      for (const promise of iterator) {
-        promise
-          .then(changeResult, (error) => {
+      return new Promise((resolve, reject) => {
+        for (const promise of iterator) {
+          promise.then(changeResult, (error) => {
             changeResult(error, true)();
-          })
-          .then((result) => {
-            // вернуть из функции
           });
-        // return.....
-      }
+        }
+      });
     } else {
       throw new Error('Объект без Symbol.iterator');
     }
