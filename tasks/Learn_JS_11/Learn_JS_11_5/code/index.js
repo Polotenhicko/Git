@@ -17,29 +17,27 @@ Promise.myRace = function myRace(iterator) {
 
   try {
     if (iterator[Symbol.iterator]) {
-      return new Promise((resolve, reject) => {
-        setTimeout(() => {
+      return Promise.resolve()
+        .then(() => {
           for (const promise of iterator) {
             promise.then(
-              (result1) => {
+              (value) => {
                 console.log('for');
-                changeResult(result1);
+                changeResult(value);
               },
               (error) => {
                 changeResult(error, true)();
               }
             );
           }
-          Promise.resolve().then(() => console.log('after'));
-          resolve();
+        })
+        .then(() => {
+          if (result.isError) {
+            throw new Error(result.value);
+          } else {
+            return result.value;
+          }
         });
-      }).then(() => {
-        if (result.isError) {
-          throw new Error(result.value);
-        } else {
-          return result.value;
-        }
-      });
     } else {
       throw new Error('Объект без Symbol.iterator');
     }
@@ -58,7 +56,7 @@ Promise.myRace([
   new Promise((resolve, reject) => {
     setTimeout(() => resolve(3), 1e3);
   }),
-]).then((r) => console.log('then after'));
+]).then(console.log);
 
 // Promise.myRace([
 //   new Promise((resolve, reject) => {
