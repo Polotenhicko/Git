@@ -18,10 +18,26 @@ Promise.myRace = function myRace(iterator) {
   try {
     if (iterator[Symbol.iterator]) {
       return new Promise((resolve, reject) => {
-        for (const promise of iterator) {
-          promise.then(changeResult, (error) => {
-            changeResult(error, true)();
-          });
+        setTimeout(() => {
+          for (const promise of iterator) {
+            promise.then(
+              (result1) => {
+                console.log('for');
+                changeResult(result1);
+              },
+              (error) => {
+                changeResult(error, true)();
+              }
+            );
+          }
+          Promise.resolve().then(() => console.log('after'));
+          resolve();
+        });
+      }).then(() => {
+        if (result.isError) {
+          throw new Error(result.value);
+        } else {
+          return result.value;
         }
       });
     } else {
@@ -42,6 +58,18 @@ Promise.myRace([
   new Promise((resolve, reject) => {
     setTimeout(() => resolve(3), 1e3);
   }),
-]);
+]).then((r) => console.log('then after'));
+
+// Promise.myRace([
+//   new Promise((resolve, reject) => {
+//     resolve(1);
+//   }),
+//   new Promise((resolve, reject) => {
+//     resolve(2);
+//   }),
+//   new Promise((resolve, reject) => {
+//     resolve(3);
+//   }),
+// ]).then(console.log);
 
 console.log('sync');
