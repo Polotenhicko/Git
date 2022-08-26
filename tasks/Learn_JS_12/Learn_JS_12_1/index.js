@@ -71,3 +71,41 @@ for (const item of generateSequence()) {
 // т.к. перебираемые объекты, можешь использовать spread
 
 console.log([...generateSequence()]); // [1, 2, 3]
+
+// можно создавать символы итераторы в виде генератора
+
+let range = {
+  from: 1,
+  to: 5,
+  *[Symbol.iterator]() {
+    for (let value = this.from; value <= this.to; value++) {
+      yield value;
+    }
+  },
+};
+
+console.log([...range]); // [1, 2, 3, 4, 5]
+
+// генератор возвращает объект с методом next и объектом с done value, что и нужно для итерации
+// можно генерировать бесконечно
+
+// композиция генераторов (каво?)
+// позволяет прозрачно встраивать генераторы друг в друга
+
+function* generateSequence2(start, end) {
+  for (let i = start; i <= end; i++) yield i;
+}
+
+console.log([...generateSequence2(48, 57)]); // [48, 49, 50, 51, 52, 53, 54, 55, 56, 57]
+
+function* generatePassword() {
+  yield* generateSequence2(48, 122);
+}
+
+let str = '';
+
+for (let code of generatePassword()) {
+  str += String.fromCharCode(code);
+}
+
+console.log(str); // 0..9A..Za..z
