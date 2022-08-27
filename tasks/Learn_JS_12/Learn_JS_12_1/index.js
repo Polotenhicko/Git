@@ -99,7 +99,16 @@ function* generateSequence2(start, end) {
 console.log([...generateSequence2(48, 57)]); // [48, 49, 50, 51, 52, 53, 54, 55, 56, 57]
 
 function* generatePassword() {
-  yield* generateSequence2(48, 122);
+  // директива yield* делегирует выполнение другому генератору
+
+  // 0..9
+  yield* generateSequence2(48, 57);
+
+  // A..Z
+  yield* generateSequence2(65, 90);
+
+  // a..z
+  yield* generateSequence2(97, 122);
 }
 
 let str = '';
@@ -109,3 +118,76 @@ for (let code of generatePassword()) {
 }
 
 console.log(str); // 0..9A..Za..z
+
+// yield позволяет передавать значения извне генератора
+// необходимо вызвать generator.next(value) с аргументом
+// этот аргумент становится результатом yield
+
+function* gen() {
+  console.log('ara');
+  const result = yield '2+2=?';
+  console.log(result);
+}
+
+generator = gen();
+
+console.log(generator.next().value); // 2+2=? yield возвращает значение
+
+generator.next(4); // выведется 4
+
+function* gen() {
+  let ask1 = yield '2 + 2 = ?';
+
+  console.log(ask1); // 4
+
+  let ask2 = yield '3 * 3 = ?';
+
+  console.log(ask2); // 9
+}
+
+generator = gen();
+
+console.log(generator.next().value); // "2 + 2 = ?"
+
+console.log(generator.next(4).value); // "3 * 3 = ?"
+
+console.log(generator.next(9).done); // true
+
+// можно инициировать ошибку
+// Для того, чтобы передать ошибку в yield, нам нужно вызвать generator.throw(err).
+//  В таком случае исключение err возникнет на строке с yield.
+
+function* gen2() {
+  try {
+    let result = yield '2 + 2 = ?';
+    console.log('Выполнение программы не дойдёт до этой строки, потому что выше возникнет исключение');
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+generator = gen2();
+console.log(generator.next().value); // "2 + 2 = ?"
+
+generator.throw(new Error('Вопрос не найден')); // Error: Вопрос не найден
+
+// но раньше вызова .next нельзя
+
+try {
+  generator = gen2();
+  generator.throw(new Error('Вопрос не найден')); // нельзя до next
+} catch (e) {
+  console.error(e); // ошибка выволится, т.к. нет метода next и код не дошёл до try/catch
+}
+
+function* pseudoRandom(prev) {
+  while (true) {
+    yield (prev = (prev * 16807) % 2147483647);
+  }
+}
+
+generator = pseudoRandom(1);
+
+console.log(generator.next().value); // 16807
+console.log(generator.next().value); // 282475249
+console.log(generator.next().value); // 1622650073
