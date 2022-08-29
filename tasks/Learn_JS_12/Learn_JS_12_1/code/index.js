@@ -40,6 +40,7 @@ function* startEngine() {
 
 function wrapper(generator) {
   const startGen = generator();
+  let temp = startGen.next();
 }
 
 wrapper(startEngine);

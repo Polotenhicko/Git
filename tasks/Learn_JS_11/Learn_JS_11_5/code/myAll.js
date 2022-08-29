@@ -1,31 +1,33 @@
 Promise.myAll = function myAll(iterator) {
   try {
-    if (iterator[Symbol.iterator]) {
-      const arrIterator = Array.from(iterator);
-      const pArray = {
-        length: arrIterator.length,
-      };
-      return new Promise((resolve, reject) => {
-        let count = 0;
-        arrIterator.forEach((promise, index) => {
-          const handlerValue = (value) => {
-            pArray[index] = value;
-            if (count++ == arrIterator.length - 1) resolve(Array.from(pArray));
-          };
-          if (promise instanceof Promise) {
-            promise.then((result) => {
-              handlerValue(result);
-            }, reject);
-          } else {
-            handlerValue(promise);
-          }
-        });
-      }).catch((err) => {
-        throw err;
-      });
-    } else {
+    if (!iterator[Symbol.iterator]) {
       throw new Error('Объект без Symbol.iterator');
     }
+
+    const arrIterator = Array.from(iterator);
+    const pArray = {
+      length: arrIterator.length,
+    };
+
+    return new Promise((resolve, reject) => {
+      let count = 0;
+      arrIterator.forEach((promise, index) => {
+        const handlerValue = (value) => {
+          pArray[index] = value;
+          if (count == arrIterator.length - 1) resolve(Array.from(pArray));
+          count += 1;
+        };
+        if (promise instanceof Promise) {
+          promise.then((result) => {
+            handlerValue(result);
+          }, reject);
+        } else {
+          handlerValue(promise);
+        }
+      });
+    }).catch((err) => {
+      throw err;
+    });
   } catch (e) {
     Promise.reject(e).catch(console.error);
   }
