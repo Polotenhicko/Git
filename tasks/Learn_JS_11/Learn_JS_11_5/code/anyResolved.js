@@ -6,25 +6,78 @@
 // а если 3 не получится - реджектит.Нужно сделать оптимально,
 //  чтоб когда уже 100 % не хватит оставшихся промисов для ресолва, не ждать их, а сразу реджектить.
 
-Promise.anyResolved = function anyResolved(iterator, countPromise) {
-  try {
-    if (iterator[Symbol.iterator]) {
-      const iteratorArray = Array.from(iterator);
-      let countError = 0;
-      return new Promise((resolve, reject) => {
-        iteratorArray.forEach((promise) => {
-          promise.then(resolve, () => {
-            countError += 1;
-            if (countError == iteratorArray.length) {
-              Promise.reject(new AggregateError([], 'All Promises rejected')).catch(console.error);
-            }
-          });
-        });
-      });
-    } else {
-      throw new Error('Объект без Symbol.iterator');
-    }
-  } catch (e) {
-    Promise.reject(e).catch(console.error);
-  }
+// [reject, resolve, resolve, reject, reject] // 4
+
+Promise.anyResolved = function anyResolved(iterator, countWaiting = 0) {
+  return new Promise((resolve, reject) => {
+    const iteratorArray = Array.from(iterator);
+    let countPromise = 0;
+    let countResolve = 0;
+    let isEnd = false;
+    const countingPromise = (...value) => {
+      countPromise += 1;
+      if (iteratorArray.length - countPromise <= countWaiting - countResolve && !isEnd) {
+        console.log(value); // чисто для отладки где реджектится
+        isEnd = true;
+        reject(new AggregateError([], 'Remaining Promises rejected'));
+      }
+    };
+
+    iteratorArray.forEach((promise) => {
+      promise.then(
+        (result) => {
+          if (countResolve >= countWaiting && !isEnd) {
+            isEnd = true;
+            resolve(result);
+          }
+          countResolve += 1;
+          countingPromise('resolve', result);
+        },
+        (error) => {
+          countingPromise('reject', error);
+        }
+      );
+    });
+  });
 };
+
+Promise.anyResolved([Promise.reject(1), Promise.resolve(2)], 1).then(console.log, console.error); // error ['reject', 1]
+Promise.anyResolved([Promise.reject(1), Promise.reject(2)], 0).then(console.log, console.error); // error ['reject', 2]
+Promise.anyResolved([Promise.resolve('a'), Promise.reject('c'), Promise.resolve('b')], 1).then(
+  console.log,
+  console.error
+); // 'b'
+
+Promise.anyResolved(
+  [
+    new Promise((resolve, reject) => {
+      setTimeout(() => resolve(1), 1e3);
+    }),
+    new Promise((resolve, reject) => {
+      setTimeout(() => resolve(2), 2e3);
+    }),
+    new Promise((resolve, reject) => {
+      setTimeout(() => resolve(3), 3e3);
+    }),
+  ],
+  1
+).then(console.log, console.error); // 2
+
+Promise.anyResolved(
+  [
+    new Promise((resolve, reject) => {
+      setTimeout(() => reject(1), 3e3);
+    }),
+    new Promise((resolve, reject) => {
+      setTimeout(() => reject(2), 2e3);
+    }),
+    new Promise((resolve, reject) => {
+      setTimeout(() => resolve(3), 1e3);
+    }),
+  ],
+  1
+).then(console.log, console.error); // error ['reject', 1]
+
+Promise.anyResolved('aaaa', 1).catch(console.error); // TypeError: promise.then is not a function
+
+console.log('sync');
