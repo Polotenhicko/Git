@@ -28,6 +28,17 @@
     <script type="module" src="./our.js"></script>
     <!-- ничего -->
     <script type="module" src="./our.js"></script>
-    <!-- внешний скрипт с другого домена  -->
+    <!-- внешний скрипт с другого домена должен указывать заголовок CORS -->
+    <!-- иначе скрипт не выполнится -->
+
+    <!-- путь должен быть относительным или абсолютным -->
+    <script type="module">
+      // это голый модуль
+      import { sayHi } from 'sayHi';
+      // Uncaught TypeError: Failed to resolve module specifier "sayHi". Relative references must start with either "/", "./", or "../".
+    </script>
+
+    <!-- старые браузеры не понимают type="module" -->
+    <!-- можно сделать резервный скрипт при помощи атрибута nomodule -->
   </body>
 </html>
