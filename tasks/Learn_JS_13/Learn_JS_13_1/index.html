@@ -8,5 +8,12 @@
   </head>
   <body>
     <script type="module" src="./index.js"></script>
+    <script type="module">
+      console.log(typeof button); // object: скрипт может 'видеть' кнопку под ним
+    </script>
+    <script>
+      console.log(typeof button); // Ошибка: кнопка не определена, скрипт не видит элементы под ним
+    </script>
+    <button id="button">Кнопка</button>
   </body>
 </html>
