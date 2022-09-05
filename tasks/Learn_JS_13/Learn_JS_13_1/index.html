@@ -15,5 +15,19 @@
       console.log(typeof button); // Ошибка: кнопка не определена, скрипт не видит элементы под ним
     </script>
     <button id="button">Кнопка</button>
+
+    <script async type="module">
+      // загрузит зависимости и запустится
+      // полезно когда скрипт ни с чем не связан
+      import { admin } from './admin.js';
+    </script>
+
+    <!-- внешние скрипты -->
+    <!-- внешние скрипты с одинаковым src запускаются только 1 раз -->
+    <!-- 'our' -->
+    <script type="module" src="./our.js"></script>
+    <!-- ничего -->
+    <script type="module" src="./our.js"></script>
+    <!-- внешний скрипт с другого домена  -->
   </body>
 </html>
