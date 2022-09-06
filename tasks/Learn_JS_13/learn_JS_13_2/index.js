@@ -72,9 +72,11 @@ console.log(all.default); // то что default
 // типа export ... from ...
 // это чтобы если кидаю любу, чтобы пользователи не рылись в файлах
 
-import { month as month2, User as User2 } from './test.js';
-export { month2, User2 };
+import { months as month22, User as User22 } from './test.js';
+export { month22, User22 };
 
 // либо
 
-export { Admin2 } from './reexport.js';
+export { Admin } from './reexport.js';
+
+console.log(Admin);
