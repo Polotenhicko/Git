@@ -80,3 +80,5 @@ export { month22, User22 };
 export { Admin } from './reexport.js';
 
 console.log(Admin);
+
+// импорты не работают внутри {}
