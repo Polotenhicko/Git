@@ -66,3 +66,7 @@ say(); // 'say'
 import * as all from './defAndNone.js';
 
 console.log(all.default); // то что default
+
+// существует реэкспорт
+
+// типа export ... from ...
