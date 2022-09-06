@@ -70,3 +70,11 @@ console.log(all.default); // то что default
 // существует реэкспорт
 
 // типа export ... from ...
+// это чтобы если кидаю любу, чтобы пользователи не рылись в файлах
+
+import { month as month2, User as User2 } from './test.js';
+export { month2, User2 };
+
+// либо
+
+export { Admin2 } from './reexport.js';
