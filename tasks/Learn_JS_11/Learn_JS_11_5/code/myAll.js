@@ -1,7 +1,7 @@
 Promise.myAll = function myAll(iterator) {
   try {
     if (!iterator[Symbol.iterator]) {
-      throw new Error('Объект без Symbol.iterator');
+      throw new TypeError('Объект без Symbol.iterator');
     }
 
     const arrIterator = Array.from(iterator);
@@ -14,7 +14,7 @@ Promise.myAll = function myAll(iterator) {
       arrIterator.forEach((promise, index) => {
         const handlerValue = (value) => {
           pArray[index] = value;
-          if (count == arrIterator.length - 1) resolve(Array.from(pArray));
+          if (count == pArray.length - 1) resolve(Array.from(pArray));
           count += 1;
         };
         if (promise instanceof Promise) {
