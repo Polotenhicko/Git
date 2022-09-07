@@ -12,17 +12,17 @@ Promise.myAll = function myAll(iterator) {
     return new Promise((resolve, reject) => {
       let count = 0;
       arrIterator.forEach((promise, index) => {
-        const handlerValue = (value) => {
+        const handleValue = (value) => {
           pArray[index] = value;
           if (count == pArray.length - 1) resolve(Array.from(pArray));
           count += 1;
         };
         if (promise instanceof Promise) {
           promise.then((result) => {
-            handlerValue(result);
+            handleValue(result);
           }, reject);
         } else {
-          handlerValue(promise);
+          handleValue(promise);
         }
       });
     }).catch((err) => {
