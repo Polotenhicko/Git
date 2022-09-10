@@ -41,9 +41,11 @@ function* startEngine() {
     }
   };
 
+  const isBrokenStarter = getRandom(0, 1);
+
   yield function (resolve, reject) {
     try {
-      if (getRandom(0, 1)) {
+      if (isBrokenStarter) {
         setTimeout(() => {
           console.log('Запускаю стартер');
           resolve();
@@ -70,20 +72,21 @@ function* startEngine() {
   };
 }
 
+// переписать на async/await
+// сделать поинтереснее
 function wrapper(generator) {
   let index = 0;
+  const startGen = generator();
   function fn(func) {
-    const isEnd = (value) => value == startGen.length;
-    return new Promise((resolve, reject) => {
+    new Promise((resolve, reject) => {
       func(resolve, reject);
     }).then(() => {
       index += 1;
-      if (!isEnd(index)) fn(startGen[index]);
+      if (!startGen.done) fn(startGen.next().value);
     }, console.error);
   }
-  const startGen = Array.from(generator());
 
-  if (startGen.length) fn(startGen[index]);
+  if (!startGen.done) fn(startGen.next().value);
   else console.error('Генератор пуст!');
 }
 
