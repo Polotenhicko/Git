@@ -74,26 +74,23 @@ function* startEngine() {
 
 // переписать на async/await
 // сделать поинтереснее
-function wrapper(generator) {
+async function wrapper(generator) {
   const genIterator = generator();
 
-  function fn(iteratorObj) {
-    new Promise((resolve, reject) => {
-      if (!iteratorObj.done) {
-        iteratorObj.value(resolve, reject);
-      }
-    }).then(
-      () => {
-        if (!iteratorObj.done) fn(genIterator.next());
-      },
-      (error) => {
-        console.error(`Что-то сломалось!`);
-        console.error(error.message, error.stack);
-      }
-    );
-  }
+  let iteratorObject = genIterator.next();
 
-  fn(genIterator.next());
+  while (!iteratorObject.done) {
+    try {
+      const result = await new Promise((resolve, reject) => {
+        iteratorObject.value(resolve, reject);
+      });
+      iteratorObject = genIterator.next();
+    } catch (e) {
+      console.error(`Что-то сломалось!`);
+      console.error(e.message, e.stack);
+      break;
+    }
+  }
 }
 
 wrapper(startEngine);
