@@ -75,19 +75,25 @@ function* startEngine() {
 // переписать на async/await
 // сделать поинтереснее
 function wrapper(generator) {
-  let index = 0;
-  const startGen = generator();
-  function fn(func) {
+  const genIterator = generator();
+
+  function fn(iteratorObj) {
     new Promise((resolve, reject) => {
-      func(resolve, reject);
-    }).then(() => {
-      index += 1;
-      if (!startGen.done) fn(startGen.next().value);
-    }, console.error);
+      if (!iteratorObj.done) {
+        iteratorObj.value(resolve, reject);
+      }
+    }).then(
+      () => {
+        if (!iteratorObj.done) fn(genIterator.next());
+      },
+      (error) => {
+        console.error(`Что-то сломалось!`);
+        console.error(error.message, error.stack);
+      }
+    );
   }
 
-  if (!startGen.done) fn(startGen.next().value);
-  else console.error('Генератор пуст!');
+  fn(genIterator.next());
 }
 
 wrapper(startEngine);
