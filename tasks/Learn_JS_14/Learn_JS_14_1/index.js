@@ -68,7 +68,7 @@ for (const key in proxy) {
 
 // большинство касается возвращаемых значений
 // [[Set]] возвращает true, если значение было успешно записано, иначе false
-// [[Get]] возвращает true, если значение было успешно удалено, иначе false
+// [[Delete]] возвращает true, если значение было успешно удалено, иначе false
 // и т.д.
 
 // есть и другие примеры:
@@ -134,3 +134,93 @@ console.log(dictionary.Welcome); // Welcome
 // прокси перезаписывает переменную
 // он должен заменить оригинал, никто не должен ссылаться на проксированный объект
 // иначе можно запутаться
+
+// хочу сделать исключение для чисел
+// если добавляется значение иного типа, то будет ошибка
+
+// Ловушка set происходит когда идёт запись свойства
+// set(target, property, value, receiver)
+// value - значение свойства
+// receiver - аналогично get
+
+let numbers = [];
+
+numbers = new Proxy(numbers, {
+  set(target, prop, value) {
+    if (typeof value === 'number') {
+      target[prop] = value;
+      return true;
+    }
+
+    return false;
+  },
+});
+
+// push ведь добавляет свойство, по сути set
+// можем использовать методы!!
+numbers.push(1); // добавилось
+numbers.push(2); // добавилось
+
+// добавилось
+console.log(numbers.length); // 2
+
+try {
+  // вернёл ошибку из-за false
+  numbers.push('aaaa'); // TypeError: 'set' on proxy: trap returned falsish for property '2'
+} catch (e) {
+  console.error(e);
+}
+
+// нужно соблюдать инварианты и в [[Set]] возвращать boolean
+// если забыть, то будет TypeError
+
+numbers = new Proxy(numbers, {
+  set(target, prop, value) {
+    if (typeof value === 'number') {
+      target[prop] = value;
+    }
+  },
+});
+
+try {
+  numbers.push(111);
+} catch (e) {
+  console.log(numbers); // Proxy {0: 1, 1: 2, 2: 111}
+  // Добавилось из-за моей функции, но я не вернёл boolean и по этому TypeError
+  console.error(e);
+}
+
+// Object.keys, for...in и большинство методов, работающих со списком свойств объект
+// реализуют [[OwnPropertyKeys]] ловушки ownKeys
+// Object.getOwnPropertyNames(obj) возвращает не-символьные ключи
+// Object.getOwnPropertySymbols(obj) возвращает символьные ключи
+// Object.keys/values() вернёт не-символьные ключи/значения с флагом enumerable true
+// for...in перебирает не-символьные ключи с флагом enumerable true и ключи прототипов
+
+// сделаем ловушку ownKeys чтобы цикл for...in и Object.keys/values пропускал свойства начинающиеся с _
+
+let user = {
+  name: 'John',
+  age: 25,
+  _password: 'qwerty222',
+};
+
+user = new Proxy(user, {
+  ownKeys: (target) => Object.keys(target).filter((key) => !key.startsWith('_')),
+});
+
+for (const key in user) {
+  console.log(key); // name, age
+}
+
+console.log(Object.keys(user)); // ['name', 'age']
+console.log(Object.values(user)); // ['John', 25]
+
+user = {};
+
+// попробуем вернуть ключи, которых нет в объекте
+user = new Proxy(user, {
+  ownKeys: (target) => ['a', 'b', 'c'],
+});
+
+console.log(Object.keys(user)); // [] пусто
