@@ -224,3 +224,112 @@ user = new Proxy(user, {
 });
 
 console.log(Object.keys(user)); // [] пусто
+
+// чекает дескриптор у user['a'], user['b'], user['c']
+// его нет, поэтому и массив в итоге пустой
+
+console.log('---------');
+
+user = {
+  0: 'aaaa',
+};
+
+user = new Proxy(user, {
+  // вернутся такие ключи
+  ownKeys: () => ['a', 'b', 'c', '0'],
+  getOwnPropertyDescriptor(target, prop) {
+    // 3 undefined,
+    // { value: 'aaaa', writable: true, enumerable: true, configurable: true }
+    // есть такой дескриптор
+    console.log(Object.getOwnPropertyDescriptor(target, prop));
+  },
+});
+
+// чтобы определить, есть ли флаг enumerable, вызывает проверку дескриптора
+// а мы можем и это перехватить через ловушку getOwnPropertyDescriptor
+console.log(Object.keys(user)); // [] ничё не вернул
+
+// сделаем прокси для защиты свойств с _
+
+// след ловушки:
+// get при чтении
+// set при записи
+// deleteProperty при удалении
+// ownKeys чтобы исключить такие свойства из for...in и Object.keys
+
+user = {
+  name: 'John',
+  method() {
+    return this;
+  },
+  checkPass(value) {
+    return value === this._password;
+  },
+  _password: 'qwerty123',
+};
+
+user = new Proxy(user, {
+  get(target, prop) {
+    if (prop.startsWith('_')) {
+      throw new Error('Отказ в доступе');
+    }
+    const item = target[prop];
+    // если просто вернём функцию, то слетит контекст
+    return typeof item === 'function' ? item.bind(target) : item;
+  },
+  set(target, prop, value) {
+    if (prop.startsWith('_')) {
+      throw new Error('Отказ в доступе');
+    }
+    // сетим и возвращаем true, если не вернуть, то будет ошибка
+    target[prop] = value;
+    return true;
+  },
+  deleteProperty(target, prop) {
+    if (prop.startsWith('_')) {
+      throw new Error('Отказ в доступе');
+    }
+    // удаляем и возвращаем true
+    delete target[prop];
+    return true;
+  },
+  ownKeys(target) {
+    // возвращаем массив ключей
+    return Object.keys(target).filter((key) => !key.startsWith('_'));
+  },
+});
+
+try {
+  console.log(user._password); // Error: Отказано в доступе
+} catch (e) {
+  console.error(e.message);
+}
+
+// "set" не позволяет записать _password
+try {
+  user._password = 'test'; // Error: Отказано в доступе
+} catch (e) {
+  console.error(e.message);
+}
+
+// "deleteProperty" не позволяет удалить _password
+try {
+  delete user._password; // Error: Отказано в доступе
+} catch (e) {
+  console.error(e.message);
+}
+
+// "ownKeys" исключает _password из списка видимых для итерации свойств
+for (let key in user) console.log(key); // name
+
+console.log(user.method()); // {name: 'John', _password: 'qwerty123', method: ƒ, checkPass: ƒ}
+console.log(user.checkPass('qwerty123')); // true
+
+// если без bind, то внутри функций this - это прокси наш и тогда результат будет такой
+// console.log(user.method()); // Proxy {name: 'John', _password: 'qwerty123', method: ƒ, checkPass: ƒ}
+// тут попытаемся обратиться к Proxy._password, выозов ловушки геттера и отказ
+// console.log(user.checkPass('qwerty123')); // Uncaught Error: Отказ в доступе
+
+// такой себе прокси, могут быть путаницы при разных ситуациях
+// если мы проксируем несколько раз или передаём объект и т.п.
+// не везде стоит такой прокси использовать
