@@ -687,12 +687,17 @@ console.log(array.length); // 3
 // Создайте функцию makeObservable(target), которая делает объект «наблюдаемым», возвращая прокси.
 
 function makeObservable(target) {
+  let handlersObserve = [];
   target.observe = (callback) => {
-    callback();
+    handlersObserve.push(callback);
   };
   return new Proxy(target, {
-    set(target, prop, receiver) {
-      return Reflect.set(...arguments);
+    set(target, prop, value, receiver) {
+      const set = Reflect.set(...arguments);
+      if (set) {
+        handlersObserve.forEach((fn) => fn(prop, value));
+      }
+      return set;
     },
   });
 }
