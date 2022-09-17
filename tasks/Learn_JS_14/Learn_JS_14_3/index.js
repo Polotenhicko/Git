@@ -47,7 +47,42 @@ log(new Date(), 'DEBUG', 'some debug'); // [23:30] [DEBUG] some debug
 log(new Date())('DEBUG')('some debug'); // [23:30] [DEBUG] some debug
 
 // давайте сделаем удобную функцию для логов с текущим временем
+// теперь logNow - это функция log с фиксированным первым аргументом
 
 let logNow = log(new Date());
 
 logNow('INFO', 'message'); // [23:37] [INFO] message
+
+// сделаем удобную функцию для именно отладочных логов
+
+let debugNow = logNow('DEBUG');
+
+debugNow('message'); // [16:49] [DEBUG] message
+
+// создали частично применённую функцию
+
+// продвинутая функция каррирования
+
+function curryPro(func) {
+  return function curried(...args) {
+    if (args.length >= func.length) {
+      return func.apply(this, args);
+    } else {
+      return function (...args2) {
+        return curried.apply(this, args.concat(args2));
+      };
+    }
+  };
+}
+
+function sum3(a, b, c) {
+  return a + b + c;
+}
+
+let curriedSumPro = curryPro(sum3);
+
+console.log(curriedSumPro(1, 2, 3)); // 6
+console.log(curriedSumPro(1)(2)(3)); // 6
+console.log(curriedSumPro(1, 2)(3)); // 6
+
+// как каррирование, но более продвинуто
