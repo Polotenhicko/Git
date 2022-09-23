@@ -60,3 +60,144 @@
 // options - объект с доп настройками
 
 //
+// localeMatcher – алгоритм выбора подходящей локали.
+
+// usage – цель сравнения: сортировка "sort" или поиск "search", по умолчанию "sort".
+
+// sensitivity – чувствительность: какие различия в символах учитывать, а какие – нет, варианты:
+
+//        base – учитывать только разные символы, без диакритических знаков и регистра, например: а ≠ б, е = ё, а = А.
+//        accent – учитывать символы и диакритические знаки, например: а ≠ б, е ≠ ё, а = А.
+//        case – учитывать символы и регистр, например: а ≠ б, е = ё, а ≠ А.
+//        variant – учитывать всё: символ, диакритические знаки, регистр, например: а ≠ б, е ≠ ё, а ≠ А, используется по умолчанию.
+//        ignorePunctuation – игнорировать знаки пунктуации: true/false, по умолчанию false.
+
+// numeric – использовать ли численное сравнение: true/false, если true, то будет 12 > 2, иначе 12 < 2.
+
+// caseFirst – в сортировке должны идти первыми прописные или строчные буквы, варианты:
+// "upper"(прописные), "lower"(строчные) или "false"(стандартное для локали, также является значением по умолчанию).
+// Не поддерживается IE11.
+
+// обычно подходят параметры по умолчанию
+// т.е. options указывать не нужно
+
+// let collator = new Intl.Collator([locales, [options]]);
+// let result = collator.compare(str1, str2);
+
+// пример
+
+let collator = new Intl.Collator();
+
+console.log('ёжик' > 'яблоко'); // ёжик больше, что неверно
+console.log(collator.compare('ёжик', 'яблоко')); // -1 ёжик меньше, верно
+// результат compare имеет значение 1 (больше), 0 (равно), -1 (меньше)
+
+console.log(collator.compare('ЁжиК', 'ёжик')); // 1, разные
+
+collator = new Intl.Collator(undefined, {
+  sensitivity: 'accent',
+});
+
+console.log(collator.compare('ЁжиК', 'ёжик')); // 0, равны
+
+// Даты
+
+// let formatter = Intl.DateTimeFormat([locales, [options]])
+
+// locales такой же, как и в Collator, а в options можем определять
+// какие именно части даты показывать (часы, месяц, год...) и в какм формате
+
+// ебал в рот конспектировать таблицу
+
+// Все локали обязаны поддерживать следующие наборы настроек:
+
+// weekday, year, month, day, hour, minute, second
+// weekday, year, month, day
+// year, month, day
+// year, month
+// month, day
+// hour, minute, second
+
+// Если указанный формат не поддерживается, то настройка formatMatcher задаёт алгоритм подбора наиболее близкого формата:
+// basic – по стандартным правилам и best fit – по умолчанию, на усмотрение окружения(браузера).
+
+// let dateString = formatter.format(date)
+
+let date = new Date(2014, 11, 31, 12, 30, 0);
+
+let formatter = new Intl.DateTimeFormat('ru');
+console.log(formatter.format(date)); // 31.12.2014
+
+formatter = new Intl.DateTimeFormat('en');
+console.log(formatter.format(date)); // 12/31/2014
+
+// длинная дата
+formatter = new Intl.DateTimeFormat('ru', {
+  weekday: 'long',
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+
+console.log(formatter.format(date)); // среда, 31 декабря 2014 г.
+
+// только время
+
+formatter = new Intl.DateTimeFormat('ru', {
+  hour: 'numeric',
+  minute: 'numeric',
+  second: 'numeric',
+});
+
+console.log(formatter.format(date)); // 12:30:00
+
+// числа
+// Форматтер Intl.NumberFormat умеет красиво форматировать не только числа, но и валюту, а также проценты.
+
+// let formatter = new Intl.NumberFormat([locales[, options]]);
+
+// formatter.format(number); // форматирование
+
+formatter = Intl.NumberFormat('ru');
+console.log(formatter.format(1234567890.123)); // 1 234 567 890,123
+
+// с опциями значимых цифр (важно только 3 первые цифры)
+
+formatter = new Intl.NumberFormat('ru', {
+  maximumSignificantDigits: 3,
+});
+
+console.log(formatter.format(1234567890.123)); // 1 230 000 000
+
+// с опциями для валюты
+formatter = new Intl.NumberFormat('ru', {
+  style: 'currency',
+  currency: 'RUB',
+});
+
+console.log(formatter.format(1234.5)); // 1 234,50 ₽
+
+// с 2 цифрами после запятой
+
+formatter = new Intl.NumberFormat('ru', {
+  style: 'currency',
+  currency: 'GBP',
+  minimumFractionDigits: 2,
+});
+
+console.log(formatter.format(1234.5)); // 1 234,50 £
+
+// методы форматирования также поддерживаются в обычных строках, датах, числах
+
+// String.prototype.localeCompare(that [, locales [, options]])
+// Сравнивает строку с другой, с учётом локали, например:
+
+let str = 'ёжик';
+
+console.log(str.localeCompare('яблоко', 'ru')); // -1
+
+// Date.prototype.toLocaleString([locales [, options]])
+// Форматирует дату в соответствии с локалью, например:
+
+date = new Date(2014, 11, 31, 12, 0);
+console.log(date.toLocaleString('ru', { year: 'numeric', month: 'long' })); // Декабрь 2014
