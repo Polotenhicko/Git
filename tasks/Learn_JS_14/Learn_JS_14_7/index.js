@@ -201,3 +201,23 @@ console.log(str.localeCompare('яблоко', 'ru')); // -1
 
 date = new Date(2014, 11, 31, 12, 0);
 console.log(date.toLocaleString('ru', { year: 'numeric', month: 'long' })); // Декабрь 2014
+
+// Date.prototype.toLocaleDateString([locales [, options]])
+// То же, что и выше, но опции по умолчанию включают в себя год, месяц, день
+
+// Date.prototype.toLocaleTimeString([locales [, options]])
+// То же, что и выше, но опции по умолчанию включают в себя часы, минуты, секунды
+
+// Number.prototype.toLocaleString([locales [, options]])
+// Форматирует число, используя опции Intl.NumberFormat.
+
+// Все эти методы при запуске создают соответствующий объект Intl.*
+// и передают ему опции, можно рассматривать их как укороченные варианты вызова.
+
+// В IE10 рекомендуется использовать полифил
+
+let animals = ['тигр', 'ёж', 'енот', 'ехидна', 'АИСТ', 'ЯК'];
+
+animals.sort((itemA, itemB) => itemA.localeCompare(itemB));
+
+console.log(animals); // АИСТ,ёж,енот,ехидна,тигр,ЯК
