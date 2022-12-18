@@ -16,4 +16,6 @@ const links = document.querySelectorAll('ul a');
 for (const link of links) {
   const href = link.getAttribute('href');
   if (href.includes('://') && !~href.indexOf('http://internal.com')) link.style.color = 'orange';
+  // или
+  // if (href.includes('://') && !href.startsWith('http://internal.com')) link.style.color = 'orange';
 }
