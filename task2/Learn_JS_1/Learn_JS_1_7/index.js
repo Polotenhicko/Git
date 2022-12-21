@@ -151,3 +151,46 @@ ol.append(...getListContent2());
 // теперь про легаси
 
 // Сейчас уже нет причин их использовать, так как современные методы append, prepend, before, after, remove, replaceWith более гибкие и удобные.
+
+// parentElem.appendChild(node)
+// Добавляет node в конец дочерних элементов parentElem.
+
+ol.appendChild(document.createElement('h2')); // добавилось
+
+// parentElem.insertBefore(node, nextSibling)
+// Вставляет node перед nextSibling в parentElem.
+
+ol.insertBefore(document.createElement('h3'), ol.children[0]);
+
+// parentElem.replaceChild(node, oldChild)
+// Заменяет oldChild на node среди дочерних элементов parentElem.
+
+// parentElem.removeChild(node)
+// Удаляет node из parentElem (предполагается, что он родитель node).
+
+ol.removeChild(ol.children[1]);
+
+// Все эти методы возвращают вставленный/удалённый узел.
+// Другими словами, parentElem.appendChild(node) вернёт node
+
+// Есть ещё один, очень древний метод добавления содержимого на веб-страницу: document.write.
+
+document.write('<b>Привет из JS</b>');
+
+// Вызов document.write(html) записывает html на страницу «прямо здесь и сейчас».
+// Строка html может быть динамически сгенерирована, поэтому метод достаточно гибкий
+
+// Вызов document.write работает только во время загрузки страницы.
+
+// Через одну секунду содержимое этой страницы будет заменено
+setTimeout(() => document.write('<b>...Этим.</b>'), 1e3);
+
+// вызов происходит после того, как страница загрузится, поэтому метод затирает содержимое
+
+// Есть и преимущество
+
+// document.write запускается во время чтения HTML браузером, и что-то пишет в документ,
+//  то браузер воспринимает это так, как будто это изначально было частью загруженного HTML - документа.
+
+// Поэтому он работает невероятно быстро, ведь при этом нет модификации DOM.
+//  Метод пишет прямо в текст страницы, пока DOM ещё в процессе создания.
