@@ -140,8 +140,45 @@ console.log(example.clientHeight); // 240
 
 // можно использовать чтобы распахнуть элемент на всю высоту (не считая box-sizing)
 
-example.style.height = `${example.scrollHeight}px`;
+// example.style.height = `${example.scrollHeight}px`;
 
 // scrollLeft/scrollTop
 
 // Свойства scrollLeft/scrollTop – ширина/высота невидимой, прокрученной в данный момент, части элемента слева и сверху.
+
+// свойство scrollTop – это «сколько уже прокручено вверх».
+
+console.log(example.scrollTop); // 0
+
+// Свойства scrollLeft/scrollTop можно изменять
+// Установка значения scrollTop на 0 или Infinity прокрутит элемент в самый верх/низ соответственно.
+
+example.scrollTop = 30;
+
+// CSS-высоту и ширину можно извлечь, используя getComputedStyle.
+// Так почему бы не получать, к примеру, ширину элемента при помощи getComputedStyle, вот так?
+
+console.log(example.clientWidth); // 323, content(283) + padding(20*2) = 323
+console.log(getComputedStyle(example).width); // '283px
+
+// Почему мы должны использовать свойства-метрики вместо этого? На то есть две причины:
+
+// Во-первых, CSS-свойства width/height зависят от другого свойства – box-sizing
+// Во-вторых, CSS свойства width/height могут быть равны auto, например, для инлайнового элемента:
+
+const span = document.createElement('span');
+console.log(getComputedStyle(span).width); // ''
+console.log(getComputedStyle(document.getElementById('span')).width); // 'auto'
+
+// Есть и ещё одна причина: полоса прокрутки. Бывает, без полосы прокрутки код работает прекрасно, но стоит ей появиться,
+//  как начинают проявляться баги.Так происходит потому, что полоса прокрутки «отъедает» место от области внутреннего
+//  содержимого в некоторых браузерах.Таким образом, реальная ширина содержимого меньше CSS - ширины.
+//  Как раз это и учитывают свойства clientWidth / clientHeight.
+
+// Но с getComputedStyle(elem).width ситуация иная.
+// Некоторые браузеры(например, Chrome) возвращают реальную внутреннюю ширину с вычетом ширины полосы прокрутки,
+// а некоторые(например, Firefox) – именно CSS - свойство(игнорируя полосу прокрутки).
+// Эти кроссбраузерные отличия – ещё один повод не использовать getComputedStyle, а использовать свойства - метрики.
+
+// Обратите внимание: описанные различия касаются только чтения свойства getComputedStyle(...).width из JavaScript,
+// визуальное отображение корректно в обоих случаях.
