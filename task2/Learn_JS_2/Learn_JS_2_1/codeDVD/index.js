@@ -1,40 +1,57 @@
 class State {
-  constructor(x, y) {
+  constructor(x, y, dx, dy) {
     this.x = x;
     this.y = y;
-    this.dx = 0;
-    this.dy = 0;
+    this.dx = dx;
+    this.dy = dy;
   }
 }
 
 class DVDLogo {
-  constructor(src, fps) {
-    const logo = document.createElement('img');
-    const field = document.getElementById('field');
-    if (!field) {
-      const field = document.createElement('field');
-      field.id = 'field';
-      document.body.append(field);
-    }
-    logo.src = src;
-    logo.classList.add('logo');
-    field.append(logo);
+  constructor(fps) {
+    const logo = document.getElementById('logo');
     this.logo = logo;
     this.fps = isFinite(fps) ? fps : 60;
-    this.state = new State(0, 0);
+    this.state = new State(0, 0, 10, 10);
+    this.properties = {
+      width: this.logo.clientWidth,
+      height: this.logo.clientHeight,
+    };
   }
 
   move() {
     this.moveInterval = setInterval(() => {
-      this.render(this.state.x, this.state.y);
+      this.calcTrajectory();
+      this.render();
     }, 1 / this.fps);
   }
 
-  render(x, y) {
-    this.state.x = this.state.dx + x;
-    this.state.y = this.state.dy + y;
-    this.logo.style.left = x + 'px';
-    this.logo.style.top = y + 'px';
+  calcTrajectory() {
+    const rightX = this.state.x + this.properties.width;
+    const bottomY = this.state.y + this.properties.height;
+    if (this.state.x <= 0) {
+      this.state.x = 0;
+      this.state.dx = -this.state.dx;
+    }
+    if (this.state.y <= 0) {
+      this.state.y = 0;
+      this.state.dy = -this.state.dy;
+    }
+    if (rightX >= this.logo.offsetParent.clientWidth) {
+      this.state.x = this.logo.offsetParent.clientWidth - this.properties.width;
+      this.state.dx = -this.state.dx;
+    }
+    if (bottomY >= this.logo.offsetParent.clientHeight) {
+      this.state.y = this.logo.offsetParent.clientHeight - this.properties.height;
+      this.state.dy = -this.state.dy;
+    }
+  }
+
+  render() {
+    this.state.x = this.state.dx + this.state.x;
+    this.state.y = this.state.dy + this.state.y;
+    this.logo.style.left = this.state.x + 'px';
+    this.logo.style.top = this.state.y + 'px';
   }
 
   stop() {
@@ -42,4 +59,6 @@ class DVDLogo {
   }
 }
 
-new DVDLogo('./logo.png', 60);
+const dvd = new DVDLogo(60);
+dvd.move();
+setTimeout(() => dvd.stop(), 5e3);
