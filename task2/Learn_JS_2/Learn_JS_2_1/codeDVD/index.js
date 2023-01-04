@@ -7,12 +7,21 @@ class State {
   }
 }
 
+function getRandomColor() {
+  var letters = '0123456789ABCDEF';
+  var color = '#';
+  for (var i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+}
+
 class DVDLogo {
   constructor(fps) {
     const logo = document.getElementById('logo');
     this.logo = logo;
     this.fps = isFinite(fps) ? fps : 60;
-    this.state = new State(0, 0, 10, 10);
+    this.state = new State(0, 0, 1, 1);
     this.properties = {
       width: this.logo.clientWidth,
       height: this.logo.clientHeight,
@@ -29,22 +38,32 @@ class DVDLogo {
   calcTrajectory() {
     const rightX = this.state.x + this.properties.width;
     const bottomY = this.state.y + this.properties.height;
+    let countAngle = 0;
     if (this.state.x <= 0) {
       this.state.x = 0;
       this.state.dx = -this.state.dx;
+      countAngle += 1;
     }
     if (this.state.y <= 0) {
       this.state.y = 0;
       this.state.dy = -this.state.dy;
+      countAngle += 1;
     }
     if (rightX >= this.logo.offsetParent.clientWidth) {
-      this.state.x = this.logo.offsetParent.clientWidth - this.properties.width;
+      this.state.x = Math.floor(this.logo.offsetParent.clientWidth - this.properties.width);
       this.state.dx = -this.state.dx;
+      countAngle += 1;
     }
     if (bottomY >= this.logo.offsetParent.clientHeight) {
-      this.state.y = this.logo.offsetParent.clientHeight - this.properties.height;
+      this.state.y = Math.floor(this.logo.offsetParent.clientHeight - this.properties.height);
       this.state.dy = -this.state.dy;
+      countAngle += 1;
     }
+    if (countAngle > 1) this.changeColor();
+  }
+
+  changeColor() {
+    this.logo.style.fill = getRandomColor();
   }
 
   render() {
@@ -61,4 +80,4 @@ class DVDLogo {
 
 const dvd = new DVDLogo(60);
 dvd.move();
-setTimeout(() => dvd.stop(), 5e3);
+// setTimeout(() => dvd.stop(), 5e3);
