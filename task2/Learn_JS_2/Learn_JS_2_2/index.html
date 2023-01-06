@@ -5,8 +5,63 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <style>
+      form.test {
+        background-color: green;
+        position: relative;
+        width: 150px;
+        height: 150px;
+        text-align: center;
+        cursor: pointer;
+      }
+
+      .test div {
+        background-color: blue;
+        position: absolute;
+        top: 25px;
+        left: 25px;
+        width: 100px;
+        height: 100px;
+      }
+
+      .test p {
+        background-color: red;
+        position: absolute;
+        top: 25px;
+        left: 25px;
+        width: 50px;
+        height: 50px;
+        line-height: 50px;
+        margin: 0;
+      }
+
+      body {
+        line-height: 25px;
+        font-size: 16px;
+      }
+      .test2 * {
+        margin: 10px;
+        border: 1px solid blue;
+      }
+    </style>
   </head>
   <body>
+    <form class="test" id="form">
+      FORM
+      <div>
+        DIV
+        <p>P</p>
+      </div>
+    </form>
+    <div class="test2">
+      <form id="form2">
+        FORM
+        <div>
+          DIV
+          <p>P</p>
+        </div>
+      </form>
+    </div>
     <script src="./index.js"></script>
   </body>
 </html>
