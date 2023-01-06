@@ -97,3 +97,14 @@ document.addEventListener('click', function (e) {
 // Всегда используйте метод addEventListener для обработчиков на уровне документа
 // огда мы устанавливаем обработчик событий на объект document,
 // мы всегда должны использовать метод addEventListener, а не document.on < событие >
+
+// Поведение: «Переключатель» (Toggler)
+
+// при клике на элемент с атрибутом data-toggle-id будет скрываться/показываться элемент с заданным id:
+
+document.addEventListener('click', function (e) {
+  const id = e.target.dataset.toggleId;
+  if (!id) return;
+  const elem = document.getElementById(id);
+  elem.hidden = !elem.hidden;
+});
