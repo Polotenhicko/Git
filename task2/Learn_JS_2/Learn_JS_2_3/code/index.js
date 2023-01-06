@@ -18,7 +18,11 @@ table.addEventListener('click', function (e) {
   const arr = Array.from(e.currentTarget.querySelectorAll(`tbody tr`));
   arr.sort((trA, trB) => {
     if (type == 'number') return +trA.children[countColumn].innerText - +trB.children[countColumn].innerText;
-    if (type == 'string') return trA.innerText.localeCompare(trB.innerText);
+    if (type == 'string')
+      return trA.children[countColumn].innerText.localeCompare(trB.children[countColumn].innerText);
   });
-  console.log(arr);
+  for (const tr of arr) {
+    tr.remove();
+    e.currentTarget.querySelector('tbody').append(tr);
+  }
 });
