@@ -5,8 +5,96 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <style>
+      table {
+        border-collapse: collapse;
+      }
+      th,
+      td {
+        border: 1px solid black;
+        padding: 4px;
+      }
+      th {
+        cursor: pointer;
+      }
+      th:hover {
+        background: yellow;
+      }
+    </style>
   </head>
   <body>
+    <ul class="tree" id="tree">
+      <li>
+        Животные
+        <ul>
+          <li>
+            Млекопитающие
+            <ul>
+              <li>Коровы</li>
+              <li>Ослы</li>
+              <li>Собаки</li>
+              <li>Тигры</li>
+            </ul>
+          </li>
+          <li>
+            Другие
+            <ul>
+              <li>Змеи</li>
+              <li>Птицы</li>
+              <li>Ящерицы</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li>
+        Рыбы
+        <ul>
+          <li>
+            Аквариумные
+            <ul>
+              <li>Гуппи</li>
+              <li>Скалярии</li>
+            </ul>
+          </li>
+          <li>
+            Морские
+            <ul>
+              <li>Морская форель</li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+    <table id="grid">
+      <thead>
+        <tr>
+          <th data-type="number">Возраст</th>
+          <th data-type="string">Имя</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>5</td>
+          <td>Вася</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>Петя</td>
+        </tr>
+        <tr>
+          <td>12</td>
+          <td>Женя</td>
+        </tr>
+        <tr>
+          <td>9</td>
+          <td>Маша</td>
+        </tr>
+        <tr>
+          <td>1</td>
+          <td>Илья</td>
+        </tr>
+      </tbody>
+    </table>
     <script src="./index.js"></script>
   </body>
 </html>
