@@ -4,6 +4,7 @@ class State {
     this.y = y;
     this.dx = dx;
     this.dy = dy;
+    this.timeStamp;
   }
 }
 
@@ -20,19 +21,29 @@ class DVDLogo {
   constructor(fps) {
     const logo = document.getElementById('logo');
     this.logo = logo;
-    this.fps = isFinite(fps) ? fps : 60;
-    this.state = new State(0, 0, 1, 1);
+    this._fps = isFinite(fps) ? fps : 60;
+    this.state = new State(0, 0, 2, 2);
     this.properties = {
       width: this.logo.clientWidth,
       height: this.logo.clientHeight,
     };
   }
 
-  move() {
+  #startIntervalRender() {
     this.moveInterval = setInterval(() => {
-      this.calcTrajectory();
       this.render();
-    }, 1 / this.fps);
+    }, 1e3 / this._fps);
+  }
+
+  set fps(value) {
+    clearInterval(this.moveInterval);
+    this._fps = isFinite(value) ? value : 60;
+    if (this.moveInterval) this.#startIntervalRender();
+  }
+
+  move() {
+    this.state.timeStamp = Date.now();
+    this.#startIntervalRender();
   }
 
   calcTrajectory() {
@@ -59,7 +70,7 @@ class DVDLogo {
       this.state.dy = -this.state.dy;
       countAngle += 1;
     }
-    if (countAngle > 1) this.changeColor();
+    if (countAngle > 0) this.changeColor();
   }
 
   changeColor() {
@@ -67,10 +78,13 @@ class DVDLogo {
   }
 
   render() {
-    this.state.x = this.state.dx + this.state.x;
-    this.state.y = this.state.dy + this.state.y;
+    this.calcTrajectory();
+    const diffTime = Date.now() - this.state.timeStamp;
+    this.state.x = this.state.dx * (diffTime / 10) + this.state.x;
+    this.state.y = this.state.dy * (diffTime / 10) + this.state.y;
     this.logo.style.left = this.state.x + 'px';
     this.logo.style.top = this.state.y + 'px';
+    this.state.timeStamp = Date.now();
   }
 
   stop() {
@@ -80,4 +94,6 @@ class DVDLogo {
 
 const dvd = new DVDLogo(60);
 dvd.move();
-// setTimeout(() => dvd.stop(), 5e3);
+// setInterval(() => {
+//   dvd.fps = dvd._fps == 240 ? 15 : 240;
+// }, 1500);
