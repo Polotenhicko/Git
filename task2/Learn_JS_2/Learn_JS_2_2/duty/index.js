@@ -1,7 +1,7 @@
 import { callBack } from './exp.js';
 // код добавляет событие на клик и запрещает всплытие
 
-document.addEventListener(
+button.addEventListener(
   'click',
   function (e) {
     console.log(e.currentTarget);
