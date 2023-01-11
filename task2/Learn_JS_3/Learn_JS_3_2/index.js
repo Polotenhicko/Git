@@ -102,7 +102,7 @@ table.onmouseover = function (e) {
 
 table.onmouseout = function (e) {
   if (!currentTd) return;
-  if (currentTd.contains(e.relatedTarget)) return; // првоерка что это переход не внутри currentTd
+  if (currentTd.contains(e.relatedTarget)) return; // проверка что это переход не внутри currentTd
   currentTd.style.background = '';
   currentTd = null;
 };
