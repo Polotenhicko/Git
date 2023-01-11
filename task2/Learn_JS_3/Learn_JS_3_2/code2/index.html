@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .hours {
+        color: red;
+      }
+
+      .minutes {
+        color: green;
+      }
+
+      .seconds {
+        color: blue;
+      }
+
+      .clock {
+        border: 1px dashed black;
+        padding: 5px;
+        display: inline-block;
+        background: yellow;
+        position: absolute;
+        left: 0;
+        top: 0;
+      }
+
+      .tooltip {
+        position: absolute;
+        background: #eee;
+        border: 1px brown solid;
+        padding: 3px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="elem" class="clock">
+      <span class="hours">12</span> : <span class="minutes">30</span> :
+      <span class="seconds">00</span>
+    </div>
+
+    <div id="tooltip" hidden>Подсказка</div>
+    <script src="./index.js"></script>
+  </body>
+</html>
