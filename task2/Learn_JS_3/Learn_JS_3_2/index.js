@@ -45,3 +45,64 @@
 // !!!!!
 // Событие mouseover, происходящее на потомке, всплывает.
 // Поэтому если на родительском элементе есть такой обработчик, то оно его вызовет.
+
+document.onmouseout = function (e) {
+  console.log('out на document!', 'related: ' + e.relatedTarget?.nodeName, 'target: ' + e.target?.nodeName);
+};
+
+// хоть и обработчик на документе, но при переходе с дива на див - случается событие, т.к. всплытие
+// то есть срабатывает mouseover/out, но на самом деле это всё внутри элемента и никуда курсор мог не выйти
+
+// Чтобы этого избежать, можно смотреть на relatedTarget и, если мышь всё ещё внутри элемента, то игнорировать такие события.
+
+// Или же можно использовать другие события: mouseenter и mouseleave, с ними такая проблема не возникает.
+
+// События mouseenter/mouseleave похожи на mouseover/mouseout
+
+// Но есть и пара важных отличий:
+
+// Переходы внутри элемента, на его потомки и с них, не считаются.
+// События mouseenter/mouseleave не всплывают.
+
+// Когда указатель появляется над элементом – генерируется mouseenter,
+// причём не имеет значения, где именно указатель: на самом элементе или на его потомке.
+
+// Событие mouseleave происходит, когда курсор покидает элемент.
+
+// по сути это единственные различия
+
+// События mouseenter/leave просты и легки в использовании. Но они не всплывают. Таким образом, мы не можем их делегировать.
+
+// мы хотим обрабатывать события, сгенерированные при движении курсора по ячейкам таблицы. И в таблице сотни ячеек.
+// лучше подойдёт mouseover/out
+
+document.onmouseout = null;
+
+table.onmouseover = function (e) {
+  e.target.style.background = 'pink';
+};
+
+table.onmouseout = function (e) {
+  e.target.style.background = '';
+};
+
+// В нашем случае мы хотим обрабатывать переходы именно между ячейками <td>: вход на ячейку и выход с неё.
+// Прочие переходы, в частности, внутри ячейки < td > или вообще вне любых ячеек, нас не интересуют, хорошо бы их отфильтровать.
+
+let currentTd;
+
+table.onmouseover = function (e) {
+  if (currentTd) return; // уже сет прошёл
+  const target = e.target.closest('td');
+  if (!target) return; // это не td
+  if (!table.contains(target)) return; // проверка что именно в нашей таблице, ведь событие всплывает
+  currentTd = target;
+  target.style.background = 'pink';
+};
+
+table.onmouseout = function (e) {
+  if (!currentTd) return;
+  if (currentTd.contains(e.relatedTarget)) return; // првоерка что это переход не внутри currentTd
+  currentTd.style.background = '';
+  currentTd = null;
+};
