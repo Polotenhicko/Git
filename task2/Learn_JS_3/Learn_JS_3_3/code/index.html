@@ -6,7 +6,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
   </head>
+  <style>
+    .slider {
+      border-radius: 5px;
+      background: #e0e0e0;
+      background: linear-gradient(left top, #e0e0e0, #eeeeee);
+      width: 310px;
+      height: 15px;
+      margin: 5px;
+    }
+
+    .thumb {
+      width: 30px;
+      height: 25px;
+      border-radius: 3px;
+      position: relative;
+      left: 10px;
+      top: -5px;
+      background: blue;
+      cursor: pointer;
+    }
+  </style>
   <body>
+    <div id="slider" class="slider">
+      <div class="thumb"></div>
+    </div>
     <script src="./index.js"></script>
   </body>
 </html>
