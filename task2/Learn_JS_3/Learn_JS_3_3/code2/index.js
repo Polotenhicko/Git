@@ -28,9 +28,7 @@ function appendRandomImage(nodeListImg) {
         const shiftY = e.clientY - rect.top;
         target.style.position = 'absolute';
         target.style.zIndex = 1000;
-        // const tempTd = document.createElement('td');
-        // tempTd.style.visibility = 'hidden';
-        // target.before(tempTd);
+
         let hoverElement;
         let side;
         let isCanAppend = false;
@@ -41,7 +39,11 @@ function appendRandomImage(nodeListImg) {
           target.style.top = e.pageY - shiftY + 'px';
           target.style.left = e.pageX - shiftX + 'px';
           target.hidden = true;
+          const tempTd = document.createElement('td');
+          tempTd.classList.add('empty');
+          target.before(tempTd);
           const elemFromPoint = document.elementFromPoint(e.clientX, e.clientY)?.closest('td');
+          tempTd.remove();
           target.hidden = false;
           if (hoverElement) removeHoverEffect(hoverElement);
           if (!elemFromPoint || !table.contains(elemFromPoint)) return;
@@ -72,8 +74,7 @@ function appendRandomImage(nodeListImg) {
           if (isCanAppend) appendDragElement(target, hoverElement);
           document.removeEventListener('mousemove', onMouseMove);
           document.removeEventListener('mouseup', onMouseUp);
-          // hoverElement = null;
-          tempTd.remove();
+          hoverElement = null;
         }
 
         document.addEventListener('mousemove', onMouseMove);
