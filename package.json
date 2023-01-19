@@ -2,7 +2,7 @@
   "name": "study_polo_jest",
   "version": "1.0.0",
   "description": "**Test repository**",
-  "main": "./tasks/Learn_JS_7_2/code/index.js",
+  "main": "./task2/Learn_JS_3/Learn_JS_3_3/code2/index.js",
   "scripts": {
     "test": "jest"
   },
