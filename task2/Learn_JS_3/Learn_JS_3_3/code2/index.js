@@ -49,7 +49,7 @@ function appendRandomImage(nodeListImg) {
           const elemFromPoint = document.elementFromPoint(e.clientX, e.clientY)?.closest('td');
           target.hidden = false;
           if (hoverElement) removeHoverEffect(hoverElement);
-          if (!elemFromPoint || !table.contains(elemFromPoint)) return;
+          if (!elemFromPoint || !table.contains(elemFromPoint) || elemFromPoint == tempTd) return;
           hoverElement = elemFromPoint;
           addHoverEffect(e, hoverElement);
           isCanAppend = true;
