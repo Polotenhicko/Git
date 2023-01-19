@@ -37,6 +37,7 @@ function appendRandomImage(nodeListImg) {
         let side;
         let isCanAppend = false;
 
+        target.classList.add('out_table');
         document.body.append(target);
 
         onMouseMove(e);
@@ -73,11 +74,16 @@ function appendRandomImage(nodeListImg) {
         function onMouseUp(e) {
           target.style.cssText = '';
           if (hoverElement) removeHoverEffect(hoverElement);
-          if (isCanAppend) appendDragElement(target, hoverElement);
+          if (isCanAppend) {
+            appendDragElement(target, hoverElement);
+          } else {
+            tempTd.after(target);
+          }
           document.removeEventListener('mousemove', onMouseMove);
           document.removeEventListener('mouseup', onMouseUp);
           hoverElement = null;
           tempTd.remove();
+          target.classList.remove('out_table');
         }
 
         document.addEventListener('mousemove', onMouseMove);
