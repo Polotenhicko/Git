@@ -1,6 +1,7 @@
 // зум от 2 пальцев
 
 let countPointer = 0;
+const root = document.getElementById('root');
 const firstFinger = {
   pointerId: null,
   x: 0,
@@ -21,7 +22,7 @@ function setCoords(e, finger) {
 function pointerMove(e) {
   document.body.setPointerCapture(firstFinger.pointerId);
   document.body.setPointerCapture(secondFinger.pointerId);
-  document.body.innerText += ' Движение двумя пальцами';
+  root.innerText += ' Движение двумя пальцами';
 }
 
 document.body.addEventListener('pointerdown', function pointerDownPrimary(e) {
