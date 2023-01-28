@@ -37,7 +37,7 @@ document.body.addEventListener('pointerdown', function pointerDownPrimary(e) {
 });
 
 document.body.addEventListener('pointerup', function pointerUp(e) {
-  const currentFInger = listFingers.find((finger) => finger.pointerId == e.pointerId);
+  const currentFInger = listFingers.find((finger) => finger.pointerId === e.pointerId);
   if (!currentFInger) return;
   currentFInger.pointerId = null;
   countPointer -= 1;
