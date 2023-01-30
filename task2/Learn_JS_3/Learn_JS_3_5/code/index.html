@@ -33,6 +33,7 @@
       }
 
       document.body.addEventListener('pointerdown', function pointerDownPrimary(e) {
+        e.preventDefault();
         countPointer += 1;
         pointerMove();
         if (countPointer !== 2) return;
@@ -40,6 +41,7 @@
       });
 
       document.body.addEventListener('pointerup', function pointerUp(e) {
+        e.preventDefault();
         countPointer -= 1;
         root.innerText = 'Убрано, ' + countPointer;
         if (countPointer) return;
