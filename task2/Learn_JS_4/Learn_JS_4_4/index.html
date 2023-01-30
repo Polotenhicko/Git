@@ -7,6 +7,10 @@
     <title>Document</title>
   </head>
   <body>
+    <form onsubmit="console.log('submit!');return false" onclick="console.log('click')">
+      Первый пример: нажмите Enter: <input type="text" value="Текст" /><br />
+      Второй пример: нажмите на кнопку "Отправить": <input type="submit" value="Отправить" />
+    </form>
     <script src="./index.js"></script>
   </body>
 </html>
