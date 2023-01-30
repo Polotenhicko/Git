@@ -17,11 +17,28 @@
       .error {
         background: red;
       }
+      .focused {
+        outline: 1px solid red;
+      }
     </style>
 
     Ваш email: <input type="email" id="input" />
 
     <div id="error"></div>
+    <ul>
+      <li tabindex="1">Один</li>
+      <li tabindex="0">Ноль</li>
+      <li tabindex="2">Два</li>
+      <li tabindex="-1">Минус один</li>
+    </ul>
+    <form onfocus="this.className='focused'" id="form">
+      <input type="text" name="name" value="Имя" />
+      <input type="text" name="surname" value="Фамилия" />
+    </form>
+    <form id="form2">
+      <input type="text" name="name" value="Имя" />
+      <input type="text" name="surname" value="Фамилия" />
+    </form>
     <script src="./index.js"></script>
   </body>
 </html>
