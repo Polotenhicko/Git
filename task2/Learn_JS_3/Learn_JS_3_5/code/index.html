@@ -34,9 +34,9 @@
 
       document.body.addEventListener('pointerdown', function pointerDownPrimary(e) {
         countPointer += 1;
+        pointerMove();
         if (countPointer !== 2) return;
         // document.body.addEventListener('pointermove', pointerMove);
-        pointerMove();
       });
 
       document.body.addEventListener('pointerup', function pointerUp(e) {
