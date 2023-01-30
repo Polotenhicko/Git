@@ -41,9 +41,9 @@
 
       document.body.addEventListener('pointerup', function pointerUp(e) {
         countPointer -= 1;
+        root.innerText = 'Убрано, ' + countPointer;
         if (countPointer) return;
         // document.body.removeEventListener('pointermove', pointerMove);
-        root.innerText = 'Убрано, ' + countPointer;
       });
     </script>
   </body>
