@@ -6,7 +6,7 @@ const root = document.getElementById('root');
 function setCoords(e, finger) {}
 
 function pointerMove(e) {
-  root.innerText += ' Движение двумя пальцами';
+  root.innerText = countPointer;
 }
 
 document.body.addEventListener('pointerdown', function pointerDownPrimary(e) {
@@ -20,5 +20,5 @@ document.body.addEventListener('pointerup', function pointerUp(e) {
   countPointer -= 1;
   if (countPointer) return;
   // document.body.removeEventListener('pointermove', pointerMove);
-  root.innerText = 'Убрано';
+  root.innerText = 'Убрано, ' + countPointer;
 });
