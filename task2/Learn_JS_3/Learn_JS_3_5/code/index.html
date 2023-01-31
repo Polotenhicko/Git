@@ -40,7 +40,7 @@
         // может быть только 2 пальца
         const firstFinger = fingers[0];
         const secondFinger = fingers[1];
-        root.innerHTML = `x: ${firstFinger.x} y: ${firstFinger.y} | x: ${secondFinger.x} y: ${secondFinger.y}`;
+        root.innerHTML = `x: ${firstFinger.pageX} y: ${firstFinger.pageY} | x: ${secondFinger.pageX} y: ${secondFinger.pageY}`;
       }
 
       document.body.addEventListener('pointerdown', function pointerDownPrimary(e) {
