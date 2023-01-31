@@ -59,7 +59,7 @@
         let difference = Math.round(calcLineLength() - inital) + 100;
         document.getElementById('info').innerHTML = `initial: ${inital} | now: ${calcLineLength()} | diff: ${difference}`;
         difference = difference / 100;
-        document.body.style.transform = `scale(${difference > 0.4 ? difference - 0.1 : 0.4})`;
+        document.body.style.transform = `scale(${difference > 0.4 ? difference : 0.4})`;
       }
 
       document.body.addEventListener('pointerdown', function pointerDownPrimary(e) {
