@@ -56,9 +56,10 @@
         const currentFinger = fingers.find((obj) => obj.id === e.pointerId);
         currentFinger.pageX = e.pageX;
         currentFinger.pageY = e.pageY;
-        const difference = Math.round(calcLineLength() - inital);
+        let difference = Math.round(calcLineLength() - inital);
         document.getElementById('info').innerHTML = `initial: ${inital} | now: ${calcLineLength()} | diff: ${difference}`;
-        if (difference > 0) {
+        difference = difference / 100;
+        if (difference >= 1) {
           document.body.style.transform = `scale(${difference / 100})`;
         } else {
         }
