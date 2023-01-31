@@ -31,6 +31,7 @@
       Lorem ipsum dolor sit, amet consectetur adipisicing elit. Officia tempora dolorem vitae laboriosam necessitatibus optio delectus, unde beatae
       maxime vero assumenda rerum et aperiam accusamus, excepturi blanditiis, sequi maiores iusto.
     </div>
+    <div id="info"></div>
     <div id="root"></div>
     <!-- <script src="./index.js"></script> -->
     <script>
@@ -55,7 +56,7 @@
         currentFinger.pageX = e.pageX;
         currentFinger.pageY = e.pageY;
         const difference = Math.round(calcLineLength() - inital);
-        root.innerHTML = `initial: ${inital} | now: ${calcLineLength()} | diff: ${difference}`;
+        document.getElementById('info').innerHTML = `initial: ${inital} | now: ${calcLineLength()} | diff: ${difference}`;
         if (difference > 0) {
           document.body.style.transform = `scale:${difference / 100}`;
         } else {
