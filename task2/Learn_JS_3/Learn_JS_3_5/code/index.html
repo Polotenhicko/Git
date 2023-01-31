@@ -70,6 +70,7 @@
         });
         if (fingers.length !== 2) {
           document.body.removeEventListener('pointermove', pointerMove);
+          document.body.style.transform = 'scale(1)';
           return;
         }
         document.body.addEventListener('pointermove', pointerMove);
