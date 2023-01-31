@@ -59,12 +59,11 @@
         let difference = Math.round(calcLineLength() - inital) + 100;
         document.getElementById('info').innerHTML = `initial: ${inital} | now: ${calcLineLength()} | diff: ${difference}`;
         difference = difference / 100;
-        if (difference >= 1) {
-          document.body.style.transform = `scale(${difference})`;
-        } else {
-          const scale = Math.abs(difference);
-          document.body.style.transform = `scale(${scale > 0.05 ? scale : 0.05})`;
-        }
+        // if (difference >= 1) {
+        // document.body.style.transform = `scale(${difference})`;
+        // } else {
+        document.body.style.transform = `scale(${difference > 0.05 ? difference : 0.05})`;
+        // }
       }
 
       document.body.addEventListener('pointerdown', function pointerDownPrimary(e) {
