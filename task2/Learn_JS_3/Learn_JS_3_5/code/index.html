@@ -59,7 +59,7 @@
         const difference = Math.round(calcLineLength() - inital);
         document.getElementById('info').innerHTML = `initial: ${inital} | now: ${calcLineLength()} | diff: ${difference}`;
         if (difference > 0) {
-          document.body.style.transform = `scale:${difference / 100}`;
+          document.body.style.transform = `scale(${difference / 100})`;
         } else {
         }
       }
