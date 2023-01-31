@@ -45,6 +45,7 @@
         });
         if (fingers.length !== 2) {
           document.body.removeEventListener('pointermove', pointerMove);
+          root.innerHTML = '';
           return;
         }
         document.body.addEventListener('pointermove', pointerMove);
