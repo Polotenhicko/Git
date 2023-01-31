@@ -56,12 +56,11 @@
         const currentFinger = fingers.find((obj) => obj.id === e.pointerId);
         currentFinger.pageX = e.pageX;
         currentFinger.pageY = e.pageY;
-        let difference = Math.round(calcLineLength() - inital) + 50;
+        let difference = Math.round(calcLineLength() - inital) + 100;
         document.getElementById('info').innerHTML = `initial: ${inital} | now: ${calcLineLength()} | diff: ${difference}`;
         difference = difference / 100;
         if (difference >= 1) {
           document.body.style.transform = `scale(${difference})`;
-        } else {
         }
       }
 
@@ -84,6 +83,7 @@
         fingers = fingers.filter((obj) => obj !== currentFinger);
         if (fingers.length !== 2) {
           document.body.removeEventListener('pointermove', pointerMove);
+          document.body.style.transform = 'scale(1)';
           return;
         }
         document.body.addEventListener('pointermove', pointerMove);
