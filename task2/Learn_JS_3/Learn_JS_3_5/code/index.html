@@ -34,13 +34,19 @@
       const root = document.getElementById('root');
 
       let fingers = [];
+      let inital;
+
+      function calcLineLength() {
+        if (fingers.length < 2) return NaN;
+        const fingerA = fingers[0];
+        const fingerB = fingers[1];
+        return Math.sqrt((fingerA.pageX - fingerB.pageX) ** 2 + (fingerA.pageY - fingerB.pageY) ** 2);
+      }
 
       function pointerMove(e) {
         // обработка движений пальцев
         // может быть только 2 пальца
-        const firstFinger = fingers[0];
-        const secondFinger = fingers[1];
-        root.innerHTML = `x: ${firstFinger.pageX} y: ${firstFinger.pageY} | x: ${secondFinger.pageX} y: ${secondFinger.pageY}`;
+        root.innerHTML = `initial: ${inital} | now: ${calcLineLength()}`;
       }
 
       document.body.addEventListener('pointerdown', function pointerDownPrimary(e) {
@@ -54,6 +60,7 @@
           return;
         }
         document.body.addEventListener('pointermove', pointerMove);
+        inital = calcLineLength();
       });
 
       document.body.addEventListener('pointerup', function pointerUp(e) {
@@ -64,6 +71,7 @@
           return;
         }
         document.body.addEventListener('pointermove', pointerMove);
+        inital = calcLineLength();
       });
 
       document.body.ondragstart = function () {
