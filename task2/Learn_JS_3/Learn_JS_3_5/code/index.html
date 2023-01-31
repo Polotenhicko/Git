@@ -25,30 +25,33 @@
   </head>
   <body>
     <div id="root"></div>
+    <!-- <script src="./index.js"></script> -->
     <script>
-      let countPointer = 0;
       const root = document.getElementById('root');
 
-      function setCoords(e, finger) {}
+      let fingers = [];
 
       function pointerMove(e) {
-        root.innerText = countPointer;
+        console.log('Мув 2 пальцами');
       }
 
       document.body.addEventListener('pointerdown', function pointerDownPrimary(e) {
-        e.preventDefault();
-        countPointer += 1;
-        pointerMove();
-        if (countPointer !== 2) return;
-        // document.body.addEventListener('pointermove', pointerMove);
+        fingers.push({
+          id: e.pointerId,
+          pageX: e.pageX,
+          pageY: e.pageY,
+        });
+        if (fingers.length !== 2) {
+          document.body.removeEventListener('pointermove', pointerMove);
+          return;
+        }
+        document.body.addEventListener('pointermove', pointerMove);
       });
 
       document.body.addEventListener('pointerup', function pointerUp(e) {
-        e.preventDefault();
-        countPointer -= 1;
-        root.innerText = 'Убрано, ' + countPointer;
-        if (countPointer) return;
-        // document.body.removeEventListener('pointermove', pointerMove);
+        const currentFinger = fingers.find((obj) => obj.id === e.pointerId);
+        fingers = fingers.filter((obj) => obj !== currentFinger);
+        if (fingers.length !== 2) document.body.removeEventListener('pointermove', pointerMove);
       });
     </script>
   </body>

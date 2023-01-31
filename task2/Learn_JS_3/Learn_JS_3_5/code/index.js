@@ -1,24 +1,28 @@
 // зум от 2 пальцев
 
-let countPointer = 0;
 const root = document.getElementById('root');
 
-function setCoords(e, finger) {}
+let fingers = [];
 
 function pointerMove(e) {
-  root.innerText = countPointer;
+  console.log('Мув 2 пальцами');
 }
 
 document.body.addEventListener('pointerdown', function pointerDownPrimary(e) {
-  countPointer += 1;
-  if (countPointer !== 2) return;
-  // document.body.addEventListener('pointermove', pointerMove);
-  pointerMove();
+  fingers.push({
+    id: e.pointerId,
+    pageX: e.pageX,
+    pageY: e.pageY,
+  });
+  if (fingers.length !== 2) {
+    document.body.removeEventListener('pointermove', pointerMove);
+    return;
+  }
+  document.body.addEventListener('pointermove', pointerMove);
 });
 
 document.body.addEventListener('pointerup', function pointerUp(e) {
-  countPointer -= 1;
-  if (countPointer) return;
-  // document.body.removeEventListener('pointermove', pointerMove);
-  root.innerText = 'Убрано, ' + countPointer;
+  const currentFinger = fingers.find((obj) => obj.id === e.pointerId);
+  fingers = fingers.filter((obj) => obj !== currentFinger);
+  if (fingers.length !== 2) document.body.removeEventListener('pointermove', pointerMove);
 });
