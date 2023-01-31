@@ -63,7 +63,7 @@
           document.body.style.transform = `scale(${difference})`;
         } else {
           const scale = Math.abs(difference);
-          document.body.style.transform = `scale(${scale > 0.01 ? scale : 0.01})`;
+          document.body.style.transform = `scale(${scale < 0.05 ? scale : 0.05})`;
         }
       }
 
