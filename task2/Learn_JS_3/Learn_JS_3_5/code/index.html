@@ -58,7 +58,7 @@
         currentFinger.pageY = e.pageY;
         let difference = Math.round(calcLineLength() - inital) + 100;
         document.getElementById('info').innerHTML = `initial: ${inital} | now: ${calcLineLength()} | diff: ${difference}`;
-        difference = difference / 70;
+        difference = difference / 150;
         document.body.style.transform = `scale(${difference > 0.4 ? difference : 0.4})`;
       }
 
