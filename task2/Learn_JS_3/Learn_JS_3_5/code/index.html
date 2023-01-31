@@ -9,8 +9,6 @@
       * {
         padding: 0;
         margin: 0;
-        max-width: 100vw;
-        min-height: 100vh;
         color: #fff;
       }
       body,
@@ -22,17 +20,20 @@
         background-image: url(https://demotivation.ru/wp-content/uploads/2020/10/Beautiful-sunset-sea-sky-stones-waves-dusk_2560x1600.jpg);
         background-repeat: no-repeat;
         background-size: cover;
+        max-width: 100vw;
+        min-height: 100vh;
       }
     </style>
   </head>
   <body>
-    <h1>Текст</h1>
-    <div>
-      Lorem ipsum dolor sit, amet consectetur adipisicing elit. Officia tempora dolorem vitae laboriosam necessitatibus optio delectus, unde beatae
-      maxime vero assumenda rerum et aperiam accusamus, excepturi blanditiis, sequi maiores iusto.
+    <div id="root">
+      <h1>Текст</h1>
+      <div>
+        Lorem ipsum dolor sit, amet consectetur adipisicing elit. Officia tempora dolorem vitae laboriosam necessitatibus optio delectus, unde beatae
+        maxime vero assumenda rerum et aperiam accusamus, excepturi blanditiis, sequi maiores iusto.
+      </div>
+      <div id="info"></div>
     </div>
-    <div id="info"></div>
-    <div id="root"></div>
     <!-- <script src="./index.js"></script> -->
     <script>
       // зум от 2 пальцев
