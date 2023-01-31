@@ -46,6 +46,9 @@
       function pointerMove(e) {
         // обработка движений пальцев
         // может быть только 2 пальца
+        const currentFinger = fingers.find((obj = obj.id === e.pointerId));
+        currentFinger.pageX = e.pageX;
+        currentFinger.pageY = e.pageY;
         root.innerHTML = `initial: ${inital} | now: ${calcLineLength()}`;
       }
 
