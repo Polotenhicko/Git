@@ -62,7 +62,8 @@
         if (difference >= 1) {
           document.body.style.transform = `scale(${difference})`;
         } else {
-          document.body.style.transform = `scale(${Math.abs(difference)})`;
+          const scale = Math.abs(difference);
+          document.body.style.transform = `scale(${scale > 0.01 ? scale : 0.01})`;
         }
       }
 
