@@ -38,6 +38,7 @@
       function pointerMove(e) {
         // обработка движений пальцев
         // может быть только 2 пальца
+        root.innerHTML = fingers.length;
         if (fingers.length === 2) return;
         alert(fingers.length);
       }
