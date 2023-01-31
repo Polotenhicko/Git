@@ -51,7 +51,10 @@
       document.body.addEventListener('pointerup', function pointerUp(e) {
         const currentFinger = fingers.find((obj) => obj.id === e.pointerId);
         fingers = fingers.filter((obj) => obj !== currentFinger);
-        if (fingers.length !== 2) document.body.removeEventListener('pointermove', pointerMove);
+        if (fingers.length !== 2) {
+          document.body.removeEventListener('pointermove', pointerMove);
+          root.innerHTML = '';
+        }
       });
     </script>
   </body>
