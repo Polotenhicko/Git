@@ -5,7 +5,10 @@ const root = document.getElementById('root');
 let fingers = [];
 
 function pointerMove(e) {
-  console.log('Мув 2 пальцами');
+  // обработка движений пальцев
+  // может быть только 2 пальца
+  if (fingers.length === 2) return;
+  alert(fingers.length);
 }
 
 document.body.addEventListener('pointerdown', function pointerDownPrimary(e) {
@@ -24,5 +27,13 @@ document.body.addEventListener('pointerdown', function pointerDownPrimary(e) {
 document.body.addEventListener('pointerup', function pointerUp(e) {
   const currentFinger = fingers.find((obj) => obj.id === e.pointerId);
   fingers = fingers.filter((obj) => obj !== currentFinger);
-  if (fingers.length !== 2) document.body.removeEventListener('pointermove', pointerMove);
+  if (fingers.length !== 2) {
+    document.body.removeEventListener('pointermove', pointerMove);
+    return;
+  }
+  document.body.addEventListener('pointermove', pointerMove);
 });
+
+document.body.ondragstart = function () {
+  return false;
+};
