@@ -18,5 +18,8 @@
   "homepage": "https://github.com/Polotenhicko/Git#readme",
   "devDependencies": {
     "jest": "^28.1.3"
+  },
+  "dependencies": {
+    "prismjs": "^1.29.0"
   }
 }
