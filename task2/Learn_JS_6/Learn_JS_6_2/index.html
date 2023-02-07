@@ -5,8 +5,45 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <style>
+      #elem {
+        user-select: none;
+      }
+    </style>
   </head>
   <body>
+    <p id="p">Example: <i>italic</i> and <b>bold</b></p>
+    <div>
+      Нажмите на кнопку, чтобы соответствующий метод отработал на выделении, или на "resetExample", чтобы восстановить выделение как было.
+
+      <p id="p2">Example: <i>italic</i> and <b>bold</b></p>
+
+      <p id="result"></p>
+
+      <p id="p3">Example: <i>italic</i> and <b>bold</b></p>
+      От <input id="from" disabled /> – До <input id="to" disabled />
+
+      <textarea id="area" style="width: 80%; height: 60px">
+Выделите что-нибудь в этом тексте, чтобы обновить значения ниже.
+      </textarea>
+      <br />
+      От <input id="from1" disabled /> – До <input id="to1" disabled />
+      <textarea id="area2" style="width: 80%; height: 60px">
+Переведите фокус на меня, курсор окажется на 10-й позиции
+</textarea
+      >
+      <div>
+        <input id="input2" style="width: 200px" value="Select here and click the button" />
+        <button id="button">Обернуть выделение звёздочками *...*</button>
+        <button id="button2">Заменить ЭТО</button>
+      </div>
+      <br />
+    </div>
+    <div>
+      Можно выделить
+      <div id="elem">Нельзя выделить</div>
+      Можно выделить
+    </div>
     <script src="./index.js"></script>
   </body>
 </html>
