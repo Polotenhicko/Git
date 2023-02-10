@@ -5,8 +5,21 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <style>
+      #protector {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        z-index: 9999999999;
+        left: 0;
+        top: 0;
+      }
+    </style>
   </head>
   <body>
+    <div id="protector">
+      <a href="/" target="_blank">Перейти к сайту</a>
+    </div>
     <script src="./index.js"></script>
   </body>
 </html>
