@@ -50,12 +50,16 @@ formElem.onsubmit = async function (e) {
 
 let formData = new FormData();
 formData.append('key', 'value');
-formData.append('key', 'value');
+formData.append('key', 'value1');
 formData.set('key2', 'value2');
+console.log('key:', formData.get('key')); // выдал последний ключ
 
 for (const [key, value] of formData) {
   console.log(key, value); // 2x key value, key2 value2
 }
+
+formData.delete('key');
+console.log(formData.get('key')); // null, значит удаляет все ключи
 
 // Объекты FormData всегда отсылаются с заголовком Content-Type: multipart/form-data, этот способ кодировки позволяет отсылать файлы
 // поля <input type="file"> тоже отправляются, как это и происходит в случае обычной формы.
